@@ -1,0 +1,6 @@
+{
+  "name": "DeSuper — Python Coding Adventure",
+  "description": "A futuristic cyber RPG adventure game developed by s6ft where players learn Python programming from Zero to Supreme through interactive coding missions, boss battles, skill trees, and real-time visual execution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

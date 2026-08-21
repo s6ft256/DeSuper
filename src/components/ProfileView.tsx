@@ -1,0 +1,424 @@
+import React, { useState } from "react";
+import { useGame } from "../context/GameContext";
+import { RANKS, MISSIONS } from "../data/missions";
+import {
+  User,
+  Award,
+  Flame,
+  CheckCircle2,
+  Settings,
+  Sparkles,
+  Zap,
+  RotateCcw,
+  Palette,
+  Shield,
+  Bot,
+  Terminal,
+  Trophy,
+} from "lucide-react";
+import { sound } from "../utils/audio";
+
+const SUIT_COLORS = [
+  { name: "Cyan Matrix", hex: "#06b6d4" },
+  { name: "Emerald Cyber", hex: "#10b981" },
+  { name: "Amber Overclock", hex: "#f59e0b" },
+  { name: "Neon Violet", hex: "#8b5cf6" },
+  { name: "Rose Laser", hex: "#ec4899" },
+];
+
+const HELMET_STYLES = [
+  { id: "visor_alpha", label: "Alpha Visor" },
+  { id: "visor_spectre", label: "Spectre HUD" },
+  { id: "visor_supreme", label: "Supreme Crown" },
+];
+
+const COMPANION_SKINS = [
+  { id: "aura_cyan", label: "AURA Hologram (Cyan)" },
+  { id: "aura_gold", label: "AURA Supreme (Gold)" },
+  { id: "aura_violet", label: "AURA Quantum (Violet)" },
+];
+
+export const ProfileView: React.FC = () => {
+  const {
+    player,
+    dailyQuests,
+    updateCustomization,
+    resetGameProgress,
+  } = useGame();
+
+  const [activeTab, setActiveTab] = useState<"stats" | "certificate" | "customizer">("stats");
+  const [nameInput, setNameInput] = useState(player.customization.name);
+
+  const currentRankInfo = RANKS.find((r) => r.id === player.rank) || RANKS[0];
+  const completionPercentage = Math.round((player.completedMissions.length / MISSIONS.length) * 100);
+
+  const handleSaveName = () => {
+    sound.playKeyClick();
+    updateCustomization({ name: nameInput });
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
+      {/* Header Profile Banner */}
+      <div className="p-5 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950/40 border border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-center gap-4">
+          <div
+            className="w-16 h-16 rounded-2xl border-2 flex items-center justify-center shadow-lg relative"
+            style={{
+              borderColor: player.customization.suitColor,
+              backgroundColor: `${player.customization.suitColor}15`,
+            }}
+          >
+            <Bot className="w-9 h-9" style={{ color: player.customization.suitColor }} />
+            <span className="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded-full bg-slate-950 border border-slate-700 text-[10px] font-mono text-cyan-300 font-bold">
+              {currentRankInfo.numericRank}
+            </span>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-black text-white font-mono">
+                {player.customization.name}
+              </h2>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-400 font-bold">
+                {player.customization.badgeTitle}
+              </span>
+            </div>
+
+            <p
+              className="text-xs font-mono font-bold mt-0.5"
+              style={{ color: currentRankInfo.color }}
+            >
+              RANK: {currentRankInfo.title} PYTHON CODER
+            </p>
+            <span className="text-[11px] font-mono text-slate-400">
+              Level {player.level} • {player.xp} Total XP • {player.coins} Coins
+            </span>
+          </div>
+        </div>
+
+        {/* Streak Flame */}
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-950/40 border border-amber-500/40 font-mono text-amber-400">
+          <Flame className="w-5 h-5 fill-current animate-pulse text-amber-500" />
+          <div className="text-right">
+            <span className="text-sm font-bold block">{player.streak} DAY STREAK</span>
+            <span className="text-[9px] text-amber-300/80">Active Protocol</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+        <button
+          onClick={() => {
+            setActiveTab("stats");
+            sound.playKeyClick();
+          }}
+          className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold transition-colors cursor-pointer ${
+            activeTab === "stats"
+              ? "bg-slate-900 text-cyan-300 border border-cyan-400/50"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Daily Quests & Stats
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab("certificate");
+            sound.playKeyClick();
+          }}
+          className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold transition-colors cursor-pointer ${
+            activeTab === "certificate"
+              ? "bg-slate-900 text-cyan-300 border border-cyan-400/50"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Rank Certificate
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab("customizer");
+            sound.playKeyClick();
+          }}
+          className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold transition-colors cursor-pointer ${
+            activeTab === "customizer"
+              ? "bg-slate-900 text-cyan-300 border border-cyan-400/50"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          Cyber Customizer
+        </button>
+      </div>
+
+      {/* Stats & Quests Tab */}
+      {activeTab === "stats" && (
+        <div className="space-y-6">
+          {/* Daily Quests Matrix */}
+          <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between font-mono text-xs text-cyan-400 font-bold">
+              <span>ACTIVE DAILY PROTOCOLS</span>
+              <span className="text-amber-400">STREAK: {player.streak} DAYS</span>
+            </div>
+
+            <div className="space-y-2.5">
+              {dailyQuests.map((q) => (
+                <div
+                  key={q.id}
+                  className={`p-3 rounded-xl border font-mono text-xs flex items-center justify-between ${
+                    q.completed
+                      ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300"
+                      : "bg-slate-950 border-slate-800 text-slate-300"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                        q.completed ? "bg-emerald-900 text-emerald-300" : "bg-slate-800 text-slate-400"
+                      }`}
+                    >
+                      {q.completed ? <CheckCircle2 className="w-4 h-4" /> : <Zap className="w-4 h-4" />}
+                    </div>
+                    <div>
+                      <h4 className="font-bold">{q.title}</h4>
+                      <p className="text-[11px] text-slate-400">{q.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <span className="text-[10px] text-amber-400 font-bold block">
+                      +{q.xpReward} XP / +{q.coinsReward} C
+                    </span>
+                    <span className="text-[10px] text-slate-500">
+                      {q.currentCount} / {q.targetCount}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Player Mastery Metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center font-mono">
+              <span className="text-[10px] text-slate-400 block">MISSIONS SOLVED</span>
+              <span className="text-xl font-bold text-cyan-400 mt-1 block">
+                {player.completedMissions.length} / {MISSIONS.length}
+              </span>
+              <span className="text-[10px] text-slate-500">{completionPercentage}% Mastered</span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center font-mono">
+              <span className="text-[10px] text-slate-400 block">BOSS ANOMALIES</span>
+              <span className="text-xl font-bold text-rose-400 mt-1 block">
+                {player.defeatedBosses.length} Defeated
+              </span>
+              <span className="text-[10px] text-slate-500">Sector Guardians</span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center font-mono">
+              <span className="text-[10px] text-slate-400 block">PROJECTS BUILT</span>
+              <span className="text-xl font-bold text-emerald-400 mt-1 block">
+                {player.completedProjects.length} Systems
+              </span>
+              <span className="text-[10px] text-slate-500">Real-World Code</span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center font-mono">
+              <span className="text-[10px] text-slate-400 block">SKILL NODES</span>
+              <span className="text-xl font-bold text-amber-400 mt-1 block">
+                {player.unlockedSkills.length} Unlocked
+              </span>
+              <span className="text-[10px] text-slate-500">Constellation Tree</span>
+            </div>
+          </div>
+
+          {/* Reset Progress Section */}
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
+            <div>
+              <span className="text-slate-300 font-bold block">Reset Local Game Progress</span>
+              <span className="text-[10px] text-slate-500">
+                Wipes all completed missions, XP, and returns to Rank 1.
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                if (window.confirm("Are you sure you want to reset all game progress?")) {
+                  resetGameProgress();
+                }
+              }}
+              className="px-3 py-1.5 bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-500/40 rounded-xl transition-colors cursor-pointer"
+            >
+              Reset Data
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Rank Certificate Tab */}
+      {activeTab === "certificate" && (
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-cyan-400 shadow-[0_0_50px_rgba(6,182,212,0.25)] text-center space-y-6 relative overflow-hidden">
+          {/* Watermark / Logo */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+            <span className="font-mono font-black text-8xl text-cyan-400">DESUPER</span>
+          </div>
+
+          <div className="space-y-1 relative z-10">
+            <div className="flex items-center justify-center gap-2 text-cyan-400 font-mono text-xs font-bold tracking-widest uppercase">
+              <Sparkles className="w-4 h-4" />
+              <span>OFFICIAL PYTHON MASTERY CREDENTIAL</span>
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight">
+              DE SUPER — PYTHON CODER
+            </h1>
+            <p className="text-xs text-slate-400 font-mono">
+              DEVELOPED BY <strong className="text-cyan-300">s6ft</strong>
+            </p>
+          </div>
+
+          <div className="py-4 border-y border-cyan-500/30 space-y-2 relative z-10">
+            <span className="text-xs font-mono text-slate-400">THIS CERTIFIES THAT OPERATIVE</span>
+            <h2 className="text-xl sm:text-2xl font-black text-cyan-300 font-mono">
+              {player.customization.name.toUpperCase()}
+            </h2>
+            <span className="text-xs font-mono text-slate-400">
+              HAS ATTAINED OFFICIAL COMPETENCY AND RANK:
+            </span>
+
+            <div className="inline-block px-6 py-2 rounded-2xl bg-gradient-to-r from-cyan-950 via-slate-900 to-cyan-950 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] mt-2">
+              <span className="text-lg sm:text-xl font-black font-mono tracking-wider text-white">
+                {currentRankInfo.title} PYTHON DEVELOPER
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 text-xs font-mono text-slate-400 relative z-10">
+            <div>
+              <span className="text-[10px] block">TOTAL XP</span>
+              <strong className="text-cyan-300">{player.xp} XP</strong>
+            </div>
+            <div>
+              <span className="text-[10px] block">COMPLETION</span>
+              <strong className="text-emerald-300">{completionPercentage}%</strong>
+            </div>
+            <div>
+              <span className="text-[10px] block">SECURITY CLEARANCE</span>
+              <strong className="text-amber-300">TIER {currentRankInfo.numericRank} / 9</strong>
+            </div>
+          </div>
+
+          <div className="text-[10px] font-mono text-slate-500 pt-2 border-t border-slate-800 relative z-10">
+            Verified by DeSuper Quantum Core • Cryptographic Seal #DS-{player.xp}-S6FT
+          </div>
+        </div>
+      )}
+
+      {/* Customizer Tab */}
+      {activeTab === "customizer" && (
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-6 shadow-xl">
+          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold">
+            <Palette className="w-4 h-4" />
+            <span>CYBER SUIT & AVATAR CUSTOMIZER</span>
+          </div>
+
+          {/* Name Customizer */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono text-slate-300 font-bold">OPERATIVE CODENAME</label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+                maxLength={18}
+                className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-xl font-mono text-xs text-white focus:outline-none"
+              />
+              <button
+                onClick={handleSaveName}
+                className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold font-mono text-xs rounded-xl cursor-pointer"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+
+          {/* Suit Color Picker */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono text-slate-300 font-bold">CYBER SUIT HARMONIC</label>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {SUIT_COLORS.map((c) => (
+                <button
+                  key={c.hex}
+                  onClick={() => {
+                    sound.playKeyClick();
+                    updateCustomization({ suitColor: c.hex });
+                  }}
+                  className={`p-3 rounded-xl border font-mono text-xs flex items-center gap-2 transition-all cursor-pointer ${
+                    player.customization.suitColor === c.hex
+                      ? "bg-slate-950 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)] text-white"
+                      : "bg-slate-950/60 border-slate-800 text-slate-400"
+                  }`}
+                >
+                  <span
+                    className="w-3.5 h-3.5 rounded-full shrink-0"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                  <span className="truncate">{c.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Helmet Style */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono text-slate-300 font-bold">VISOR HUD MODEL</label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {HELMET_STYLES.map((h) => (
+                <button
+                  key={h.id}
+                  onClick={() => {
+                    sound.playKeyClick();
+                    updateCustomization({ helmetStyle: h.id });
+                  }}
+                  className={`p-3 rounded-xl border font-mono text-xs text-left transition-all cursor-pointer ${
+                    player.customization.helmetStyle === h.id
+                      ? "bg-slate-950 border-cyan-400 text-cyan-300"
+                      : "bg-slate-950/60 border-slate-800 text-slate-400"
+                  }`}
+                >
+                  {h.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Companion Drone Skin */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono text-slate-300 font-bold">
+              AI COMPANION HOLO MATRIX
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {COMPANION_SKINS.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    sound.playKeyClick();
+                    updateCustomization({ companionSkin: s.id });
+                  }}
+                  className={`p-3 rounded-xl border font-mono text-xs text-left transition-all cursor-pointer ${
+                    player.customization.companionSkin === s.id
+                      ? "bg-slate-950 border-cyan-400 text-cyan-300"
+                      : "bg-slate-950/60 border-slate-800 text-slate-400"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
