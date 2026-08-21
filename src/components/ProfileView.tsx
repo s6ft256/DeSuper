@@ -12,9 +12,11 @@ import {
   RotateCcw,
   Palette,
   Shield,
-  Bot,
+  Car,
   Terminal,
   Trophy,
+  Gauge,
+  Cpu,
 } from "lucide-react";
 import { sound } from "../utils/audio";
 
@@ -26,16 +28,16 @@ const SUIT_COLORS = [
   { name: "Rose Laser", hex: "#ec4899" },
 ];
 
-const HELMET_STYLES = [
-  { id: "visor_alpha", label: "Alpha Visor" },
-  { id: "visor_spectre", label: "Spectre HUD" },
-  { id: "visor_supreme", label: "Supreme Crown" },
+const VEHICLE_MODELS = [
+  { id: "visor_alpha", label: "CYBER-GT 100", speed: "280 km/h", desc: "Balanced Aero Cyber Coupe" },
+  { id: "visor_spectre", label: "NEO-DRIFT R2", speed: "310 km/h", desc: "Twin-Turbo Quantum Racer" },
+  { id: "visor_supreme", label: "VIPER QUANTUM", speed: "340 km/h", desc: "Supreme High-Downforce Hypercar" },
 ];
 
-const COMPANION_SKINS = [
-  { id: "aura_cyan", label: "AURA Hologram (Cyan)" },
-  { id: "aura_gold", label: "AURA Supreme (Gold)" },
-  { id: "aura_violet", label: "AURA Quantum (Violet)" },
+const NEON_GLOW_PROFILES = [
+  { id: "aura_cyan", label: "Cyan Photon Underglow", glow: "#06b6d4" },
+  { id: "aura_gold", label: "Solar Gold Overdrive", glow: "#f59e0b" },
+  { id: "aura_violet", label: "Plasma Violet Singularity", glow: "#a855f7" },
 ];
 
 export const ProfileView: React.FC = () => {
@@ -69,7 +71,7 @@ export const ProfileView: React.FC = () => {
               backgroundColor: `${player.customization.suitColor}20`,
             }}
           >
-            <Bot className="w-9 h-9" style={{ color: player.customization.suitColor }} />
+            <Car className="w-9 h-9" style={{ color: player.customization.suitColor }} />
             <span className="absolute -bottom-1 -right-1 px-2 py-0.5 rounded-full bg-slate-950 border border-slate-700 text-[10px] font-mono text-cyan-300 font-bold shadow-sm">
               {currentRankInfo.numericRank}
             </span>
@@ -148,7 +150,7 @@ export const ProfileView: React.FC = () => {
               : "text-slate-400 hover:text-slate-200"
           }`}
         >
-          Cyber Customizer
+          Cyber Garage & Vehicle
         </button>
       </div>
 
@@ -323,12 +325,14 @@ export const ProfileView: React.FC = () => {
         <div className="p-6 sm:p-7 rounded-3xl bg-slate-900/95 border border-slate-800/90 space-y-6 shadow-xl">
           <div className="flex items-center gap-2 text-violet-300 font-mono text-xs font-bold">
             <Palette className="w-4 h-4 text-cyan-400" />
-            <span className="bg-violet-950/70 border border-violet-500/30 px-2.5 py-0.5 rounded-md">CYBER SUIT & AVATAR CUSTOMIZER</span>
+            <span className="bg-violet-950/70 border border-violet-500/30 px-2.5 py-0.5 rounded-md">
+              CYBER CAR GARAGE & VEHICLE CUSTOMIZER
+            </span>
           </div>
 
           {/* Name Customizer */}
           <div className="space-y-2">
-            <label className="text-xs font-mono text-slate-300 font-bold">OPERATIVE CODENAME</label>
+            <label className="text-xs font-mono text-slate-300 font-bold">OPERATIVE RACER CODENAME</label>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -346,9 +350,9 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
 
-          {/* Suit Color Picker */}
+          {/* Vehicle Paint Color Picker */}
           <div className="space-y-2">
-            <label className="text-xs font-mono text-slate-300 font-bold">CYBER SUIT HARMONIC</label>
+            <label className="text-xs font-mono text-slate-300 font-bold">VEHICLE BODY COATING</label>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
               {SUIT_COLORS.map((c) => (
                 <button
@@ -373,11 +377,11 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
 
-          {/* Helmet Style */}
+          {/* Vehicle Chassis Models */}
           <div className="space-y-2">
-            <label className="text-xs font-mono text-slate-300 font-bold">VISOR HUD MODEL</label>
+            <label className="text-xs font-mono text-slate-300 font-bold">VEHICLE CHASSIS SPECIFICATION</label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {HELMET_STYLES.map((h) => (
+              {VEHICLE_MODELS.map((h) => (
                 <button
                   key={h.id}
                   onClick={() => {
@@ -390,32 +394,37 @@ export const ProfileView: React.FC = () => {
                       : "bg-slate-950/60 border-slate-800/80 text-slate-400 hover:border-slate-700"
                   }`}
                 >
-                  {h.label}
+                  <div className="font-bold">{h.label}</div>
+                  <div className="text-[10px] text-amber-300 mt-0.5">{h.speed} • {h.desc}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Companion Drone Skin */}
+          {/* Neon Underglow Profile */}
           <div className="space-y-2">
             <label className="text-xs font-mono text-slate-300 font-bold">
-              AI COMPANION HOLO MATRIX
+              NEON UNDERGLOW & PLASMA PROFILE
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {COMPANION_SKINS.map((s) => (
+              {NEON_GLOW_PROFILES.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => {
                     sound.playKeyClick();
                     updateCustomization({ companionSkin: s.id });
                   }}
-                  className={`p-3.5 rounded-2xl border font-mono text-xs text-left transition-all cursor-pointer ${
+                  className={`p-3.5 rounded-2xl border font-mono text-xs text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                     player.customization.companionSkin === s.id
                       ? "bg-slate-950 border-violet-400 text-cyan-300 shadow-[0_0_12px_rgba(139,92,246,0.3)]"
                       : "bg-slate-950/60 border-slate-800/80 text-slate-400 hover:border-slate-700"
                   }`}
                 >
-                  {s.label}
+                  <span
+                    className="w-3 h-3 rounded-full shadow-[0_0_8px_currentColor]"
+                    style={{ backgroundColor: s.glow, color: s.glow }}
+                  />
+                  <span>{s.label}</span>
                 </button>
               ))}
             </div>

@@ -34,7 +34,7 @@ export const RANKS: RankInfo[] = [
     title: "CODER",
     badge: "03",
     color: "#fbbf24",
-    description: "Automate drones, loop through energy nodes, and master iteration protocols.",
+    description: "Automate vehicles, loop through energy nodes, and master iteration protocols.",
     minXp: 1300,
   },
   {
@@ -43,7 +43,7 @@ export const RANKS: RankInfo[] = [
     title: "DEVELOPER",
     badge: "04",
     color: "#f97316",
-    description: "Command inventories, data grids, dictionaries, lists, and multi-dimensional matrices.",
+    description: "Command inventories, data grids, dictionaries, sets, comprehensions, and regex parsing.",
     minXp: 2000,
   },
   {
@@ -52,7 +52,7 @@ export const RANKS: RankInfo[] = [
     title: "ENGINEER",
     badge: "05",
     color: "#ec4899",
-    description: "Architect reusable function modules, combat formulas, and recursive routines.",
+    description: "Architect reusable functions, *args/**kwargs, lambda filters, recursion, and binary search.",
     minXp: 2900,
   },
   {
@@ -61,7 +61,7 @@ export const RANKS: RankInfo[] = [
     title: "ARCHITECT",
     badge: "06",
     color: "#a855f7",
-    description: "Construct autonomous object-oriented cyber entities, robots, and polymorphic agents.",
+    description: "Construct autonomous object-oriented cyber entities, inheritance hierarchies, and dunder methods.",
     minXp: 4000,
   },
   {
@@ -70,7 +70,7 @@ export const RANKS: RankInfo[] = [
     title: "MASTER",
     badge: "07",
     color: "#06b6d4",
-    description: "Master exception shields, JSON streams, generator pipelines, and modular engines.",
+    description: "Master exception shields, Counter/defaultdict, itertools combinations, and generator pipelines.",
     minXp: 5400,
   },
   {
@@ -79,7 +79,7 @@ export const RANKS: RankInfo[] = [
     title: "SUPREME",
     badge: "08",
     color: "#eab308",
-    description: "Transcend basic programming: optimize algorithms, manage cyber cities, and rebuild the DeSuper Core.",
+    description: "NumPy matrix algebra, Pandas data analytics, Scikit-Learn ML models, Neural Perceptrons, and Core AI.",
     minXp: 7200,
   },
 ];
@@ -91,9 +91,9 @@ export const MISSIONS: Mission[] = [
     rank: "ZERO",
     number: 1,
     title: "Core Awakening",
-    concept: "print() and Output",
+    concept: "print() and Output Signals",
     difficulty: "Beginner",
-    story: "You awaken in a dormant digital sector of DeSuper. The primary terminal is offline. Send a high-frequency broadcast signal using Python to reboot the terminal.",
+    story: "You awaken in a dormant digital highway sector of DeSuper. The primary terminal is offline. Send a high-frequency broadcast signal using Python to reboot the terminal.",
     objectives: ["Use print() to output 'SYSTEM ONLINE'", "Verify that the terminal illuminates in response"],
     conceptExplanation: "In Python, the print() function sends textual information to the output console or terminal screen. Text (strings) must always be wrapped in quotes like \"HELLO\" or 'HELLO'.",
     starterCode: `# MISSION OBJECTIVE: Reboot the dormant terminal.
@@ -129,7 +129,7 @@ export const MISSIONS: Mission[] = [
       "Create a variable called agent_name and assign it the string 'DeSuper'",
       "Print the value of agent_name",
     ],
-    conceptExplanation: "Variables are named memory storage containers. In Python, you store data in a variable using the assignment operator (=). For example: player = 'Aura'.",
+    conceptExplanation: "Variables are named memory storage containers. In Python, you store data in a variable using the assignment operator (=). For example: player = 'CyberRacer'.",
     starterCode: `# MISSION OBJECTIVE: Set up your operative identity.
 # 1. Create a variable called agent_name and assign it the string "DeSuper"
 # 2. Use print() to output the agent_name variable
@@ -157,37 +157,39 @@ export const MISSIONS: Mission[] = [
     id: "m3",
     rank: "ZERO",
     number: 3,
-    title: "Terminal Handshake",
-    concept: "Comments and Multiple Print Statements",
+    title: "Power Influx",
+    concept: "Arithmetic Operations (+, -, *, /)",
     difficulty: "Beginner",
-    story: "Establish a multi-line diagnostic handshake with Sector 0-A. Include a comment documenting the transmission.",
+    story: "The booster capacitors are low. Calculate total reserve energy by multiplying base capacitor charge by 4 booster cells.",
     objectives: [
-      "Add a comment starting with #",
-      "Print 'CONNECTING TO CORE'",
-      "Print 'CONNECTION ESTABLISHED'",
+      "Create base_charge = 25",
+      "Create total_power = base_charge * 4",
+      "Print total_power",
     ],
-    conceptExplanation: "Comments in Python begin with the hash symbol (#). Python ignores comments during execution—they are meant for human developers to document code.",
-    starterCode: `# MISSION OBJECTIVE: Multi-line terminal diagnostic handshake.
-# 1. Add a descriptive comment starting with #
-# 2. Print "CONNECTING TO CORE"
-# 3. Print "CONNECTION ESTABLISHED"
+    conceptExplanation: "Python performs standard math: addition (+), subtraction (-), multiplication (*), division (/), floor division (//), modulo (%), and exponents (**).",
+    starterCode: `# MISSION OBJECTIVE: Calculate booster cell energy.
+base_charge = 25
+
+# 1. Calculate total_power by multiplying base_charge by 4
+# 2. Print total_power
 
 # TODO: Write your code below:
 
 `,
     validationRules: {
-      requiredOutputIncludes: ["CONNECTING TO CORE", "CONNECTION ESTABLISHED"],
-      requiredKeywords: ["print"],
+      requiredOutputIncludes: ["100"],
+      requiredKeywords: ["base_charge", "total_power", "print"],
+      requiredVariableValues: { total_power: 100 },
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Make sure both print statements execute in order." },
-      { level: 2, label: "Concept", text: "Python executes statements line by line from top to bottom." },
-      { level: 3, label: "Example", text: 'print("CONNECTING TO CORE")\nprint("CONNECTION ESTABLISHED")' },
-      { level: 4, label: "Solution", text: 'Ensure both print lines are present.' },
+      { level: 1, label: "Subtle Clue", text: "Use the asterisk (*) operator to multiply." },
+      { level: 2, label: "Concept", text: "Assign total_power = base_charge * 4." },
+      { level: 3, label: "Example", text: "total_power = base_charge * 4\nprint(total_power)" },
+      { level: 4, label: "Solution", text: "total_power = base_charge * 4\nprint(total_power)" },
     ],
-    xpReward: 100,
-    coinsReward: 50,
-    skillIdToUnlock: "py_comments",
+    xpReward: 120,
+    coinsReward: 60,
+    skillIdToUnlock: "py_arithmetic",
     worldSceneType: "terminal",
   },
 
@@ -196,118 +198,120 @@ export const MISSIONS: Mission[] = [
     id: "m4",
     rank: "NOVICE",
     number: 4,
-    title: "Energy Matrix Calculation",
-    concept: "Integers, Floats, and Operators",
+    title: "Cyber Slicing",
+    concept: "String Indexing and Slicing",
     difficulty: "Beginner",
-    story: "The reactor core's power cells are operating at split capacity. Calculate the total energy by summing base_power and boost_power.",
+    story: "An encrypted satellite transmission was intercepted: 'NEO_CYBER_MATRIX'. Extract the exact security protocol word 'CYBER' using string slicing.",
     objectives: [
-      "Set base_power to 150 (integer)",
-      "Set boost_power to 45.5 (float)",
-      "Calculate total_power = base_power + boost_power",
-      "Print total_power",
+      "Given signal = 'NEO_CYBER_MATRIX'",
+      "Extract 'CYBER' using slicing syntax [4:9]",
+      "Store in variable decrypted and print it",
     ],
-    conceptExplanation: "Python supports numerical data types: integers (whole numbers like 150) and floats (decimal numbers like 45.5). Operators like +, -, *, / perform arithmetic.",
-    starterCode: `# MISSION OBJECTIVE: Calculate total reactor capacity.
-# 1. Set base_power = 150
-# 2. Set boost_power = 45.5
-# 3. Calculate total_power = base_power + boost_power
-# 4. Print total_power
+    conceptExplanation: "In Python, string slicing allows extracting sub-strings using the syntax string[start:end:step]. The start index is included, but the end index is excluded.",
+    starterCode: `signal = "NEO_CYBER_MATRIX"
+
+# MISSION OBJECTIVE: Extract 'CYBER' from the signal.
+# 1. Slice signal from index 4 up to index 9
+# 2. Assign the sliced text to decrypted
+# 3. Print decrypted
 
 # TODO: Write your code below:
 
 `,
     validationRules: {
-      requiredOutputIncludes: ["195.5"],
-      requiredKeywords: ["base_power", "boost_power", "total_power"],
-      requiredVariableValues: { total_power: 195.5 },
+      requiredOutputIncludes: ["CYBER"],
+      requiredKeywords: ["signal[", "decrypted"],
+      requiredVariableValues: { decrypted: "CYBER" },
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Add base_power and boost_power using the + operator." },
-      { level: 2, label: "Concept", text: "When you add an int to a float, Python produces a float result." },
-      { level: 3, label: "Example", text: "base_power = 150\nboost_power = 45.5\ntotal_power = base_power + boost_power\nprint(total_power)" },
-      { level: 4, label: "Solution", text: "Set total_power = base_power + boost_power and print(total_power)." },
+      { level: 1, label: "Subtle Clue", text: "Index 0 is 'N', index 4 is 'C', and index 9 stops right after 'R'." },
+      { level: 2, label: "Concept", text: "decrypted = signal[4:9]" },
+      { level: 3, label: "Example", text: 'decrypted = signal[4:9]\nprint(decrypted)' },
+      { level: 4, label: "Solution", text: 'decrypted = signal[4:9]\nprint(decrypted)' },
     ],
     xpReward: 150,
     coinsReward: 75,
-    skillIdToUnlock: "py_datatypes",
-    worldSceneType: "robot_lab",
+    skillIdToUnlock: "py_strings",
+    worldSceneType: "terminal",
   },
   {
     id: "m5",
     rank: "NOVICE",
     number: 5,
-    title: "Cyber String Matrix",
-    concept: "String Concatenation and f-strings",
+    title: "Telemetry Stream",
+    concept: "f-strings & Dynamic Formatting",
     difficulty: "Beginner",
-    story: "Format the security badge output using Python f-strings to display the operative's sector authorization level.",
+    story: "Construct an official vehicle telemetry dashboard broadcast using Python f-strings formatted with speed and vehicle model.",
     objectives: [
-      "Set sector to 'ALPHA-9'",
-      "Set clearance to 5",
-      "Print the formatted message using an f-string: 'ACCESS GRANTED: SECTOR ALPHA-9 LEVEL 5'",
+      "Given vehicle = 'CYBER-GT' and speed = 320",
+      "Format message as: 'TELEMETRY: CYBER-GT SPEED 320 KM/H'",
+      "Print message",
     ],
-    conceptExplanation: "f-strings allow you to insert variables directly inside string text by putting an 'f' before the quotes and enclosing variables in curly braces: f'Hello {name}!'.",
-    starterCode: `sector = "ALPHA-9"
-clearance = 5
+    conceptExplanation: "Python f-strings (formatted string literals) allow embedding expressions inside string constants by prefixing with f and wrapping variables in curly braces {variable}.",
+    starterCode: `vehicle = "CYBER-GT"
+speed = 320
 
-# MISSION OBJECTIVE: Format the clearance badge using an f-string.
-# Print: f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}"
+# MISSION OBJECTIVE: Create dynamic telemetry signal using an f-string.
+# Output should be: "TELEMETRY: CYBER-GT SPEED 320 KM/H"
 
-# TODO: Write your print statement below:
-
+# TODO: Write your formatted string below:
+telemetry = f"TELEMETRY: {vehicle} SPEED {speed} KM/H"
+print(telemetry)
 `,
     validationRules: {
-      requiredOutputIncludes: ["ACCESS GRANTED: SECTOR ALPHA-9 LEVEL 5"],
-      requiredKeywords: ["sector", "clearance"],
+      requiredOutputIncludes: ["TELEMETRY: CYBER-GT SPEED 320 KM/H"],
+      requiredKeywords: ["f\"", "print"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use f\"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}\"." },
-      { level: 2, label: "Concept", text: "f-strings dynamically substitute expressions inside {curly braces}." },
-      { level: 3, label: "Example", text: 'print(f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}")' },
-      { level: 4, label: "Solution", text: 'print(f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}")' },
+      { level: 1, label: "Subtle Clue", text: "Use f\"TELEMETRY: {vehicle} SPEED {speed} KM/H\"" },
+      { level: 2, label: "Concept", text: "f-strings replace {variable} with the variable's value automatically." },
+      { level: 3, label: "Example", text: 'telemetry = f"TELEMETRY: {vehicle} SPEED {speed} KM/H"\nprint(telemetry)' },
+      { level: 4, label: "Solution", text: 'Run the provided code to verify the telemetry output.' },
     ],
-    xpReward: 150,
-    coinsReward: 75,
-    skillIdToUnlock: "py_strings",
-    worldSceneType: "cyber_gate",
+    xpReward: 160,
+    coinsReward: 80,
+    skillIdToUnlock: "py_fstrings",
+    worldSceneType: "terminal",
   },
   {
     id: "m6",
     rank: "NOVICE",
     number: 6,
-    title: "Power Type Conversion",
-    concept: "Type Conversion (int, float, str)",
+    title: "Data Transmutation",
+    concept: "Type Casting (int, float, str)",
     difficulty: "Beginner",
-    story: "An encrypted telemetry sensor transmitted power data as a string '750'. Convert it to an integer and multiply it by 2 to restore full generator output.",
+    story: "Sensor readings arrive as raw text strings: raw_sensor = '150'. Convert it to an integer, add 50 calibration units, and print the total.",
     objectives: [
-      "Given raw_signal = '750'",
-      "Convert raw_signal to an integer using int()",
-      "Multiply by 2 and print the resulting power level",
+      "Convert raw_sensor = '150' to an int",
+      "Add 50 to get calibrated_value = 200",
+      "Print calibrated_value",
     ],
-    conceptExplanation: "Type conversion functions like int(), float(), and str() change data from one type to another. For example, int('10') becomes the number 10.",
-    starterCode: `raw_signal = "750"
+    conceptExplanation: "Type conversion or typecasting converts one data type into another. int('150') converts a string into a numeric integer.",
+    starterCode: `raw_sensor = "150"
 
-# MISSION OBJECTIVE: Convert string signal to int and amplify.
-# 1. Convert raw_signal to an integer using int()
-# 2. Multiply by 2 and store in variable 'power'
-# 3. Print power
+# MISSION OBJECTIVE: Convert string to integer and calibrate.
+# 1. Cast raw_sensor to int and add 50
+# 2. Store result in calibrated_value
+# 3. Print calibrated_value
 
 # TODO: Write your code below:
 
 `,
     validationRules: {
-      requiredOutputIncludes: ["1500"],
-      requiredKeywords: ["int", "raw_signal"],
+      requiredOutputIncludes: ["200"],
+      requiredKeywords: ["int(", "calibrated_value", "print"],
+      requiredVariableValues: { calibrated_value: 200 },
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use int(raw_signal) before multiplying by 2." },
-      { level: 2, label: "Concept", text: "Multiplying a string '750' * 2 would give '750750'. Converting to int gives 1500." },
-      { level: 3, label: "Example", text: "power = int(raw_signal) * 2\nprint(power)" },
-      { level: 4, label: "Solution", text: "power = int(raw_signal) * 2\nprint(power)" },
+      { level: 1, label: "Subtle Clue", text: "Use int(raw_sensor) + 50." },
+      { level: 2, label: "Concept", text: "calibrated_value = int(raw_sensor) + 50" },
+      { level: 3, label: "Example", text: 'calibrated_value = int(raw_sensor) + 50\nprint(calibrated_value)' },
+      { level: 4, label: "Solution", text: 'calibrated_value = int(raw_sensor) + 50\nprint(calibrated_value)' },
     ],
-    xpReward: 150,
-    coinsReward: 75,
+    xpReward: 170,
+    coinsReward: 85,
     skillIdToUnlock: "py_typecast",
-    worldSceneType: "robot_lab",
+    worldSceneType: "terminal",
   },
 
   // ================= RANK 3: APPRENTICE =================
@@ -315,35 +319,38 @@ clearance = 5
     id: "m7",
     rank: "APPRENTICE",
     number: 7,
-    title: "Security Gate Override",
-    concept: "if and else Statements",
+    title: "Perimeter Security Gate",
+    concept: "if / else Branching",
     difficulty: "Intermediate",
-    story: "A blast door blocks passage into the Data Matrix. Write a condition checking if energy is greater than 50. If true, open the blast door!",
+    story: "A cyber-barrier blocks the highway track. Check if security_clearance is >= 3. If so, call door.open() and print 'ACCESS GRANTED'.",
     objectives: [
-      "Set energy = 85",
-      "Write an if/else block: if energy > 50, call door.open()",
-      "Otherwise, print 'INSUFFICIENT POWER'",
+      "Given clearance_level = 5",
+      "If clearance_level >= 3, open the door and print 'ACCESS GRANTED'",
+      "Otherwise print 'ACCESS DENIED'",
     ],
-    conceptExplanation: "if / else statements let your program make decisions. The indented code block under 'if' runs only when the boolean condition evaluates to True.",
-    starterCode: `energy = 85
+    conceptExplanation: "The if / else statement allows the program to make decisions by executing specific code blocks only when a boolean condition evaluates to True.",
+    starterCode: `clearance_level = 5
 
-# MISSION OBJECTIVE: Control the security blast door with if/else.
-# If energy is greater than 50:
-#     call door.open()
-# Otherwise:
-#     print("INSUFFICIENT POWER")
+# MISSION OBJECTIVE: Validate security clearance and open gate.
+# 1. Check if clearance_level >= 3
+# 2. Inside the if block: call door.open() and print "ACCESS GRANTED"
+# 3. In the else block: print "ACCESS DENIED"
 
-# TODO: Write your if/else statement below:
-
+if clearance_level >= 3:
+    door.open()
+    print("ACCESS GRANTED")
+else:
+    print("ACCESS DENIED")
 `,
     validationRules: {
-      requiredKeywords: ["if", "else", "door.open"],
+      requiredOutputIncludes: ["ACCESS GRANTED"],
+      requiredKeywords: ["if", "door.open", "else"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Check: if energy > 50:" },
-      { level: 2, label: "Concept", text: "Remember to indent the lines under 'if' and 'else' with 4 spaces." },
-      { level: 3, label: "Example", text: "if energy > 50:\n    door.open()\nelse:\n    print('INSUFFICIENT POWER')" },
-      { level: 4, label: "Solution", text: "Use if energy > 50: followed by indented door.open()." },
+      { level: 1, label: "Subtle Clue", text: "Since clearance_level is 5 (which is >= 3), door.open() executes." },
+      { level: 2, label: "Concept", text: "Conditionals check relational comparisons (>, <, >=, <=, ==, !=)." },
+      { level: 3, label: "Example", text: 'if clearance_level >= 3:\n    door.open()\n    print("ACCESS GRANTED")' },
+      { level: 4, label: "Solution", text: "Run the code to unseal the security gate." },
     ],
     xpReward: 200,
     coinsReward: 100,
@@ -354,83 +361,81 @@ clearance = 5
     id: "m8",
     rank: "APPRENTICE",
     number: 8,
-    title: "Plasma Shield Calibration",
-    concept: "if, elif, and else",
+    title: "Defense Threat Matrix",
+    concept: "Multi-branch Logic (elif)",
     difficulty: "Intermediate",
-    story: "Incoming anomalous frequency waves require shield calibration. Adjust defense levels based on threat_level: 1 (LOW), 2 (MEDIUM), or 3 (CRITICAL).",
+    story: "Classify incoming threat frequencies based on threat_level: 1 -> 'LOW', 2 -> 'MEDIUM', 3 -> 'CRITICAL'. Print 'THREAT STATUS: CRITICAL'.",
     objectives: [
       "Given threat_level = 3",
-      "Use if / elif / else to check threat_level",
-      "If 3, call shield.set_frequency(999)",
-      "If 2, call shield.set_frequency(500)",
-      "Else, call shield.set_frequency(100)",
+      "Use if / elif / else to evaluate threat_level",
+      "Print 'THREAT STATUS: CRITICAL'",
     ],
-    conceptExplanation: "The 'elif' (short for else if) keyword lets you check multiple conditions sequentially. Python stops checking once it finds the first condition that is True.",
+    conceptExplanation: "The elif (short for else if) keyword lets you check multiple conditions sequentially until one matches.",
     starterCode: `threat_level = 3
 
-# MISSION OBJECTIVE: Calibrate shield frequencies based on threat_level:
-# If threat_level is 3:
-#     call shield.set_frequency(999)
-# Elif threat_level is 2:
-#     call shield.set_frequency(500)
-# Else:
-#     call shield.set_frequency(100)
+# MISSION OBJECTIVE: Classify threat level using elif chain.
+# If threat_level == 1: print "THREAT STATUS: LOW"
+# Elif threat_level == 2: print "THREAT STATUS: MEDIUM"
+# Elif threat_level == 3: print "THREAT STATUS: CRITICAL"
+# Else: print "THREAT STATUS: UNKNOWN"
 
-# TODO: Write your if/elif/else block below:
+# TODO: Write your conditional logic below:
 
 `,
     validationRules: {
-      requiredKeywords: ["if", "elif", "else", "shield.set_frequency"],
+      requiredOutputIncludes: ["THREAT STATUS: CRITICAL"],
+      requiredKeywords: ["if", "elif", "print"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use == for comparison (equality check)." },
-      { level: 2, label: "Concept", text: "elif threat_level == 2:" },
-      { level: 3, label: "Example", text: "if threat_level == 3:\n    shield.set_frequency(999)\nelif threat_level == 2:\n    shield.set_frequency(500)\nelse:\n    shield.set_frequency(100)" },
-      { level: 4, label: "Solution", text: "Chain if, elif, and else with the required frequency parameters." },
+      { level: 1, label: "Subtle Clue", text: "Check threat_level with == comparison operator." },
+      { level: 2, label: "Concept", text: "Use elif threat_level == 3: print('THREAT STATUS: CRITICAL')" },
+      { level: 3, label: "Example", text: 'if threat_level == 1:\n    print("THREAT STATUS: LOW")\nelif threat_level == 3:\n    print("THREAT STATUS: CRITICAL")' },
+      { level: 4, label: "Solution", text: 'if threat_level == 1:\n    print("THREAT STATUS: LOW")\nelif threat_level == 2:\n    print("THREAT STATUS: MEDIUM")\nelif threat_level == 3:\n    print("THREAT STATUS: CRITICAL")\nelse:\n    print("THREAT STATUS: UNKNOWN")' },
     ],
-    xpReward: 200,
-    coinsReward: 100,
+    xpReward: 220,
+    coinsReward: 110,
     skillIdToUnlock: "py_elif",
-    worldSceneType: "robot_lab",
+    worldSceneType: "cyber_gate",
   },
   {
     id: "m9",
     rank: "APPRENTICE",
     number: 9,
-    title: "Logical Security Fusion",
+    title: "Plasma Shield Overdrive",
     concept: "Logical Operators (and, or, not)",
     difficulty: "Intermediate",
-    story: "Bypass a dual-keylock authorization matrix. Both has_keycard must be True AND biometric_verified must be True to unlock the sector terminal.",
+    story: "Activate the plasma defense shield if shield_ready is True AND energy_percent > 75. If both conditions hold, call shield.engage() and print 'SHIELD ENGAGED'.",
     objectives: [
-      "Set has_keycard = True and biometric_verified = True",
-      "Use 'and' operator in an if statement to verify both",
-      "If both are verified, call terminal.activate('AUTHORIZED ACCESS')",
+      "Given shield_ready = True and energy_percent = 90",
+      "Check using the 'and' operator",
+      "Call shield.engage() and print 'SHIELD ENGAGED'",
     ],
-    conceptExplanation: "Logical operators 'and', 'or', and 'not' combine multiple boolean expressions. 'and' requires both conditions to be True.",
-    starterCode: `has_keycard = True
-biometric_verified = True
+    conceptExplanation: "Logical operators combine multiple boolean expressions: 'and' returns True only if both sides are True; 'or' returns True if at least one side is True; 'not' inverts a boolean.",
+    starterCode: `shield_ready = True
+energy_percent = 90
 
-# MISSION OBJECTIVE: Verify credentials using the 'and' operator.
-# If both has_keycard AND biometric_verified:
-#     call terminal.activate("AUTHORIZED ACCESS")
+# MISSION OBJECTIVE: Engage shield with composite boolean logic.
+# If shield_ready is True AND energy_percent > 75:
+#    call shield.engage()
+#    print "SHIELD ENGAGED"
 
-# TODO: Write your condition below:
+# TODO: Write your code below:
 
 `,
     validationRules: {
-      requiredKeywords: ["and", "terminal.activate"],
-      requiredOutputIncludes: ["AUTHORIZED ACCESS"],
+      requiredOutputIncludes: ["SHIELD ENGAGED"],
+      requiredKeywords: ["shield_ready", "and", "shield.engage"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Combine both boolean variables with 'and'." },
-      { level: 2, label: "Concept", text: "if has_keycard and biometric_verified:" },
-      { level: 3, label: "Example", text: "if has_keycard and biometric_verified:\n    terminal.activate(\"AUTHORIZED ACCESS\")" },
-      { level: 4, label: "Solution", text: "if has_keycard and biometric_verified: terminal.activate(\"AUTHORIZED ACCESS\")" },
+      { level: 1, label: "Subtle Clue", text: "Combine both checks with the 'and' keyword." },
+      { level: 2, label: "Concept", text: "if shield_ready and energy_percent > 75:" },
+      { level: 3, label: "Example", text: 'if shield_ready and energy_percent > 75:\n    shield.engage()\n    print("SHIELD ENGAGED")' },
+      { level: 4, label: "Solution", text: 'if shield_ready and energy_percent > 75:\n    shield.engage()\n    print("SHIELD ENGAGED")' },
     ],
-    xpReward: 200,
-    coinsReward: 100,
-    skillIdToUnlock: "py_logic_ops",
-    worldSceneType: "terminal",
+    xpReward: 240,
+    coinsReward: 120,
+    skillIdToUnlock: "py_logical_ops",
+    worldSceneType: "cyber_gate",
   },
 
   // ================= RANK 4: CODER =================
@@ -438,501 +443,500 @@ biometric_verified = True
     id: "m10",
     rank: "CODER",
     number: 10,
-    title: "Energy Node Harvester",
-    concept: "for Loops and range()",
+    title: "Vehicle Propulsion Loop",
+    concept: "while Loops and Loop Counters",
     difficulty: "Intermediate",
-    story: "Automate the energy harvester drone to gather power from 5 consecutive sub-nodes in Sector Gamma.",
+    story: "Drive the cyber racer forward 3 sectors by using a while loop to call robot.move(1) until the counter reaches 3.",
     objectives: [
-      "Write a for loop using range(5)",
-      "Inside the loop, call collect_energy()",
+      "Initialize laps = 0",
+      "Loop while laps < 3",
+      "Call robot.move(1) and increment laps by 1",
+      "Print 'COURSE COMPLETED'",
     ],
-    conceptExplanation: "A for loop iterates over a sequence (such as range(5) which produces 0, 1, 2, 3, 4). This lets you repeat actions automatically without duplicating lines.",
-    starterCode: `# MISSION OBJECTIVE: Automate energy collection 5 times.
-# Write a for loop with range(5) and call collect_energy() inside the loop.
+    conceptExplanation: "A while loop repeats a block of code continuously as long as its condition remains True. Remember to update the loop counter to avoid infinite loops!",
+    starterCode: `# MISSION OBJECTIVE: Travel 3 sectors using a while loop.
+laps = 0
 
-# TODO: Write your for loop below:
+# 1. Create while loop checking laps < 3
+# 2. Call robot.move(1)
+# 3. Increment laps += 1
+# 4. Print "COURSE COMPLETED" after the loop
+
+# TODO: Write your while loop below:
 
 `,
     validationRules: {
-      requiredKeywords: ["for", "in", "range", "collect_energy"],
+      requiredOutputIncludes: ["COURSE COMPLETED"],
+      requiredKeywords: ["while", "robot.move", "laps +="],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use for i in range(5):" },
-      { level: 2, label: "Concept", text: "range(5) repeats the indented block exactly 5 times." },
-      { level: 3, label: "Example", text: "for i in range(5):\n    collect_energy()" },
-      { level: 4, label: "Solution", text: "Write 'for i in range(5):' with indented 'collect_energy()'." },
+      { level: 1, label: "Subtle Clue", text: "Use while laps < 3: and remember to indent robot.move(1) and laps += 1." },
+      { level: 2, label: "Concept", text: "Every iteration adds 1 to laps until laps reaches 3." },
+      { level: 3, label: "Example", text: 'while laps < 3:\n    robot.move(1)\n    laps += 1\nprint("COURSE COMPLETED")' },
+      { level: 4, label: "Solution", text: 'while laps < 3:\n    robot.move(1)\n    laps += 1\nprint("COURSE COMPLETED")' },
     ],
-    xpReward: 250,
-    coinsReward: 125,
-    skillIdToUnlock: "py_for_loops",
-    worldSceneType: "drone_grid",
+    xpReward: 280,
+    coinsReward: 140,
+    skillIdToUnlock: "py_while_loops",
+    worldSceneType: "robot_lab",
   },
   {
     id: "m11",
     rank: "CODER",
     number: 11,
-    title: "Autonomous Drone Patrol",
-    concept: "while Loops",
+    title: "Energy Node Harvester",
+    concept: "for Loops and range()",
     difficulty: "Intermediate",
-    story: "Program a patrol drone to move forward until it has traveled 4 sectors. Increment steps on each iteration.",
+    story: "Iterate across 5 energy collection nodes using a for loop with range(5). In each iteration, call collect_energy().",
     objectives: [
-      "Initialize steps = 0",
-      "Write a while loop: while steps < 4",
-      "Inside the loop, call robot.move() and increment steps by 1 (steps += 1)",
+      "Loop 5 times using for i in range(5)",
+      "Call collect_energy() in each step",
+      "Print 'ALL 5 NODES HARVESTED'",
     ],
-    conceptExplanation: "A while loop continues executing as long as its condition remains True. Be sure to modify variables inside the loop so the condition eventually becomes False to prevent infinite loops.",
-    starterCode: `steps = 0
-
-# MISSION OBJECTIVE: Patrol 4 steps with a while loop.
-# While steps < 4:
-#     call robot.move()
-#     increment steps by 1 (steps += 1)
-
-# TODO: Write your while loop below:
-
-print(f"Patrol complete: {steps} steps")
-`,
-    validationRules: {
-      requiredKeywords: ["while", "robot.move", "steps"],
-    },
-    hints: [
-      { level: 1, label: "Subtle Clue", text: "Increment steps inside the loop with steps += 1." },
-      { level: 2, label: "Concept", text: "while steps < 4: will stop once steps reaches 4." },
-      { level: 3, label: "Example", text: "while steps < 4:\n    robot.move()\n    steps += 1" },
-      { level: 4, label: "Solution", text: "Keep while steps < 4: robot.move(); steps += 1." },
-    ],
-    xpReward: 250,
-    coinsReward: 125,
-    skillIdToUnlock: "py_while_loops",
-    worldSceneType: "drone_grid",
-  },
-  {
-    id: "m12",
-    rank: "CODER",
-    number: 12,
-    title: "Loop Anomaly Breaker",
-    concept: "break and continue",
-    difficulty: "Intermediate",
-    story: "Scan through node identifiers 0 to 9. If node equals 7 (corrupted node), break immediately to prevent system crash.",
-    objectives: [
-      "Loop through range(10)",
-      "If node == 7, print 'CORRUPTED NODE DETECTED' and break",
-      "Otherwise, print f'Scanned node {node}'",
-    ],
-    conceptExplanation: "'break' terminates the current loop immediately. 'continue' skips the rest of the current iteration and jumps to the next loop cycle.",
-    starterCode: `# MISSION OBJECTIVE: Scan nodes 0 to 9, breaking when corrupted node 7 is encountered.
-# 1. Loop through range(10) with variable 'node'
-# 2. If node == 7:
-#        print("CORRUPTED NODE DETECTED")
-#        break
-# 3. Print f"Scanned node {node}"
+    conceptExplanation: "The for loop iterates over sequences (such as ranges, lists, or strings). range(5) produces numbers from 0 up to 4.",
+    starterCode: `# MISSION OBJECTIVE: Harvest 5 power nodes.
+# 1. Use for i in range(5):
+# 2. Call collect_energy() inside the loop
+# 3. Print "ALL 5 NODES HARVESTED" after the loop
 
 # TODO: Write your loop below:
 
 `,
     validationRules: {
-      requiredKeywords: ["break", "for", "in", "range"],
-      requiredOutputIncludes: ["CORRUPTED NODE DETECTED"],
+      requiredOutputIncludes: ["ALL 5 NODES HARVESTED"],
+      requiredKeywords: ["for", "in", "range(5)", "collect_energy"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use break inside the if block when node == 7." },
-      { level: 2, label: "Concept", text: "break exits the for loop immediately, so nodes 8 and 9 are never scanned." },
-      { level: 3, label: "Example", text: "for node in range(10):\n    if node == 7:\n        print('CORRUPTED NODE DETECTED')\n        break\n    print(f'Scanned node {node}')" },
-      { level: 4, label: "Solution", text: "Ensure 'break' is indented under if node == 7:." },
+      { level: 1, label: "Subtle Clue", text: "Write: for i in range(5): collect_energy()" },
+      { level: 2, label: "Concept", text: "The range function determines the exact number of cycles." },
+      { level: 3, label: "Example", text: 'for i in range(5):\n    collect_energy()\nprint("ALL 5 NODES HARVESTED")' },
+      { level: 4, label: "Solution", text: 'for i in range(5):\n    collect_energy()\nprint("ALL 5 NODES HARVESTED")' },
     ],
-    xpReward: 250,
-    coinsReward: 125,
-    skillIdToUnlock: "py_break_continue",
-    worldSceneType: "terminal",
+    xpReward: 300,
+    coinsReward: 150,
+    skillIdToUnlock: "py_for_loops",
+    worldSceneType: "robot_lab",
+  },
+  {
+    id: "m12",
+    rank: "CODER",
+    number: 12,
+    title: "Arsenal Array Synchronization",
+    concept: "List Manipulation & Methods (.append, .pop, .sort)",
+    difficulty: "Intermediate",
+    story: "Manage the vehicle's weapon inventory list. Append 'PLASMA_CANNON', remove outdated 'PULSE_LASER' with .pop(), sort the list, and print the weapons.",
+    objectives: [
+      "Given weapons = ['EMP_BLASTER', 'PULSE_LASER', 'TURBO_MISSILE']",
+      "Add 'PLASMA_CANNON' using weapons.append()",
+      "Remove 'PULSE_LASER' with weapons.pop(1)",
+      "Sort weapons alphabetically with weapons.sort() and print weapons",
+    ],
+    conceptExplanation: "Python lists are ordered, mutable collections. Methods include .append() to add items, .pop() to remove by index, and .sort() to sort in place.",
+    starterCode: `weapons = ["EMP_BLASTER", "PULSE_LASER", "TURBO_MISSILE"]
+
+# MISSION OBJECTIVE: Update and sort weapon arsenal.
+# 1. weapons.append("PLASMA_CANNON")
+# 2. weapons.pop(1)
+# 3. weapons.sort()
+# 4. print(weapons)
+
+# TODO: Write your code below:
+
+`,
+    validationRules: {
+      requiredOutputIncludes: ["PLASMA_CANNON"],
+      requiredKeywords: ["append", "pop", "sort", "print"],
+    },
+    hints: [
+      { level: 1, label: "Subtle Clue", text: "Chain append, pop, sort, and print in order." },
+      { level: 2, label: "Concept", text: "weapons.append('PLASMA_CANNON') adds to the end; weapons.pop(1) removes index 1." },
+      { level: 3, label: "Example", text: 'weapons.append("PLASMA_CANNON")\nweapons.pop(1)\nweapons.sort()\nprint(weapons)' },
+      { level: 4, label: "Solution", text: 'weapons.append("PLASMA_CANNON")\nweapons.pop(1)\nweapons.sort()\nprint(weapons)' },
+    ],
+    xpReward: 320,
+    coinsReward: 160,
+    skillIdToUnlock: "py_lists",
+    worldSceneType: "robot_lab",
+  },
+  {
+    id: "m13",
+    rank: "CODER",
+    number: 13,
+    title: "Dual Stream Synchronization",
+    concept: "enumerate() and zip()",
+    difficulty: "Intermediate",
+    story: "Pair racer pilots with their corresponding turbo car models using zip() and display their grid positions with enumerate().",
+    objectives: [
+      "Given pilots = ['Aura', 'Viper', 'Cipher'] and cars = ['GT-1', 'NEO-R2', 'STEALTH-X']",
+      "Zip pilots and cars together",
+      "Loop and print each pair formatted as 'Aura -> GT-1'",
+    ],
+    conceptExplanation: "zip() aggregates elements from two or more iterables in pairs, and enumerate() returns an indexed counter alongside each element.",
+    starterCode: `pilots = ["Aura", "Viper", "Cipher"]
+cars = ["GT-1", "NEO-R2", "STEALTH-X"]
+
+# MISSION OBJECTIVE: Iterate over paired pilot and car streams.
+# for pilot, car in zip(pilots, cars):
+#     print(f"{pilot} -> {car}")
+
+for pilot, car in zip(pilots, cars):
+    print(f"{pilot} -> {car}")
+`,
+    validationRules: {
+      requiredOutputIncludes: ["Aura -> GT-1", "Viper -> NEO-R2", "Cipher -> STEALTH-X"],
+      requiredKeywords: ["zip", "for", "print"],
+    },
+    hints: [
+      { level: 1, label: "Subtle Clue", text: "Run the zip loop to pair both lists element-by-element." },
+      { level: 2, label: "Concept", text: "zip(list1, list2) yields tuples (item1, item2)." },
+      { level: 3, label: "Example", text: 'for p, c in zip(pilots, cars):\n    print(f"{p} -> {c}")' },
+      { level: 4, label: "Solution", text: "Execute the zip loop code." },
+    ],
+    xpReward: 340,
+    coinsReward: 170,
+    skillIdToUnlock: "py_zip_enumerate",
+    worldSceneType: "robot_lab",
   },
 
   // ================= RANK 5: DEVELOPER =================
   {
-    id: "m13",
-    rank: "DEVELOPER",
-    number: 13,
-    title: "Cyber Inventory Matrix",
-    concept: "Lists and List Operations",
-    difficulty: "Intermediate",
-    story: "Configure the operative's cybernetic gear inventory. Add a 'Plasma Blaster', remove the corrupted item, and inspect inventory length.",
-    objectives: [
-      "Start with inventory = ['Data Pad', 'EMP Grenade']",
-      "Add 'Plasma Blaster' using inventory.append()",
-      "Print the full inventory and its length using len()",
-    ],
-    conceptExplanation: "Lists are ordered, mutable collections in Python. You create lists using square brackets []. Use .append(item) to add elements and len(list) to get the item count.",
-    starterCode: `inventory = ["Data Pad", "EMP Grenade"]
-
-# MISSION OBJECTIVE: Equip the Plasma Blaster.
-# 1. Append "Plasma Blaster" to the inventory list
-# 2. Print "INVENTORY:", inventory
-# 3. Print "TOTAL ITEMS:", len(inventory)
-
-# TODO: Write your code below:
-
-`,
-    validationRules: {
-      requiredKeywords: ["append", "inventory", "len"],
-      requiredOutputIncludes: ["Plasma Blaster", "3"],
-    },
-    hints: [
-      { level: 1, label: "Subtle Clue", text: "Use inventory.append(\"Plasma Blaster\")." },
-      { level: 2, label: "Concept", text: "Lists keep elements in ordered slots starting at index 0." },
-      { level: 3, label: "Example", text: 'inventory.append("Plasma Blaster")\nprint("INVENTORY:", inventory)\nprint("TOTAL ITEMS:", len(inventory))' },
-      { level: 4, label: "Solution", text: "Call inventory.append('Plasma Blaster') and print(inventory)." },
-    ],
-    xpReward: 300,
-    coinsReward: 150,
-    skillIdToUnlock: "py_lists",
-    worldSceneType: "data_matrix",
-  },
-  {
     id: "m14",
     rank: "DEVELOPER",
     number: 14,
-    title: "Sensor Array Slicing",
-    concept: "List Indexing and Slicing",
+    title: "Cybernetic Registry",
+    concept: "Dictionaries and Key-Value Mapping",
     difficulty: "Intermediate",
-    story: "Extract telemetry from sensor arrays 1 through 3 (excluding index 4) from a 6-sensor grid using slice notation [1:4].",
+    story: "Query and mutate a vehicle diagnostic dictionary. Upgrade the 'armor' rating to 95 and return the total sum of power stats.",
     objectives: [
-      "Given telemetry = [12, 45, 78, 92, 105, 120]",
-      "Extract active_sector = telemetry[1:4]",
-      "Print active_sector",
+      "Given stats = {'speed': 300, 'armor': 80, 'energy': 100}",
+      "Update stats['armor'] = 95",
+      "Calculate total_stats = sum(stats.values()) and print total_stats",
     ],
-    conceptExplanation: "List slicing [start:end] extracts a sub-list starting at 'start' up to (but not including) 'end'. For example, [1:4] gets items at indices 1, 2, and 3.",
-    starterCode: `telemetry = [12, 45, 78, 92, 105, 120]
+    conceptExplanation: "Dictionaries store data in key-value pairs (dict = {'key': value}). Access and update keys in O(1) time using dict[key].",
+    starterCode: `stats = {"speed": 300, "armor": 80, "energy": 100}
 
-# MISSION OBJECTIVE: Slice sensors from index 1 to 4 into active_sector.
-# 1. Assign active_sector = telemetry[1:4]
-# 2. Print "ACTIVE SECTOR:", active_sector
+# MISSION OBJECTIVE: Upgrade armor and sum all vehicle metrics.
+# 1. Set stats["armor"] = 95
+# 2. Calculate total_stats = sum(stats.values())
+# 3. Print total_stats (expected: 495)
 
-# TODO: Write your code below:
+# TODO: Write your dictionary operations below:
 
 `,
     validationRules: {
-      requiredKeywords: ["telemetry", "active_sector"],
-      requiredOutputIncludes: ["[45, 78, 92]"],
-      requiredVariableValues: { active_sector: [45, 78, 92] },
+      requiredOutputIncludes: ["495"],
+      requiredKeywords: ["stats[", "sum", "print"],
+      requiredVariableValues: { total_stats: 495 },
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use telemetry[1:4]." },
-      { level: 2, label: "Concept", text: "Index 1 is 45, index 2 is 78, index 3 is 92. Index 4 (105) is excluded." },
-      { level: 3, label: "Example", text: "active_sector = telemetry[1:4]\nprint('ACTIVE SECTOR:', active_sector)" },
-      { level: 4, label: "Solution", text: "Set active_sector = telemetry[1:4] and print it." },
+      { level: 1, label: "Subtle Clue", text: "Update stats['armor'] = 95 then compute sum(stats.values())." },
+      { level: 2, label: "Concept", text: "stats.values() extracts [300, 95, 100]." },
+      { level: 3, label: "Example", text: 'stats["armor"] = 95\ntotal_stats = sum(stats.values())\nprint(total_stats)' },
+      { level: 4, label: "Solution", text: 'stats["armor"] = 95\ntotal_stats = sum(stats.values())\nprint(total_stats)' },
     ],
-    xpReward: 300,
-    coinsReward: 150,
-    skillIdToUnlock: "py_slicing",
+    xpReward: 380,
+    coinsReward: 190,
+    skillIdToUnlock: "py_dicts",
     worldSceneType: "data_matrix",
   },
   {
     id: "m15",
     rank: "DEVELOPER",
     number: 15,
-    title: "Core Database Registry",
-    concept: "Dictionaries (Key-Value Pairs)",
+    title: "Quantum List Comprehensions",
+    concept: "List Comprehensions & Filtering",
     difficulty: "Intermediate",
-    story: "Access and modify the DeSuper Core security status dictionary. Update the 'firewall' key from 'STANDBY' to 'ACTIVE'.",
+    story: "Filter and amplify energy readings in one Pythonic line: given sensor_readings = [12, 45, 80, 24, 90], double only readings > 30.",
     objectives: [
-      "Given core_db = {'status': 'ONLINE', 'firewall': 'STANDBY', 'security_level': 4}",
-      "Update core_db['firewall'] = 'ACTIVE'",
-      "Print the updated core_db",
+      "Given sensor_readings = [12, 45, 80, 24, 90]",
+      "Use list comprehension: [x * 2 for x in sensor_readings if x > 30]",
+      "Assign result to boosted_readings and print it",
     ],
-    conceptExplanation: "Dictionaries store key-value mappings using curly braces {key: value}. You look up or update values using their keys: dict[key] = new_value.",
-    starterCode: `core_db = {
-    "status": "ONLINE",
-    "firewall": "STANDBY",
-    "security_level": 4
-}
+    conceptExplanation: "List comprehensions provide a concise way to create lists: [expression for item in iterable if condition].",
+    starterCode: `sensor_readings = [12, 45, 80, 24, 90]
 
-# MISSION OBJECTIVE: Update the firewall key to "ACTIVE"
-# 1. Set core_db["firewall"] = "ACTIVE"
-# 2. Print "CORE DATABASE:", core_db
+# MISSION OBJECTIVE: Filter and amplify readings in one list comprehension.
+# Double all readings strictly greater than 30.
+# Expected result: [90, 160, 180]
 
-# TODO: Write your code below:
-
+boosted_readings = [x * 2 for x in sensor_readings if x > 30]
+print(boosted_readings)
 `,
     validationRules: {
-      requiredKeywords: ["core_db", "firewall", "ACTIVE"],
-      requiredOutputIncludes: ["ACTIVE"],
+      requiredOutputIncludes: ["[90,160,180]", "90, 160, 180", "[90, 160, 180]"],
+      requiredKeywords: ["for", "in", "if"],
+      requiredVariableValues: { boosted_readings: [90, 160, 180] },
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Assign 'ACTIVE' to core_db['firewall']." },
-      { level: 2, label: "Concept", text: "Dictionaries allow fast lookups and updates by key." },
-      { level: 3, label: "Example", text: 'core_db["firewall"] = "ACTIVE"\nprint("CORE DATABASE:", core_db)' },
-      { level: 4, label: "Solution", text: 'core_db["firewall"] = "ACTIVE"\nprint(core_db)' },
+      { level: 1, label: "Subtle Clue", text: "The comprehension transforms 45 -> 90, 80 -> 160, and 90 -> 180." },
+      { level: 2, label: "Concept", text: "The 'if x > 30' clause skips 12 and 24." },
+      { level: 3, label: "Example", text: 'boosted_readings = [x * 2 for x in sensor_readings if x > 30]\nprint(boosted_readings)' },
+      { level: 4, label: "Solution", text: "Execute the list comprehension." },
     ],
-    xpReward: 300,
-    coinsReward: 150,
-    skillIdToUnlock: "py_dicts",
+    xpReward: 400,
+    coinsReward: 200,
+    skillIdToUnlock: "py_comprehensions",
+    worldSceneType: "data_matrix",
+  },
+  {
+    id: "m16",
+    rank: "DEVELOPER",
+    number: 16,
+    title: "Regex Anomaly Extraction",
+    concept: "Regular Expressions (re.findall)",
+    difficulty: "Intermediate",
+    story: "Extract all anomaly hex error codes formatted like 'ERR-101', 'ERR-404', 'ERR-999' from raw log stream text using the re module.",
+    objectives: [
+      "Import re or use built-in re.findall",
+      "Extract pattern r'ERR-\\d+' from log_text",
+      "Print extracted error list",
+    ],
+    conceptExplanation: "The re module provides regular expression matching operations. re.findall(pattern, string) returns all non-overlapping matches of pattern in string as a list of strings.",
+    starterCode: `import re
+
+log_text = "WARN node 4 ERR-101 offline. Sector 9 ERR-404 corrupted. Core ERR-999 danger."
+
+# MISSION OBJECTIVE: Extract all error codes matching 'ERR-\\d+'.
+# 1. Use re.findall(r"ERR-\\d+", log_text)
+# 2. Store in errors
+# 3. Print errors (expected: ['ERR-101', 'ERR-404', 'ERR-999'])
+
+errors = re.findall(r"ERR-\\d+", log_text)
+print(errors)
+`,
+    validationRules: {
+      requiredOutputIncludes: ["ERR-101", "ERR-404", "ERR-999"],
+      requiredKeywords: ["re.findall", "print"],
+    },
+    hints: [
+      { level: 1, label: "Subtle Clue", text: "Use re.findall(r'ERR-\\d+', log_text)." },
+      { level: 2, label: "Concept", text: "\\d+ matches one or more numeric digits following 'ERR-'." },
+      { level: 3, label: "Example", text: 'errors = re.findall(r"ERR-\\d+", log_text)\nprint(errors)' },
+      { level: 4, label: "Solution", text: "Execute the regex pattern matching." },
+    ],
+    xpReward: 420,
+    coinsReward: 210,
+    skillIdToUnlock: "py_regex",
     worldSceneType: "data_matrix",
   },
 
   // ================= RANK 6: ENGINEER =================
   {
-    id: "m16",
-    rank: "ENGINEER",
-    number: 16,
-    title: "Robot Repair Protocol",
-    concept: "Functions, Parameters, and Return Values",
-    difficulty: "Advanced",
-    story: "Build a reusable engineering routine 'repair_unit' that takes a target robot object, restores its health by boost_amount, and returns the updated health value.",
-    objectives: [
-      "Define function repair_unit(current_health, boost_amount)",
-      "Return the sum of current_health and boost_amount",
-      "Call repair_unit(40, 50) and print the result",
-    ],
-    conceptExplanation: "Functions are defined with the 'def' keyword. They accept parameters and pass back results with 'return'. This makes your code modular and reusable.",
-    starterCode: `# MISSION OBJECTIVE: Define a reusable repair function.
-# Function 'repair_unit' should accept (current_health, boost_amount)
-# and return current_health + boost_amount.
-
-def repair_unit(current_health, boost_amount):
-    # TODO: Calculate and return the new health
-    pass
-
-# Test the protocol:
-result = repair_unit(40, 50)
-print("REPAIRED HEALTH:", result)
-`,
-    validationRules: {
-      requiredKeywords: ["def", "repair_unit", "return"],
-      requiredOutputIncludes: ["90"],
-    },
-    hints: [
-      { level: 1, label: "Subtle Clue", text: "Use def repair_unit(current_health, boost_amount):" },
-      { level: 2, label: "Concept", text: "Return the calculated sum with 'return current_health + boost_amount'." },
-      { level: 3, label: "Example", text: "def repair_unit(current_health, boost_amount):\n    return current_health + boost_amount" },
-      { level: 4, label: "Solution", text: "Define repair_unit returning current_health + boost_amount." },
-    ],
-    xpReward: 350,
-    coinsReward: 175,
-    skillIdToUnlock: "py_functions",
-    worldSceneType: "robot_lab",
-  },
-  {
     id: "m17",
     rank: "ENGINEER",
     number: 17,
-    title: "Laser Grid Calculation",
-    concept: "Default Parameters and Scope",
+    title: "Modular Combustion Function",
+    concept: "Functions, Parameters, & Return Values",
     difficulty: "Advanced",
-    story: "Calculate laser beam output energy with an optional amplification multiplier (default multiplier = 1.5).",
+    story: "Construct a modular thruster acceleration calculation function calculate_thrust(mass, acceleration) that returns mass * acceleration.",
     objectives: [
-      "Define function calculate_beam(power, multiplier=1.5)",
-      "Return power * multiplier",
-      "Print calculate_beam(100) and calculate_beam(100, 2.0)",
+      "Define function calculate_thrust(mass, acceleration)",
+      "Return mass * acceleration",
+      "Compute calculate_thrust(1200, 15) and print result",
     ],
-    conceptExplanation: "Default parameters allow arguments to have preset values if the caller doesn't specify them. For example: def greet(name='Agent'): ...",
-    starterCode: `# MISSION OBJECTIVE: Function with default parameter.
-# Define 'calculate_beam' taking (power, multiplier=1.5)
-# and returning power * multiplier.
+    conceptExplanation: "Functions are reusable blocks of code defined with the def keyword. They accept parameters and return computed outputs with the return keyword.",
+    starterCode: `# MISSION OBJECTIVE: Define modular physics calculator.
+# 1. def calculate_thrust(mass, acceleration):
+# 2.     return mass * acceleration
+# 3. Call calculate_thrust(1200, 15) and print result (18000)
 
-def calculate_beam(power, multiplier=1.5):
-    # TODO: Return power multiplied by multiplier
-    pass
+# TODO: Write your function below:
 
-# Test calls:
-print("STANDARD BEAM:", calculate_beam(100))
-print("OVERCHARGED BEAM:", calculate_beam(100, 2.0))
 `,
     validationRules: {
-      requiredKeywords: ["def", "calculate_beam", "multiplier"],
-      requiredOutputIncludes: ["150", "200"],
+      requiredOutputIncludes: ["18000"],
+      requiredKeywords: ["def", "calculate_thrust", "return"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Specify default multiplier in the function header: multiplier=1.5." },
-      { level: 2, label: "Concept", text: "If only one argument is given, multiplier defaults to 1.5." },
-      { level: 3, label: "Example", text: "def calculate_beam(power, multiplier=1.5):\n    return power * multiplier" },
-      { level: 4, label: "Solution", text: "def calculate_beam(power, multiplier=1.5): return power * multiplier" },
+      { level: 1, label: "Subtle Clue", text: "Write def calculate_thrust(mass, acceleration): return mass * acceleration" },
+      { level: 2, label: "Concept", text: "Functions encapsulate logic so it can be called repeatedly." },
+      { level: 3, label: "Example", text: 'def calculate_thrust(mass, acceleration):\n    return mass * acceleration\nprint(calculate_thrust(1200, 15))' },
+      { level: 4, label: "Solution", text: 'def calculate_thrust(mass, acceleration):\n    return mass * acceleration\nprint(calculate_thrust(1200, 15))' },
     ],
-    xpReward: 350,
-    coinsReward: 175,
-    skillIdToUnlock: "py_scope_defaults",
-    worldSceneType: "robot_lab",
+    xpReward: 450,
+    coinsReward: 225,
+    skillIdToUnlock: "py_functions",
+    worldSceneType: "core_reactor",
   },
   {
     id: "m18",
     rank: "ENGINEER",
     number: 18,
-    title: "Quantum Reactor Countdown",
-    concept: "Recursion",
+    title: "Lambda & Functional Higher-Order Pipeline",
+    concept: "Lambda Functions, map(), and filter()",
     difficulty: "Advanced",
-    story: "The reactor stabilizer needs a recursive countdown sequence from n down to 1, then prints 'REACTOR STABILIZED'.",
+    story: "Use functional programming with lambda and filter() to extract all even telemetry frequencies from frequencies = [10, 15, 20, 25, 30, 35, 40].",
     objectives: [
-      "Write a recursive function countdown(n)",
-      "If n <= 0: print 'REACTOR STABILIZED' and return",
-      "Else: print f'Count: {n}' and recursively call countdown(n - 1)",
+      "Given frequencies = [10, 15, 20, 25, 30, 35, 40]",
+      "Use filter with lambda x: x % 2 == 0",
+      "Convert to list and print clean_freqs (expected: [10, 20, 30, 40])",
     ],
-    conceptExplanation: "Recursion is when a function calls itself to solve smaller sub-problems. Every recursive function MUST have a base case to stop calling itself.",
-    starterCode: `# MISSION OBJECTIVE: Recursive countdown routine.
-# Base case: If n <= 0, print "REACTOR STABILIZED" and return
-# Recursive case: Print f"Count: {n}" and call countdown(n - 1)
+    conceptExplanation: "Lambda functions are small anonymous functions defined using lambda arguments: expression. filter() filters elements from an iterable based on a boolean function.",
+    starterCode: `frequencies = [10, 15, 20, 25, 30, 35, 40]
 
-def countdown(n):
-    # TODO: Implement base case and recursive step
-    pass
+# MISSION OBJECTIVE: Filter even frequencies using lambda & filter.
+# 1. clean_freqs = list(filter(lambda x: x % 2 == 0, frequencies))
+# 2. print(clean_freqs)
 
-# Initiate stabilization:
-countdown(3)
+clean_freqs = list(filter(lambda x: x % 2 == 0, frequencies))
+print(clean_freqs)
 `,
     validationRules: {
-      requiredKeywords: ["def", "countdown", "return"],
-      requiredOutputIncludes: ["Count: 3", "Count: 2", "Count: 1", "REACTOR STABILIZED"],
+      requiredOutputIncludes: ["10, 20, 30, 40", "[10, 20, 30, 40]"],
+      requiredKeywords: ["filter", "lambda", "print"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Base case: when n <= 0, print 'REACTOR STABILIZED' and return." },
-      { level: 2, label: "Concept", text: "Recursive step: call countdown(n - 1) on each step." },
-      { level: 3, label: "Example", text: "def countdown(n):\n    if n <= 0:\n        print('REACTOR STABILIZED')\n        return\n    print(f'Count: {n}')\n    countdown(n - 1)" },
-      { level: 4, label: "Solution", text: "Check n <= 0 for base case, otherwise call countdown(n - 1)." },
+      { level: 1, label: "Subtle Clue", text: "lambda x: x % 2 == 0 tests if a number is even." },
+      { level: 2, label: "Concept", text: "filter applies the lambda condition to every element in frequencies." },
+      { level: 3, label: "Example", text: 'clean_freqs = list(filter(lambda x: x % 2 == 0, frequencies))\nprint(clean_freqs)' },
+      { level: 4, label: "Solution", text: "Execute the functional filtering pipeline." },
     ],
-    xpReward: 350,
-    coinsReward: 175,
-    skillIdToUnlock: "py_recursion",
+    xpReward: 480,
+    coinsReward: 240,
+    skillIdToUnlock: "py_lambdas",
+    worldSceneType: "core_reactor",
+  },
+  {
+    id: "m19",
+    rank: "ENGINEER",
+    number: 19,
+    title: "Binary Search Algorithm",
+    concept: "Search Algorithms (TheAlgorithms/Python)",
+    difficulty: "Advanced",
+    story: "Implement the O(log N) Binary Search algorithm to find target sector 42 in a sorted sector array [10, 20, 30, 42, 50, 60, 70, 80].",
+    objectives: [
+      "Implement binary_search(arr, target)",
+      "Find index of 42 (expected index: 3)",
+      "Print result index",
+    ],
+    conceptExplanation: "Binary search finds the position of a target value within a sorted array by repeatedly dividing the search interval in half, achieving O(log n) time complexity.",
+    starterCode: `sectors = [10, 20, 30, 42, 50, 60, 70, 80]
+
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+# MISSION OBJECTIVE: Locate sector 42 with binary search.
+target_idx = binary_search(sectors, 42)
+print("SECTOR INDEX:", target_idx)
+`,
+    validationRules: {
+      requiredOutputIncludes: ["SECTOR INDEX: 3"],
+      requiredKeywords: ["def", "binary_search", "while", "return"],
+    },
+    hints: [
+      { level: 1, label: "Subtle Clue", text: "Binary search halves the array range each step." },
+      { level: 2, label: "Concept", text: "At mid = 3, sectors[3] is 42, so the index 3 is returned immediately." },
+      { level: 3, label: "Example", text: 'target_idx = binary_search(sectors, 42)\nprint("SECTOR INDEX:", target_idx)' },
+      { level: 4, label: "Solution", text: "Run the binary search code." },
+    ],
+    xpReward: 500,
+    coinsReward: 250,
+    skillIdToUnlock: "py_algorithms",
     worldSceneType: "core_reactor",
   },
 
   // ================= RANK 7: ARCHITECT =================
   {
-    id: "m19",
-    rank: "ARCHITECT",
-    number: 19,
-    title: "Cyber Entity Construction",
-    concept: "Object-Oriented Programming (Classes & Objects)",
-    difficulty: "Advanced",
-    story: "Construct an autonomous CyberBot blueprint with attributes for name and energy, and a recharge() method that sets energy to 100.",
-    objectives: [
-      "Define class CyberBot with __init__(self, name) and self.energy = 50",
-      "Add a method recharge(self) that sets self.energy = 100",
-      "Instantiate bot = CyberBot('Sentinel')",
-      "Call bot.recharge() and print bot.energy",
-    ],
-    conceptExplanation: "Classes are blueprints for creating objects. The __init__ constructor initializes attributes on 'self'. Methods are functions inside classes that operate on the object.",
-    starterCode: `# MISSION OBJECTIVE: Build the CyberBot class.
-# 1. __init__(self, name): sets self.name = name and self.energy = 50
-# 2. recharge(self): sets self.energy = 100 and prints f"{self.name} recharged to 100%!"
-
-class CyberBot:
-    def __init__(self, name):
-        # TODO: Initialize self.name and self.energy = 50
-        pass
-
-    def recharge(self):
-        # TODO: Set self.energy = 100 and print confirmation
-        pass
-
-# Create and test the bot:
-bot = CyberBot("Sentinel")
-bot.recharge()
-print("FINAL ENERGY:", bot.energy)
-`,
-    validationRules: {
-      requiredKeywords: ["class", "CyberBot", "__init__", "recharge", "self"],
-      requiredOutputIncludes: ["Sentinel recharged to 100%!", "100"],
-    },
-    hints: [
-      { level: 1, label: "Subtle Clue", text: "Define class CyberBot with __init__(self, name) and recharge(self)." },
-      { level: 2, label: "Concept", text: "self refers to the specific instance of the object being created or used." },
-      { level: 3, label: "Example", text: "class CyberBot:\n    def __init__(self, name):\n        self.name = name\n        self.energy = 50\n    def recharge(self):\n        self.energy = 100\n        print(f'{self.name} recharged to 100%!')" },
-      { level: 4, label: "Solution", text: "Instantiate bot = CyberBot('Sentinel'), call bot.recharge(), and print bot.energy." },
-    ],
-    xpReward: 400,
-    coinsReward: 200,
-    skillIdToUnlock: "py_classes",
-    worldSceneType: "robot_lab",
-  },
-  {
     id: "m20",
     rank: "ARCHITECT",
     number: 20,
-    title: "Drone Fleet Inheritance",
-    concept: "Inheritance and Polymorphism",
+    title: "Object Blueprint Architecture",
+    concept: "OOP Classes, __init__, and Methods",
     difficulty: "Advanced",
-    story: "Create a ScoutDrone subclass that inherits from CyberBot, adding a specialized scan_area() method.",
+    story: "Architect an autonomous CyberCar class with __init__(self, model, top_speed) and a boost(self, amount) method that increases top_speed.",
     objectives: [
-      "Define class ScoutDrone(CyberBot)",
-      "Add method scan_area(self) returning 'TARGET LOCATED'",
-      "Instantiate scout = ScoutDrone('Scout-1')",
-      "Print scout.scan_area()",
+      "Define class CyberCar",
+      "Initialize self.model and self.top_speed in __init__",
+      "Implement boost(self, amount) adding amount to top_speed",
+      "Instantiate CyberCar('VIPER-9', 300), boost by 50, and print final top_speed (350)",
     ],
-    conceptExplanation: "Inheritance lets a child class inherit methods and attributes from a parent class: class Child(Parent): ... This enables code reuse and specialized behaviors.",
-    starterCode: `class CyberBot:
-    def __init__(self, name):
-        self.name = name
+    conceptExplanation: "Object-Oriented Programming (OOP) bundles data (attributes) and behavior (methods) into classes and instances.",
+    starterCode: `# MISSION OBJECTIVE: Build CyberCar class blueprint.
+class CyberCar:
+    def __init__(self, model, top_speed):
+        self.model = model
+        self.top_speed = top_speed
 
-# MISSION OBJECTIVE: Subclass CyberBot with ScoutDrone.
-# Add a method scan_area(self) that returns "TARGET LOCATED".
+    def boost(self, amount):
+        self.top_speed += amount
+        return self.top_speed
 
-class ScoutDrone(CyberBot):
-    # TODO: Implement scan_area method
-    pass
-
-# Instantiate and test scout:
-scout = ScoutDrone("Scout-1")
-print(scout.name, "STATUS:", scout.scan_area())
+# Instantiate and test car:
+car = CyberCar("VIPER-9", 300)
+car.boost(50)
+print(f"{car.model} TOP SPEED: {car.top_speed}")
 `,
     validationRules: {
-      requiredKeywords: ["class", "ScoutDrone", "CyberBot", "scan_area"],
-      requiredOutputIncludes: ["TARGET LOCATED"],
+      requiredOutputIncludes: ["VIPER-9 TOP SPEED: 350"],
+      requiredKeywords: ["class", "CyberCar", "__init__", "boost"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Pass CyberBot inside parentheses: class ScoutDrone(CyberBot):" },
-      { level: 2, label: "Concept", text: "ScoutDrone inherits the __init__ constructor from CyberBot." },
-      { level: 3, label: "Example", text: "class ScoutDrone(CyberBot):\n    def scan_area(self):\n        return 'TARGET LOCATED'" },
-      { level: 4, label: "Solution", text: "Define class ScoutDrone(CyberBot) with scan_area(self) returning 'TARGET LOCATED'." },
+      { level: 1, label: "Subtle Clue", text: "self.top_speed starts at 300 and increases to 350 with boost(50)." },
+      { level: 2, label: "Concept", text: "Methods use 'self' to access and mutate instance attributes." },
+      { level: 3, label: "Example", text: 'car = CyberCar("VIPER-9", 300)\ncar.boost(50)\nprint(car.top_speed)' },
+      { level: 4, label: "Solution", text: "Run the OOP CyberCar class simulation." },
     ],
-    xpReward: 400,
-    coinsReward: 200,
-    skillIdToUnlock: "py_inheritance",
-    worldSceneType: "drone_grid",
+    xpReward: 550,
+    coinsReward: 275,
+    skillIdToUnlock: "py_classes",
+    worldSceneType: "core_reactor",
   },
   {
     id: "m21",
     rank: "ARCHITECT",
     number: 21,
-    title: "Encapsulated Core Vault",
-    concept: "Encapsulation and Properties",
+    title: "Inheritance & Polymorphism Hierarchy",
+    concept: "Class Inheritance & Method Overriding",
     difficulty: "Advanced",
-    story: "Build a SecurityVault class that protects the encryption key and provides an authorized access getter method.",
+    story: "Extend CyberCar into a specialized HyperRacer class that overrides drive_mode() to return 'HYPERSPEED_WARP'.",
     objectives: [
-      "Define SecurityVault class with passcode attribute",
-      "Add unlock(self, input_code) method that returns True if code matches, else False",
-      "Test unlocking with correct code 7799",
+      "Define class HyperRacer(CyberCar)",
+      "Implement drive_mode(self) returning 'HYPERSPEED_WARP'",
+      "Instantiate HyperRacer and print drive_mode()",
     ],
-    conceptExplanation: "Encapsulation restricts direct access to internal components of an object, exposing controlled methods to interact safely with state.",
-    starterCode: `# MISSION OBJECTIVE: Build the SecurityVault class.
-# __init__(self, code): sets self.code = code
-# unlock(self, input_code):
-#   if input_code == self.code: return "ACCESS GRANTED"
-#   else: return "ACCESS DENIED"
+    conceptExplanation: "Inheritance allows a child class to inherit attributes and methods from a parent class, and polymorphism lets child classes override specific behaviors.",
+    starterCode: `class CyberCar:
+    def __init__(self, model):
+        self.model = model
+        
+    def drive_mode(self):
+        return "STANDARD_CRUISE"
 
-class SecurityVault:
-    def __init__(self, code):
-        self.code = code
+# MISSION OBJECTIVE: Create HyperRacer child class inheriting CyberCar.
+# Override drive_mode(self) to return "HYPERSPEED_WARP"
 
-    def unlock(self, input_code):
-        # TODO: Return "ACCESS GRANTED" if code matches, else "ACCESS DENIED"
-        pass
+class HyperRacer(CyberCar):
+    def drive_mode(self):
+        return "HYPERSPEED_WARP"
 
-# Test the vault:
-vault = SecurityVault(7799)
-print("TEST 1:", vault.unlock(7799))
-print("TEST 2:", vault.unlock(1234))
+racer = HyperRacer("STEALTH-QUANTUM")
+print("ACTIVE MODE:", racer.drive_mode())
 `,
     validationRules: {
-      requiredKeywords: ["class", "SecurityVault", "unlock"],
-      requiredOutputIncludes: ["ACCESS GRANTED", "ACCESS DENIED"],
+      requiredOutputIncludes: ["ACTIVE MODE: HYPERSPEED_WARP"],
+      requiredKeywords: ["class", "HyperRacer", "CyberCar", "drive_mode"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Compare input_code with self.code." },
-      { level: 2, label: "Concept", text: "Return 'ACCESS GRANTED' when codes match." },
-      { level: 3, label: "Example", text: "if input_code == self.code:\n    return 'ACCESS GRANTED'\nreturn 'ACCESS DENIED'" },
-      { level: 4, label: "Solution", text: "Return 'ACCESS GRANTED' for 7799 and 'ACCESS DENIED' for 1234." },
+      { level: 1, label: "Subtle Clue", text: "HyperRacer inherits CyberCar and overrides drive_mode()." },
+      { level: 2, label: "Concept", text: "Subclasses can replace parental methods by defining a method with the same name." },
+      { level: 3, label: "Example", text: 'class HyperRacer(CyberCar):\n    def drive_mode(self):\n        return "HYPERSPEED_WARP"' },
+      { level: 4, label: "Solution", text: "Execute the inheritance hierarchy code." },
     ],
-    xpReward: 400,
-    coinsReward: 200,
-    skillIdToUnlock: "py_encapsulation",
-    worldSceneType: "data_matrix",
+    xpReward: 600,
+    coinsReward: 300,
+    skillIdToUnlock: "py_inheritance",
+    worldSceneType: "core_reactor",
   },
 
   // ================= RANK 8: MASTER =================
@@ -940,216 +944,205 @@ print("TEST 2:", vault.unlock(1234))
     id: "m22",
     rank: "MASTER",
     number: 22,
-    title: "Exception Firewall Shield",
-    concept: "try, except, and Error Handling",
+    title: "Resilient Error Shield",
+    concept: "Exception Handling (try / except / finally)",
     difficulty: "Advanced",
-    story: "A corrupted sensor stream may divide by zero or pass invalid integers. Enclose parsing in a try/except block to intercept anomalies gracefully without crashing.",
+    story: "Protect the vehicle core against division by zero crashes during telemetry calculations by deploying a try/except error shield.",
     objectives: [
-      "Wrap division in try block",
-      "Catch ZeroDivisionError / ValueError with except",
-      "Print 'ANOMALY DEFLECTED: FALLBACK 0' when an exception occurs",
+      "Wrap risky division in a try block",
+      "Catch ZeroDivisionError and print 'SAFE FALLBACK: 0'",
+      "Verify code finishes cleanly",
     ],
-    conceptExplanation: "try / except blocks prevent programs from abruptly crashing when unexpected errors occur at runtime, allowing graceful recovery.",
-    starterCode: `# MISSION OBJECTIVE: Exception handling with try/except.
-# In safe_divide(a, b):
-# Try: return a / b
-# Except: print "ANOMALY DEFLECTED: FALLBACK 0" and return 0
+    conceptExplanation: "Exception handling with try and except blocks prevents program termination when runtime errors occur, allowing graceful recovery.",
+    starterCode: `def calculate_efficiency(distance, fuel):
+    try:
+        result = distance / fuel
+        return result
+    except:
+        return "SAFE FALLBACK: 0"
 
-def safe_divide(a, b):
-    # TODO: Implement try / except handling
-    pass
-
-# Test division:
-print("NORMAL:", safe_divide(100, 2))
-print("ANOMALY:", safe_divide(100, 0))
+# MISSION OBJECTIVE: Test zero fuel division safety.
+output = calculate_efficiency(500, 0)
+print(output)
 `,
     validationRules: {
-      requiredKeywords: ["try", "except", "safe_divide"],
-      requiredOutputIncludes: ["ANOMALY DEFLECTED: FALLBACK 0", "50"],
+      requiredOutputIncludes: ["SAFE FALLBACK: 0"],
+      requiredKeywords: ["try", "except", "def"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use try: and except: to catch the division by zero." },
-      { level: 2, label: "Concept", text: "If an error occurs in the try block, execution immediately jumps to except." },
-      { level: 3, label: "Example", text: "def safe_divide(a, b):\n    try:\n        return a / b\n    except:\n        print('ANOMALY DEFLECTED: FALLBACK 0')\n        return 0" },
-      { level: 4, label: "Solution", text: "Return a / b in try block, print fallback message and return 0 in except." },
+      { level: 1, label: "Subtle Clue", text: "When fuel is 0, 500 / 0 throws an exception caught by except." },
+      { level: 2, label: "Concept", text: "The except block returns 'SAFE FALLBACK: 0'." },
+      { level: 3, label: "Example", text: 'try:\n    result = distance / fuel\nexcept:\n    return "SAFE FALLBACK: 0"' },
+      { level: 4, label: "Solution", text: "Run the safe exception handling test." },
     ],
-    xpReward: 500,
-    coinsReward: 250,
+    xpReward: 650,
+    coinsReward: 325,
     skillIdToUnlock: "py_exceptions",
-    worldSceneType: "terminal",
+    worldSceneType: "core_reactor",
   },
   {
     id: "m23",
     rank: "MASTER",
     number: 23,
-    title: "JSON Telemetry Stream",
-    concept: "JSON Data Serialization and Parsing",
+    title: "High-Frequency Counter & Collections",
+    concept: "collections.Counter & itertools",
     difficulty: "Advanced",
-    story: "Parse incoming cyber satellite telemetry encoded in JSON format and extract the security status.",
+    story: "Analyze recurring vehicle telemetry sensor anomaly tokens using collections.Counter to find the most frequent warning code.",
     objectives: [
-      "Given raw_json = '{\"core\": \"DeSuper\", \"status\": \"OPTIMAL\", \"level\": 9}'",
-      "Parse with json.loads(raw_json)",
-      "Print the 'status' value",
+      "Given tokens = ['PWR', 'HEAT', 'PWR', 'SHIELD', 'PWR', 'HEAT']",
+      "Count frequencies with Counter(tokens)",
+      "Print the frequency of 'PWR' (expected: 3)",
     ],
-    conceptExplanation: "JSON (JavaScript Object Notation) is the universal data exchange format. In Python, json.loads() converts JSON strings into Python dictionaries.",
-    starterCode: `raw_json = '{"core": "DeSuper", "status": "OPTIMAL", "level": 9}'
+    conceptExplanation: "The collections module provides specialized container datatypes like Counter, which counts occurrences of hashable objects.",
+    starterCode: `from collections import Counter
 
-# MISSION OBJECTIVE: Parse JSON string into dictionary.
-# 1. Use json.loads(raw_json) to parse the JSON into variable 'data'
-# 2. Print "CORE STATUS:", data["status"]
+tokens = ["PWR", "HEAT", "PWR", "SHIELD", "PWR", "HEAT"]
 
-# TODO: Write your code below:
-
+# MISSION OBJECTIVE: Count token occurrences with Counter.
+counts = Counter(tokens)
+pwr_count = counts["PWR"]
+print("PWR FREQUENCY:", pwr_count)
 `,
     validationRules: {
-      requiredKeywords: ["json.loads", "raw_json"],
-      requiredOutputIncludes: ["OPTIMAL"],
+      requiredOutputIncludes: ["PWR FREQUENCY: 3"],
+      requiredKeywords: ["Counter", "print"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Use json.loads(raw_json) to convert string to dict." },
-      { level: 2, label: "Concept", text: "Access data['status'] on the parsed dictionary." },
-      { level: 3, label: "Example", text: 'data = json.loads(raw_json)\nprint("CORE STATUS:", data["status"])' },
-      { level: 4, label: "Solution", text: "Set data = json.loads(raw_json) and print(data['status'])." },
+      { level: 1, label: "Subtle Clue", text: "Counter(tokens)['PWR'] calculates how many times 'PWR' appears." },
+      { level: 2, label: "Concept", text: "Counter provides dict-like counting in O(N) time." },
+      { level: 3, label: "Example", text: 'counts = Counter(tokens)\nprint("PWR FREQUENCY:", counts["PWR"])' },
+      { level: 4, label: "Solution", text: "Execute the Counter analysis code." },
     ],
-    xpReward: 500,
-    coinsReward: 250,
-    skillIdToUnlock: "py_json",
-    worldSceneType: "data_matrix",
-  },
-  {
-    id: "m24",
-    rank: "MASTER",
-    number: 24,
-    title: "Cyber Stream Generators",
-    concept: "Generators and yield",
-    difficulty: "Advanced",
-    story: "Build a memory-efficient generator function stream_energy(limit) that yields power pulses one by one.",
-    objectives: [
-      "Define function stream_energy(limit)",
-      "Loop from 1 to limit + 1 and yield energy pulse",
-      "Iterate over the generator with a for loop and print pulses",
-    ],
-    conceptExplanation: "Generators use the 'yield' keyword to produce values lazily on-demand without loading entire datasets into memory at once.",
-    starterCode: `# MISSION OBJECTIVE: Energy generator function.
-# Define 'stream_energy(limit)' that loops i from 1 to limit + 1
-# and yields f"PULSE_{i * 10}MW"
-
-def stream_energy(limit):
-    # TODO: Loop through range(1, limit + 1) and yield pulses
-    pass
-
-# Consume the generator stream:
-for pulse in stream_energy(3):
-    print("EMITTED:", pulse)
-`,
-    validationRules: {
-      requiredKeywords: ["def", "stream_energy", "yield"],
-      requiredOutputIncludes: ["PULSE_10MW", "PULSE_20MW", "PULSE_30MW"],
-    },
-    hints: [
-      { level: 1, label: "Subtle Clue", text: "Use yield instead of return inside the generator loop." },
-      { level: 2, label: "Concept", text: "yield pauses function execution and emits a value to the caller." },
-      { level: 3, label: "Example", text: 'def stream_energy(limit):\n    for i in range(1, limit + 1):\n        yield f"PULSE_{i * 10}MW"' },
-      { level: 4, label: "Solution", text: "Loop in stream_energy and yield formatted pulse strings." },
-    ],
-    xpReward: 500,
-    coinsReward: 250,
-    skillIdToUnlock: "py_generators",
+    xpReward: 700,
+    coinsReward: 350,
+    skillIdToUnlock: "py_collections",
     worldSceneType: "core_reactor",
   },
 
   // ================= RANK 9: SUPREME =================
   {
+    id: "m24",
+    rank: "SUPREME",
+    number: 24,
+    title: "NumPy Vector Matrix Acceleration",
+    concept: "NumPy Arrays & Matrix Dot Product",
+    difficulty: "Supreme",
+    story: "Calculate multi-dimensional engine velocity vectors using NumPy. Compute the dot product between velocity weights and sensor array inputs.",
+    objectives: [
+      "Create np.array([2.5, 4.0, 6.5]) and weights np.array([1.2, 0.8, 2.0])",
+      "Compute dot product: np.dot(velocities, weights)",
+      "Print 'NET THRUST VECTOR: 19.2'",
+    ],
+    conceptExplanation: "NumPy is the fundamental package for scientific computing in Python, providing high-performance multidimensional arrays and matrix algebra operations.",
+    starterCode: `import numpy as np
+
+velocities = np.array([2.5, 4.0, 6.5])
+weights = np.array([1.2, 0.8, 2.0])
+
+# MISSION OBJECTIVE: Calculate dot product using np.dot().
+# Formula: (2.5 * 1.2) + (4.0 * 0.8) + (6.5 * 2.0) = 3.0 + 3.2 + 13.0 = 19.2
+
+net_thrust = np.dot(velocities, weights)
+print("NET THRUST VECTOR:", round(net_thrust, 2))
+`,
+    validationRules: {
+      requiredOutputIncludes: ["NET THRUST VECTOR: 19.2"],
+      requiredKeywords: ["np.array", "np.dot", "print"],
+    },
+    hints: [
+      { level: 1, label: "Subtle Clue", text: "np.dot computes the vector dot product." },
+      { level: 2, label: "Concept", text: "3.0 + 3.2 + 13.0 = 19.2." },
+      { level: 3, label: "Example", text: 'net_thrust = np.dot(velocities, weights)\nprint("NET THRUST VECTOR:", round(net_thrust, 2))' },
+      { level: 4, label: "Solution", text: "Run the NumPy vector calculations." },
+    ],
+    xpReward: 800,
+    coinsReward: 400,
+    skillIdToUnlock: "py_numpy",
+    worldSceneType: "core_reactor",
+  },
+  {
     id: "m25",
     rank: "SUPREME",
     number: 25,
-    title: "Binary Search Optimization",
-    concept: "Algorithms & O(log n) Search",
+    title: "Pandas Highway Traffic Analytics",
+    concept: "Pandas DataFrame & Groupby Analytics",
     difficulty: "Supreme",
-    story: "Locate the corrupted memory sector inside an indexed grid of 1,000 sectors in O(log n) time using Binary Search.",
+    story: "Analyze cyber-city highway sector congestion by creating a Pandas DataFrame and computing average vehicle speeds grouped by sector.",
     objectives: [
-      "Implement binary_search(arr, target)",
-      "Divide search space with left, right, and mid pointers",
-      "Return the index of target 842",
+      "Construct pd.DataFrame with 'sector' and 'speed' columns",
+      "Group by 'sector' and compute mean speed",
+      "Print sector statistics",
     ],
-    conceptExplanation: "Binary search searches a sorted list by repeatedly dividing the search interval in half, achieving logarithmic O(log n) efficiency.",
-    starterCode: `# MISSION OBJECTIVE: Implement O(log n) Binary Search.
-# Find the index of 'target' in sorted array 'arr'. Return index or -1.
+    conceptExplanation: "Pandas is the leading Python library for data analysis and manipulation, offering fast DataFrames, aggregations, and grouped summary calculations.",
+    starterCode: `import pandas as pd
 
-def binary_search(arr, target):
-    left = 0
-    right = len(arr) - 1
-    
-    # TODO: Implement while left <= right loop with mid pointer:
-    pass
+traffic_data = {
+    "sector": ["Alpha", "Beta", "Alpha", "Beta", "Alpha"],
+    "speed": [280, 150, 320, 160, 300]
+}
 
-grid = [100, 250, 410, 600, 842, 990, 1200]
-idx = binary_search(grid, 842)
-print("CORRUPTED SECTOR FOUND AT INDEX:", idx)
+# MISSION OBJECTIVE: Create DataFrame and calculate groupby mean.
+df = pd.DataFrame(traffic_data)
+sector_stats = df.groupby("sector").mean()
+
+print("ALPHA MEAN SPEED:", sector_stats["Alpha"]["speed"])
 `,
     validationRules: {
-      requiredKeywords: ["def", "binary_search", "while", "left", "right"],
-      requiredOutputIncludes: ["CORRUPTED SECTOR FOUND AT INDEX: 4"],
+      requiredOutputIncludes: ["ALPHA MEAN SPEED: 300"],
+      requiredKeywords: ["pd.DataFrame", "groupby", "mean"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Calculate mid = (left + right) // 2 on each iteration." },
-      { level: 2, label: "Concept", text: "If arr[mid] < target, search right half by setting left = mid + 1." },
-      { level: 3, label: "Example", text: "while left <= right:\n    mid = (left + right) // 2\n    if arr[mid] == target: return mid\n    elif arr[mid] < target: left = mid + 1\n    else: right = mid - 1\nreturn -1" },
-      { level: 4, label: "Solution", text: "Implement binary search correctly to find index 4 for target 842." },
+      { level: 1, label: "Subtle Clue", text: "Alpha speeds are [280, 320, 300], whose average is exactly 300." },
+      { level: 2, label: "Concept", text: "df.groupby('sector').mean() aggregates numeric columns per category." },
+      { level: 3, label: "Example", text: 'df = pd.DataFrame(traffic_data)\nstats = df.groupby("sector").mean()\nprint("ALPHA MEAN SPEED:", stats["Alpha"]["speed"])' },
+      { level: 4, label: "Solution", text: "Run the Pandas DataFrame analysis." },
     ],
-    xpReward: 750,
-    coinsReward: 350,
-    skillIdToUnlock: "py_algorithms",
+    xpReward: 850,
+    coinsReward: 425,
+    skillIdToUnlock: "py_pandas",
     worldSceneType: "core_reactor",
   },
   {
     id: "m26",
     rank: "SUPREME",
     number: 26,
-    title: "Autonomous City Grid Orchestrator",
-    concept: "System Architecture and Multi-Component Integration",
+    title: "Scikit-Learn Machine Learning Predictor",
+    concept: "Machine Learning (LinearRegression & Train/Test)",
     difficulty: "Supreme",
-    story: "Coordinate power, traffic, and emergency response subsystems across DeSuper Digital Metropolis simultaneously.",
+    story: "Train a Linear Regression AI model on vehicle boost wattage versus top speed to predict maximum velocity for 500W turbo input.",
     objectives: [
-      "Build CityOrchestrator class with sub-systems",
-      "Include manage_traffic(level), boost_power(), and optimize_grid()",
-      "Execute automated citywide stabilization protocol",
+      "Fit LinearRegression on X=[100, 200, 300, 400], y=[150, 250, 350, 450]",
+      "Predict output for 500W input",
+      "Print predicted speed (expected: 550)",
     ],
-    conceptExplanation: "Supreme software engineering combines OOP, data structures, error handling, and algorithmic coordination into cohesive full-stack architectures.",
-    starterCode: `# MISSION OBJECTIVE: Metropolis Orchestration Architecture.
-# Build CityOrchestrator class with:
-# 1. __init__(self, city_name): sets self.city_name = city_name
-# 2. optimize_grid(self):
-#    calls city.boost_power()
-#    calls city.manage_traffic(5)
-#    returns f"{self.city_name} GRID FULLY OPTIMIZED"
+    conceptExplanation: "Scikit-Learn is the gold standard Machine Learning library in Python for supervised learning (regression, classification) and unsupervised learning (clustering).",
+    starterCode: `from sklearn.linear_model import LinearRegression
+import numpy as np
 
-class CityOrchestrator:
-    def __init__(self, city_name):
-        self.city_name = city_name
+# Training dataset: X (watts), y (km/h speed)
+X = np.array([100, 200, 300, 400])
+y = np.array([150, 250, 350, 450])
 
-    def optimize_grid(self):
-        # TODO: Boost power, manage traffic, and return confirmation
-        pass
+# MISSION OBJECTIVE: Train Linear Regression model and predict for 500W.
+model = LinearRegression()
+model.fit(X, y)
 
-# Initialize orchestrator:
-orchestrator = CityOrchestrator("DeSuper-Prime")
-status = orchestrator.optimize_grid()
-print("SYSTEM RESULT:", status)
+pred = model.predict(np.array([500]))
+print("PREDICTED 500W SPEED:", round(pred[0]))
 `,
     validationRules: {
-      requiredKeywords: ["class", "CityOrchestrator", "optimize_grid", "city.boost_power"],
-      requiredOutputIncludes: ["GRID FULLY OPTIMIZED"],
+      requiredOutputIncludes: ["PREDICTED 500W SPEED: 550"],
+      requiredKeywords: ["LinearRegression", "fit", "predict"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Define CityOrchestrator and call city.boost_power() inside optimize_grid()." },
-      { level: 2, label: "Concept", text: "Combine system methods to restore all city subsystems at once." },
-      { level: 3, label: "Example", text: "class CityOrchestrator:\n    def __init__(self, city_name):\n        self.city_name = city_name\n    def optimize_grid(self):\n        city.boost_power()\n        city.manage_traffic(5)\n        return f'{self.city_name} GRID FULLY OPTIMIZED'" },
-      { level: 4, label: "Solution", text: "Instantiate CityOrchestrator and call optimize_grid()." },
+      { level: 1, label: "Subtle Clue", text: "The model learns speed = 1.0 * watts + 50." },
+      { level: 2, label: "Concept", text: "For 500W: 1.0 * 500 + 50 = 550 km/h." },
+      { level: 3, label: "Example", text: 'model = LinearRegression()\nmodel.fit(X, y)\npred = model.predict(np.array([500]))\nprint("PREDICTED 500W SPEED:", round(pred[0]))' },
+      { level: 4, label: "Solution", text: "Execute the Scikit-Learn machine learning training run." },
     ],
-    xpReward: 750,
-    coinsReward: 350,
-    skillIdToUnlock: "py_architecture",
+    xpReward: 900,
+    coinsReward: 450,
+    skillIdToUnlock: "py_ml",
     worldSceneType: "core_reactor",
   },
   {
@@ -1165,7 +1158,7 @@ print("SYSTEM RESULT:", status)
       "Call system.repair() for each module in a loop",
       "Print 'DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED'",
     ],
-    conceptExplanation: "You have progressed from Zero to Supreme! You are no longer just learning to code—you are building and mastering real systems with Python.",
+    conceptExplanation: "You have progressed from Zero to Supreme! You have mastered core syntax, control flow, data structures, algorithms, OOP, NumPy, Pandas, and Machine Learning.",
     starterCode: `nodes = ["MEMORY", "LOGIC", "SECURITY", "ENERGY"]
 
 # MISSION OBJECTIVE: Repair all 4 Core nodes and awaken the universe.
@@ -1173,8 +1166,10 @@ print("SYSTEM RESULT:", status)
 # 2. Call system.repair(node) inside the loop
 # 3. Print "DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED"
 
-# TODO: Write your restoration code below:
+for node in nodes:
+    system.repair(node)
 
+print("DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED")
 `,
     validationRules: {
       requiredKeywords: ["for", "in", "system.repair"],

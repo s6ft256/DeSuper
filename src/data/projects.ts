@@ -15,8 +15,15 @@ export const PROJECTS: ProjectTemplate[] = [
 # "divide" -> a / b (or "DIV_ZERO_ERROR" if b == 0)
 
 def cyber_calc(a, b, operation):
-    # TODO: Implement operations and return calculated result
-    pass
+    if operation == "add":
+        return a + b
+    elif operation == "subtract":
+        return a - b
+    elif operation == "multiply":
+        return a * b
+    elif operation == "divide":
+        return "DIV_ZERO_ERROR" if b == 0 else a / b
+    return "UNKNOWN_OPERATION"
 
 # Automated Test Runs:
 print("50 + 25 =", cyber_calc(50, 25, "add"))
@@ -49,16 +56,13 @@ print("100 * 4 =", cyber_calc(100, 4, "multiply"))
 
 class CyberInventory:
     def __init__(self):
-        # TODO: Initialize items dictionary
-        pass
+        self.items = {}
 
     def add_item(self, name, power):
-        # TODO: Store weapon power in self.items
-        pass
+        self.items[name] = power
 
     def get_total_power(self):
-        # TODO: Return the sum of all item powers
-        pass
+        return sum(self.items.values())
 
 # Construct and test inventory:
 inv = CyberInventory()
@@ -80,76 +84,219 @@ print("TOTAL ARSENAL POWER:", inv.get_total_power())
     coinsReward: 250,
   },
   {
-    id: "proj_security_scanner",
-    title: "Autonomous Security & Port Scanner",
-    tier: "Advanced",
-    category: "Cybersecurity Tool",
-    description: "Build an automated port & telemetry vulnerability analyzer that scans simulated network ports, flags anomalies, and formats a JSON report.",
-    starterCode: `# PROJECT: Autonomous Security & Port Scanner
-# Implement scan_security_ports(ports):
-# 1. Loop through the ports dictionary
-# 2. Collect any port whose status is "OPEN_UNENCRYPTED" into a threats list
-# 3. Return a dict: {"scanned": len(ports), "threats": threats, "secure": len(threats) == 0}
+    id: "proj_cipher",
+    title: "Cryptographic Caesar Cipher & Anomaly Decoder",
+    tier: "Intermediate",
+    category: "Cybersecurity & Algorithms",
+    description: "Build a string manipulation cipher algorithm to encrypt and decrypt transmission signals by shifting ASCII character codes.",
+    starterCode: `# PROJECT: Caesar Cipher & Signal Cryptography
+def cyber_encrypt(text, shift):
+    result = ""
+    for char in text:
+        if char.isalpha():
+            base = ord('A') if char.isupper() else ord('a')
+            shifted = chr((ord(char) - base + shift) % 26 + base)
+            result += shifted
+        else:
+            result += char
+    return result
 
-def scan_security_ports(ports):
-    # TODO: Scan ports, find unencrypted ports, and return dictionary report
-    pass
-
-network_ports = {
-    80: "OPEN_UNENCRYPTED",
-    443: "SECURE_TLS",
-    8080: "OPEN_UNENCRYPTED",
-    22: "SECURE_SSH"
-}
-
-report = scan_security_ports(network_ports)
-print("SECURITY REPORT:", report)
+# Test encryption:
+cipher_text = cyber_encrypt("CYBER", 3)
+print("ENCRYPTED SIGNAL:", cipher_text)
 `,
     requirements: [
-      "Scan dictionary of ports and statuses",
-      "Collect all ports with 'OPEN_UNENCRYPTED' into threat list",
-      "Return summary dictionary containing scanned count and threats",
+      "Implement cyber_encrypt(text, shift)",
+      "Correctly shift uppercase and lowercase letters",
+      "Preserve non-alphabetic symbols",
     ],
     testSuites: [
-      { name: "Threat Detection Test", expectedOutputPattern: "threats" },
+      { name: "Encryption Output Test", expectedOutputPattern: "ENCRYPTED SIGNAL: FBEHU" },
+    ],
+    xpReward: 500,
+    coinsReward: 250,
+  },
+  {
+    id: "proj_drone",
+    title: "Autonomous Drone Flight Path Optimizer",
+    tier: "Advanced",
+    category: "Algorithms & Pathfinding",
+    description: "Implement a shortest path finding algorithm (Breadth-First Search) across a cyber city waypoint network graph.",
+    starterCode: `# PROJECT: Autonomous Drone Graph Navigation (TheAlgorithms)
+def shortest_path(graph, start, target):
+    queue = [[start]]
+    visited = set([start])
+
+    while queue:
+        path = queue.pop(0)
+        node = path[-1]
+
+        if node == target:
+            return path
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                new_path = list(path)
+                new_path.append(neighbor)
+                queue.append(new_path)
+    return []
+
+# Test flight grid:
+city_grid = {
+    "Sector_A": ["Sector_B", "Sector_C"],
+    "Sector_B": ["Sector_D"],
+    "Sector_C": ["Sector_D"],
+    "Sector_D": ["Core_Reactor"]
+}
+
+route = shortest_path(city_grid, "Sector_A", "Core_Reactor")
+print("OPTIMAL FLIGHT PATH:", " -> ".join(route))
+`,
+    requirements: [
+      "Implement shortest_path(graph, start, target) using BFS",
+      "Return fastest route array between nodes",
+    ],
+    testSuites: [
+      { name: "Pathfinding Test", expectedOutputPattern: "OPTIMAL FLIGHT PATH: Sector_A -> Sector_B -> Sector_D -> Core_Reactor" },
     ],
     xpReward: 600,
+    coinsReward: 300,
+  },
+  {
+    id: "proj_numpy",
+    title: "Planetary Atmospheric Sensor Matrix",
+    tier: "Advanced",
+    category: "Scientific Computing & NumPy",
+    description: "Perform multidimensional matrix statistics, normalization, and sensor vector dot products using NumPy array algebra.",
+    starterCode: `import numpy as np
+
+# PROJECT: Atmospheric Matrix Processor
+# 1. Create a 3x3 sensor matrix
+sensor_matrix = np.array([
+    [100, 120, 110],
+    [90, 85, 95],
+    [140, 130, 150]
+])
+
+mean_reading = np.mean(sensor_matrix)
+std_dev = np.std(sensor_matrix)
+max_anomaly = np.max(sensor_matrix)
+
+print(f"SENSOR MEAN: {round(mean_reading, 1)}")
+print(f"SENSOR PEAK: {max_anomaly}")
+`,
+    requirements: [
+      "Create 2D NumPy array matrix",
+      "Calculate matrix mean, standard deviation, and maximum peak",
+      "Print formatted scientific metrics",
+    ],
+    testSuites: [
+      { name: "NumPy Mean Test", expectedOutputPattern: "SENSOR MEAN: 113.3" },
+      { name: "NumPy Peak Test", expectedOutputPattern: "SENSOR PEAK: 150" },
+    ],
+    xpReward: 700,
     coinsReward: 350,
   },
   {
-    id: "proj_autonomous_city",
-    title: "Supreme Metropolis Automation AI",
+    id: "proj_pandas",
+    title: "Cyber-City Transit Passenger Analytics",
     tier: "Supreme",
-    category: "Autonomous Systems",
-    description: "Architect a comprehensive multi-tier simulation managing energy allocation, traffic signal timings, and emergency emergency dispatch across DeSuper Prime.",
-    starterCode: `# PROJECT: Supreme Metropolis Automation AI
-# Create SupremeCityController:
-# 1. __init__(self, name): sets self.name = name, self.energy_reserves = 5000,
-#    and self.active_districts = ["Alpha", "Beta", "Gamma"]
-# 2. balance_grid(self): calculates allocation = self.energy_reserves // len(self.active_districts)
-#    and returns a dictionary mapping each district to its allocation
+    category: "Data Wrangling & Pandas",
+    description: "Analyze large-scale urban transit records with Pandas, aggregating passenger volumes and computing average sector delays.",
+    starterCode: `import pandas as pd
 
-class SupremeCityController:
-    def __init__(self, name):
-        # TODO: Initialize name, energy_reserves (5000), and active_districts list
-        pass
+# PROJECT: Transit Flow Analytics
+records = {
+    "line": ["Neon_Express", "Hyper_Loop", "Neon_Express", "Hyper_Loop"],
+    "passengers": [1200, 2400, 1500, 2800],
+    "delay_mins": [2, 0, 4, 1]
+}
 
-    def balance_grid(self):
-        # TODO: Divide reserves among districts and return status dictionary
-        pass
+df = pd.DataFrame(records)
+stats = df.groupby("line").mean()
 
-city_ai = SupremeCityController("DeSuper Prime")
-print("METROPOLIS GRID ALLOCATION:", city_ai.balance_grid())
+print("HYPER LOOP AVERAGE PASSENGERS:", round(stats["Hyper_Loop"]["passengers"]))
 `,
     requirements: [
-      "Manage multi-district power distribution",
-      "Perform integer division for even allocation",
-      "Return status dictionary for all active districts",
+      "Initialize Pandas DataFrame from data dictionary",
+      "Compute grouped averages per transit line",
+      "Extract and display aggregated passenger volume",
     ],
     testSuites: [
-      { name: "Metropolis Allocation Test", expectedOutputPattern: "METROPOLIS GRID ALLOCATION" },
+      { name: "Pandas GroupBy Test", expectedOutputPattern: "HYPER LOOP AVERAGE PASSENGERS: 2600" },
+    ],
+    xpReward: 800,
+    coinsReward: 400,
+  },
+  {
+    id: "proj_ml",
+    title: "AI Threat Predictor & Linear Classifier",
+    tier: "Supreme",
+    category: "Machine Learning & Scikit-Learn",
+    description: "Train a Scikit-Learn Linear Regression model on threat intensity indicators to predict critical breach probabilities.",
+    starterCode: `from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# PROJECT: AI Anomaly Predictor
+# Training features: X (bandwidth anomalies), y (breach risk score)
+X = np.array([10, 20, 30, 40, 50])
+y = np.array([15, 30, 45, 60, 75])
+
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict risk for 80 anomaly units:
+test_x = np.array([80])
+predicted_risk = model.predict(test_x)
+
+print(f"PREDICTED BREACH RISK: {round(predicted_risk[0])}%")
+`,
+    requirements: [
+      "Instantiate and fit LinearRegression from Scikit-Learn",
+      "Train model on feature vector",
+      "Predict target risk score and evaluate output",
+    ],
+    testSuites: [
+      { name: "ML Prediction Test", expectedOutputPattern: "PREDICTED BREACH RISK: 120%" },
+    ],
+    xpReward: 900,
+    coinsReward: 450,
+  },
+  {
+    id: "proj_perceptron",
+    title: "Neural Network Perceptron Brain",
+    tier: "Supreme",
+    category: "Deep Learning & Neural Networks",
+    description: "Construct a single-layer Artificial Neural Perceptron with weights, bias, and step activation function from scratch.",
+    starterCode: `# PROJECT: Neural Perceptron Unit (TheAlgorithms & 30-Days-Of-Python)
+class NeuralPerceptron:
+    def __init__(self, weights, bias):
+        self.weights = weights
+        self.bias = bias
+
+    def activate(self, inputs):
+        # Calculate dot product of inputs and weights + bias
+        total = sum(i * w for i, w in zip(inputs, self.weights)) + self.bias
+        # Step activation function
+        return 1 if total >= 0 else 0
+
+# Test perceptron logic gate (AND gate):
+and_perceptron = NeuralPerceptron(weights=[1.0, 1.0], bias=-1.5)
+
+print("[1, 1] ACTIVATION:", and_perceptron.activate([1, 1]))
+print("[1, 0] ACTIVATION:", and_perceptron.activate([1, 0]))
+`,
+    requirements: [
+      "Define NeuralPerceptron class with weights and bias",
+      "Implement activate(inputs) calculating weighted sum + bias",
+      "Simulate binary logic decision boundary",
+    ],
+    testSuites: [
+      { name: "Perceptron True Test", expectedOutputPattern: "[1, 1] ACTIVATION: 1" },
+      { name: "Perceptron False Test", expectedOutputPattern: "[1, 0] ACTIVATION: 0" },
     ],
     xpReward: 1000,
-    coinsReward: 600,
+    coinsReward: 500,
   },
 ];

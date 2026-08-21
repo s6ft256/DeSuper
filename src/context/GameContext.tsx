@@ -1,7 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { PlayerState, RankId, ViewTab, DailyQuest } from "../types";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { PlayerState, RankId, ViewTab, DailyQuest, CarPosition, MapCoordinate } from "../types";
 import { RANKS, MISSIONS } from "../data/missions";
 import { INITIAL_DAILY_QUESTS } from "../data/miniGames";
+import {
+  WORLD_MAP_COORDINATES,
+  getCoordinateForLevel,
+  calculateCarHeading,
+} from "../data/mapCoordinates";
 import { sound } from "../utils/audio";
 import confetti from "canvas-confetti";
 
@@ -11,6 +16,12 @@ interface GameContextType {
   setActiveTab: (tab: ViewTab) => void;
   selectedMissionId: string;
   setSelectedMissionId: (id: string) => void;
+  currentLevel: number;
+  setCurrentLevel: (level: number) => void;
+  carPosition: CarPosition;
+  setCarPosition: (pos: CarPosition) => void;
+  moveCarToLevel: (level: number) => void;
+  mapCoordinates: MapCoordinate[];
   dailyQuests: DailyQuest[];
   addXpAndCoins: (xp: number, coins: number) => void;
   completeMission: (missionId: string, xp: number, coins: number, unlockSkillId?: string) => void;
@@ -86,6 +97,55 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState<ViewTab>("missions");
   const [selectedMissionId, setSelectedMissionId] = useState<string>("m1");
   const [dailyQuests, setDailyQuests] = useState<DailyQuest[]>(INITIAL_DAILY_QUESTS);
+
+  // Current Level state integer for map path & vehicle navigation
+  const [currentLevel, setCurrentLevel] = useState<number>(() => {
+    return Math.max(1, Math.min(27, player.level || 1));
+  });
+
+  // Dynamic Car Position state
+  const [carPosition, setCarPosition] = useState<CarPosition>(() => {
+    const initialCoord = getCoordinateForLevel(currentLevel);
+    return {
+      x: initialCoord.x,
+      y: initialCoord.y,
+      level: currentLevel,
+      heading: calculateCarHeading(currentLevel),
+    };
+  });
+
+  // Sync car position when currentLevel changes
+  useEffect(() => {
+    const targetCoord = getCoordinateForLevel(currentLevel);
+    const heading = calculateCarHeading(currentLevel);
+    setCarPosition({
+      x: targetCoord.x,
+      y: targetCoord.y,
+      level: currentLevel,
+      heading,
+    });
+  }, [currentLevel]);
+
+  // Sync currentLevel when selectedMissionId changes
+  useEffect(() => {
+    const match = selectedMissionId.match(/^m(\d+)$/);
+    if (match) {
+      const lvl = parseInt(match[1], 10);
+      if (!isNaN(lvl) && lvl >= 1 && lvl <= WORLD_MAP_COORDINATES.length) {
+        if (lvl !== currentLevel) {
+          setCurrentLevel(lvl);
+        }
+      }
+    }
+  }, [selectedMissionId]);
+
+  // Action to smoothly navigate car to a specific level
+  const moveCarToLevel = (level: number) => {
+    const clamped = Math.max(1, Math.min(WORLD_MAP_COORDINATES.length, level));
+    setCurrentLevel(clamped);
+    setSelectedMissionId(`m${clamped}`);
+    sound.playKeyClick();
+  };
 
   // Sync with audio engine
   useEffect(() => {
@@ -282,6 +342,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setPlayer(DEFAULT_PLAYER);
     setDailyQuests(INITIAL_DAILY_QUESTS);
     setSelectedMissionId("m1");
+    setCurrentLevel(1);
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch {}
@@ -295,6 +356,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         setActiveTab,
         selectedMissionId,
         setSelectedMissionId,
+        currentLevel,
+        setCurrentLevel,
+        carPosition,
+        setCarPosition,
+        moveCarToLevel,
+        mapCoordinates: WORLD_MAP_COORDINATES,
         dailyQuests,
         addXpAndCoins,
         completeMission,

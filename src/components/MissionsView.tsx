@@ -5,7 +5,7 @@ import { RankId, ExecutionResult, VisualAction } from "../types";
 import { PythonRuntime } from "../engine/pythonEngine";
 import { VisualGameStage } from "./VisualGameStage";
 import { CodeEditor } from "./CodeEditor";
-import { AICompanion } from "./AICompanion";
+import { CarProgressMap } from "./CarProgressMap";
 import {
   CheckCircle2,
   Lock,
@@ -500,13 +500,23 @@ export const MissionsView: React.FC = () => {
             isFailed={!!failureDiagnostic}
           />
 
-          {/* AI Mentor Companion Guidance */}
-          <AICompanion
-            mission={activeMission}
+          {/* Car Progress Map Screen & Visual Tracker */}
+          <CarProgressMap
+            currentMission={activeMission}
             currentHintLevel={currentHintLevel}
             onAdvanceHint={() => setCurrentHintLevel((prev) => Math.min(4, prev + 1))}
             playerCode={lastExecutedCode}
             errorMessage={failureDiagnostic?.reasons.join(" | ")}
+            onSelectMission={(missionId) => {
+              setSelectedMissionId(missionId);
+              const targetMission = MISSIONS.find((m) => m.id === missionId);
+              if (targetMission) {
+                setSelectedRank(targetMission.rank);
+              }
+              setCurrentHintLevel(1);
+              setVisualActions([]);
+              setFailureDiagnostic(null);
+            }}
           />
         </div>
       </div>

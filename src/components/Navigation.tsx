@@ -2,6 +2,8 @@ import React from "react";
 import { useGame } from "../context/GameContext";
 import { ViewTab } from "../types";
 import {
+  Map,
+  Car,
   Compass,
   Code,
   GitFork,
@@ -31,6 +33,7 @@ export const Navigation: React.FC = () => {
   );
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
+    { id: "world", label: "World Map", icon: <Map className="w-4 h-4" /> },
     { id: "missions", label: "Missions", icon: <Compass className="w-4 h-4" /> },
     { id: "playground", label: "Sandbox", icon: <Code className="w-4 h-4" /> },
     { id: "skills", label: "Skill Tree", icon: <GitFork className="w-4 h-4" /> },

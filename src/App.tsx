@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { GameProvider, useGame } from "./context/GameContext";
 import { Navigation } from "./components/Navigation";
+import { WorldMapView } from "./components/WorldMapView";
 import { MissionsView } from "./components/MissionsView";
 import { PlaygroundView } from "./components/PlaygroundView";
 import { SkillTreeView } from "./components/SkillTreeView";
@@ -24,7 +25,8 @@ function MainGameContainer() {
       <Navigation />
 
       {/* Main View Router */}
-      <main className="flex-1 w-full overflow-x-hidden">
+      <main className="flex-1 w-full overflow-x-hidden pb-16">
+        {activeTab === "world" && <WorldMapView />}
         {activeTab === "missions" && <MissionsView />}
         {activeTab === "playground" && <PlaygroundView />}
         {activeTab === "skills" && <SkillTreeView />}

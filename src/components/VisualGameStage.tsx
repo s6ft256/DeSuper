@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { VisualAction } from "../types";
 import { sound } from "../utils/audio";
-import { Shield, Zap, Terminal, Lock, Unlock, Bot, Radio, Cpu, Sparkles, FastForward, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Shield, Zap, Terminal, Lock, Unlock, Car, Radio, Cpu, Sparkles, FastForward, ArrowRight, Gauge, Flame } from "lucide-react";
 
 interface VisualGameStageProps {
   sceneType: "terminal" | "cyber_gate" | "robot_lab" | "drone_grid" | "data_matrix" | "core_reactor" | string;
@@ -14,6 +14,15 @@ interface VisualGameStageProps {
   rankTitle?: string;
   onAdvanceLevel?: () => void;
 }
+
+// Car chassis styles and color variations per level
+const CAR_VARIANTS = [
+  { name: "CYBER-GT 100", body: "from-cyan-500 via-blue-600 to-indigo-700", glow: "rgba(6,182,212,0.6)", neon: "text-cyan-300", accent: "#06b6d4" },
+  { name: "NEO-DRIFT R2", body: "from-fuchsia-500 via-purple-600 to-slate-900", glow: "rgba(217,70,239,0.6)", neon: "text-fuchsia-300", accent: "#d946ef" },
+  { name: "VIPER QUANTUM", body: "from-emerald-400 via-teal-600 to-slate-950", glow: "rgba(16,185,129,0.6)", neon: "text-emerald-300", accent: "#10b981" },
+  { name: "HYPER-FLAME 9", body: "from-amber-400 via-rose-600 to-violet-900", glow: "rgba(245,158,11,0.6)", neon: "text-amber-300", accent: "#f59e0b" },
+  { name: "STEALTH-X PHANTOM", body: "from-violet-500 via-indigo-600 to-cyan-700", glow: "rgba(139,92,246,0.6)", neon: "text-violet-300", accent: "#8b5cf6" },
+];
 
 export const VisualGameStage: React.FC<VisualGameStageProps> = ({
   sceneType,
@@ -28,9 +37,21 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Pick car archetype based on level progression
+  const carVariant = CAR_VARIANTS[(levelNumber - 1) % CAR_VARIANTS.length];
+
+  // Calculate dynamic baseline position based on level progress (moves from left to right as levels increase)
+  const maxTrackDistance = 240; // Max horizontal pixel travel before blast door
+  const baseLevelOffset = Math.min(
+    maxTrackDistance,
+    Math.round(((levelNumber - 1) / Math.max(1, totalLevels - 1)) * maxTrackDistance)
+  );
+
   // Live visual states
   const [doorOpen, setDoorOpen] = useState(false);
-  const [robotPos, setRobotPos] = useState({ x: 40, y: 110 });
+  const [carX, setCarX] = useState(baseLevelOffset);
+  const [wheelRotation, setWheelRotation] = useState(0);
+  const [boostActive, setBoostActive] = useState(false);
   const [terminalActive, setTerminalActive] = useState(false);
   const [shieldActive, setShieldActive] = useState(false);
   const [energyUnits, setEnergyUnits] = useState(3 + (levelNumber % 5) * 2);
@@ -38,43 +59,48 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
   const [isWarping, setIsWarping] = useState(false);
   const [hasTriggeredPassAnim, setHasTriggeredPassAnim] = useState(false);
 
-  // Reset state when level changes
+  // Synchronize base position when level changes
   useEffect(() => {
     setDoorOpen(false);
     setTerminalActive(false);
     setShieldActive(false);
-    setRecentActionMessage(`ENTERED LEVEL ${levelNumber}: ${sceneType.toUpperCase().replace(/_/g, " ")}`);
+    setRecentActionMessage(`LEVEL ${levelNumber} // VEHICLE ENGAGED ON TRACK`);
     setEnergyUnits(3 + (levelNumber % 5) * 2);
     setHasTriggeredPassAnim(false);
     setIsWarping(false);
+    setBoostActive(false);
 
-    // Initial bot teleport-in animation
-    setRobotPos({ x: -20, y: 110 });
+    // Initial drive-in animation to level position
+    setCarX(Math.max(0, baseLevelOffset - 35));
     const timer = setTimeout(() => {
-      setRobotPos({ x: 40, y: 110 });
-    }, 100);
+      setCarX(baseLevelOffset);
+      setWheelRotation((prev) => prev + 180);
+    }, 120);
 
     return () => clearTimeout(timer);
-  }, [levelNumber, sceneType]);
+  }, [levelNumber, sceneType, baseLevelOffset]);
 
-  // Trigger warp sequence when level is passed
+  // Trigger warp / hyperspeed boost when level is passed
   useEffect(() => {
     if (isLevelPassed && !hasTriggeredPassAnim) {
       setHasTriggeredPassAnim(true);
       setIsWarping(true);
+      setBoostActive(true);
       sound.playWarp();
       setDoorOpen(true);
       setTerminalActive(true);
       setShieldActive(true);
-      setRecentActionMessage(`SECTOR ${levelNumber} CLEARED // WARPING TO NEXT LEVEL`);
+      setRecentActionMessage(`LEVEL ${levelNumber} CLEARED // HYPERSPEED ADVANCE`);
 
-      // Animate bot racing across the screen into the warp gateway
+      // Animate vehicle speeding across into the warp gateway / blast door
       const timer1 = setTimeout(() => {
-        setRobotPos({ x: 380, y: 110 });
-      }, 300);
+        setCarX(380);
+        setWheelRotation((prev) => prev + 720);
+      }, 250);
 
       const timer2 = setTimeout(() => {
         setIsWarping(false);
+        setBoostActive(false);
       }, 2500);
 
       return () => {
@@ -106,10 +132,11 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
             setDoorOpen(false);
             break;
           case "robot_move":
-            setRobotPos((prev) => ({
-              ...prev,
-              x: Math.min(280, prev.x + 35),
-            }));
+            // Move car forward and rotate wheels
+            setCarX((prev) => Math.min(320, prev + 30));
+            setWheelRotation((prev) => prev + 180);
+            setBoostActive(true);
+            setTimeout(() => setBoostActive(false), 500);
             sound.playKeyClick();
             break;
           case "robot_recharge":
@@ -145,7 +172,7 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
     return () => {};
   }, [visualActions]);
 
-  // Animated background particle & warp canvas
+  // Animated background track, road marks & speed warp canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -154,6 +181,7 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
 
     let animationFrameId: number;
     let particles: { x: number; y: number; speed: number; size: number; opacity: number; colorPrefix: string }[] = [];
+    let roadDashOffset = 0;
 
     for (let i = 0; i < 45; i++) {
       const colors = [
@@ -192,19 +220,42 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
         ctx.stroke();
       }
 
+      // Animated Road Track / Cyber Highway lines on ground (y ~ 170)
+      const roadY = 175;
+      ctx.strokeStyle = isWarping ? "rgba(6, 182, 212, 0.6)" : "rgba(168, 85, 247, 0.4)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, roadY);
+      ctx.lineTo(canvas.width, roadY);
+      ctx.stroke();
+
+      // Dashed lane dividers moving
+      const speed = isWarping ? 18 : isExecuting || boostActive ? 6 : 1.5;
+      roadDashOffset = (roadDashOffset + speed) % 30;
+
+      ctx.strokeStyle = isWarping ? "rgba(6, 182, 212, 0.9)" : "rgba(255, 255, 255, 0.3)";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([12, 18]);
+      ctx.lineDashOffset = -roadDashOffset;
+      ctx.beginPath();
+      ctx.moveTo(0, roadY + 8);
+      ctx.lineTo(canvas.width, roadY + 8);
+      ctx.stroke();
+      ctx.setLineDash([]); // reset
+
       // Draw particles (warp speed streak lines if warping)
       particles.forEach((p) => {
-        if (isWarping) {
-          p.x -= p.speed * 12;
+        if (isWarping || boostActive) {
+          p.x -= p.speed * (isWarping ? 16 : 8);
           if (p.x < 0) {
             p.x = canvas.width;
             p.y = Math.random() * canvas.height;
           }
-          ctx.strokeStyle = `${p.colorPrefix}0.8)`;
+          ctx.strokeStyle = `${p.colorPrefix}0.85)`;
           ctx.lineWidth = p.size;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.x + 25, p.y);
+          ctx.lineTo(p.x + (isWarping ? 30 : 15), p.y);
           ctx.stroke();
         } else {
           p.y -= p.speed;
@@ -227,7 +278,7 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isWarping]);
+  }, [isWarping, isExecuting, boostActive]);
 
   const levelProgressPercent = Math.min(100, Math.round((levelNumber / totalLevels) * 100));
 
@@ -262,7 +313,7 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
             <span className="text-cyan-300 font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
               <span>LEVEL {levelNumber}/{totalLevels}</span>
               <span className="text-slate-500">//</span>
-              <span className="text-violet-300 font-normal">{sceneType.replace(/_/g, " ")}</span>
+              <span className="text-violet-300 font-normal">{carVariant.name}</span>
             </span>
           </div>
         </div>
@@ -285,10 +336,11 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
         <div className="flex items-center gap-2">
           {/* Level Progress Track Mini Bar */}
           <div className="hidden sm:flex items-center gap-1.5 bg-slate-950/80 px-2 py-0.5 rounded-md border border-slate-800 text-[10px] text-slate-400">
-            <span>PROG:</span>
-            <div className="w-12 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <Gauge className="w-3 h-3 text-cyan-400" />
+            <span>PROGRESS:</span>
+            <div className="w-14 h-1.5 bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-500"
+                className="h-full bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-emerald-400 transition-all duration-500"
                 style={{ width: `${levelProgressPercent}%` }}
               />
             </div>
@@ -304,34 +356,77 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
 
       {/* Dynamic World Elements Stage */}
       <div className="relative z-10 flex-1 flex items-center justify-between px-2 sm:px-6">
-        {/* Left: Player Bot / Entity */}
+        {/* Animated Cyber Car Vehicle */}
         <div
           className="transition-all duration-700 ease-out flex flex-col items-center"
-          style={{ transform: `translateX(${robotPos.x - 40}px)` }}
+          style={{ transform: `translateX(${carX}px)` }}
         >
-          <div
-            className={`relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 to-violet-950 border flex items-center justify-center transition-all ${
-              isWarping
-                ? "border-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.8)] scale-110"
-                : isLevelPassed
-                ? "border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)]"
-                : "border-cyan-400/70 shadow-[0_0_18px_rgba(6,182,212,0.4)]"
-            }`}
-          >
-            <Bot
-              className={`w-7 h-7 text-cyan-300 ${
-                isWarping ? "animate-spin text-cyan-200" : isExecuting ? "animate-bounce" : "animate-pulse"
+          {/* Car Body Visual Container */}
+          <div className="relative flex flex-col items-center">
+            {/* Boost Flame when moving / accelerating */}
+            {(boostActive || isWarping || isExecuting) && (
+              <div className="absolute -left-6 top-2 flex items-center animate-pulse">
+                <Flame className="w-6 h-5 text-cyan-400 fill-cyan-400 animate-spin" />
+                <div className="w-4 h-1.5 bg-gradient-to-r from-cyan-400 to-transparent rounded-full blur-[1px]" />
+              </div>
+            )}
+
+            {/* Futuristic Sports Car Chassis */}
+            <div
+              className={`relative w-20 h-10 rounded-xl bg-gradient-to-r ${carVariant.body} border-2 border-cyan-400/80 flex items-center justify-between px-2 shadow-lg transition-all ${
+                isWarping
+                  ? "scale-110 shadow-[0_0_30px_rgba(6,182,212,0.9)] border-cyan-200"
+                  : isLevelPassed
+                  ? "shadow-[0_0_25px_rgba(16,185,129,0.7)] border-emerald-300"
+                  : "shadow-[0_0_20px_rgba(6,182,212,0.5)]"
               }`}
-            />
-            {isExecuting && (
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping" />
-            )}
-            {isWarping && (
-              <div className="absolute -left-3 w-4 h-2 rounded-full bg-cyan-400 blur-[1px] animate-pulse" />
-            )}
+            >
+              {/* Cockpit Canopy / Windshield */}
+              <div className="absolute top-1 left-4 w-9 h-3.5 bg-cyan-950/90 border border-cyan-300/80 rounded-t-lg backdrop-blur-sm overflow-hidden flex items-center justify-center">
+                <div className="w-full h-0.5 bg-cyan-300/60 animate-pulse" />
+              </div>
+
+              {/* Headlights (Front Beam) */}
+              <div className="absolute -right-2 top-2.5 w-3 h-2 bg-cyan-300 rounded-r-full shadow-[0_0_12px_#22d3ee]" />
+              <div className="absolute -right-7 top-1 w-8 h-5 bg-gradient-to-r from-cyan-400/40 to-transparent rounded-r-full pointer-events-none blur-[2px]" />
+
+              {/* Rear Tail Light */}
+              <div className="absolute -left-1 top-2.5 w-1.5 h-3 bg-rose-500 rounded-l-sm shadow-[0_0_8px_#f43f5e]" />
+
+              {/* Car Side Decal / Level Badge */}
+              <div className="relative z-10 text-[9px] font-black font-mono tracking-tighter text-white/90 drop-shadow ml-2">
+                L{levelNumber}
+              </div>
+
+              {/* Engine Core Indicator */}
+              <div className="relative z-10 flex items-center gap-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping" />
+              </div>
+            </div>
+
+            {/* Glowing Cyber Wheels with Rotation */}
+            <div className="flex justify-between w-16 -mt-2 px-1 relative z-20">
+              {/* Rear Wheel */}
+              <div
+                className="w-4 h-4 rounded-full bg-slate-950 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-transform duration-300"
+                style={{ transform: `rotate(${wheelRotation}deg)` }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-300" />
+              </div>
+
+              {/* Front Wheel */}
+              <div
+                className="w-4 h-4 rounded-full bg-slate-950 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-transform duration-300"
+                style={{ transform: `rotate(${wheelRotation}deg)` }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-300" />
+              </div>
+            </div>
           </div>
-          <span className="mt-1 text-[10px] font-mono text-cyan-300 font-bold tracking-tight">
-            AURA-BOT
+
+          <span className="mt-1 text-[10px] font-mono text-cyan-300 font-bold tracking-tight flex items-center gap-1">
+            <Car className="w-3 h-3 text-cyan-400" />
+            <span>{carVariant.name}</span>
           </span>
         </div>
 
@@ -348,12 +443,12 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
               {doorOpen || isLevelPassed ? (
                 <div className="flex items-center gap-1.5 font-mono text-xs font-bold">
                   <Unlock className="w-5 h-5 animate-bounce text-emerald-300" />
-                  <span>BLAST DOOR OPEN</span>
+                  <span>BLAST GATE OPEN</span>
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 font-mono text-xs font-bold">
                   <Lock className="w-5 h-5 text-rose-400" />
-                  <span>BLAST DOOR SEALED</span>
+                  <span>BLAST GATE SEALED</span>
                 </div>
               )}
             </div>
@@ -419,7 +514,7 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
               isWarping || isLevelPassed ? "text-cyan-300 animate-pulse" : "text-fuchsia-300"
             }`}
           >
-            {isWarping || isLevelPassed ? "WARP GATEWAY" : "RELAY-X"}
+            {isWarping || isLevelPassed ? "WARP GATEWAY" : "CHECKPOINT"}
           </span>
         </div>
       </div>
@@ -430,15 +525,16 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
           <Sparkles className={`w-3.5 h-3.5 ${isLevelPassed ? "text-emerald-400" : "text-cyan-400"}`} />
           <span>
             {isWarping
-              ? `WARPING TO NEXT SECTOR...`
+              ? `HYPERSPEED ADVANCE TO NEXT LEVEL...`
               : isLevelPassed
-              ? `LEVEL ${levelNumber} RESOLVED // SECTOR SECURED`
-              : `SIMULATION ACTIVE: SECTOR ${levelNumber}`}
+              ? `LEVEL ${levelNumber} RESOLVED // TRACK CLEARED`
+              : `HIGHWAY ACTIVE: LEVEL ${levelNumber} OF ${totalLevels}`}
           </span>
         </div>
 
         {isLevelPassed && onAdvanceLevel ? (
           <button
+            id="stage-next-sector-btn"
             onClick={onAdvanceLevel}
             className="flex items-center gap-1 px-2.5 py-0.5 bg-gradient-to-r from-emerald-600 to-cyan-500 hover:from-emerald-500 hover:to-cyan-400 text-white rounded-lg text-[10px] font-bold shadow-[0_0_12px_rgba(16,185,129,0.4)] cursor-pointer transition-all"
           >
@@ -446,9 +542,10 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
             <ArrowRight className="w-3 h-3" />
           </button>
         ) : (
-          <span className="text-violet-400/80 font-semibold">s6ft // DE SUPER ENGINE</span>
+          <span className="text-violet-400/80 font-semibold">s6ft // SUPER SPEEDWAY</span>
         )}
       </div>
     </div>
   );
 };
+

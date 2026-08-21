@@ -31,6 +31,27 @@ export type ViewTab =
   | "customize"
   | "profile";
 
+export interface MapCoordinate {
+  level: number;
+  missionId: string;
+  x: number;
+  y: number;
+  sector: string;
+  sectorName: string;
+  title: string;
+  concept: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced" | "Supreme";
+  color: string;
+  description?: string;
+}
+
+export interface CarPosition {
+  x: number;
+  y: number;
+  level: number;
+  heading?: number;
+}
+
 export interface VisualAction {
   type:
     | "print"
@@ -113,6 +134,8 @@ export interface SkillNode {
     | "OOP"
     | "ENGINEERING"
     | "ADVANCED"
+    | "DATA SCIENCE"
+    | "MACHINE LEARNING"
     | "SUPREME";
   title: string;
   concept: string;
