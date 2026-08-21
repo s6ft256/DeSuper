@@ -354,15 +354,16 @@ export const WorldMapView: React.FC = () => {
 
         {/* SVG Map Scene */}
         <svg
-          viewBox="0 0 1200 580"
+          viewBox="0 0 1600 880"
           className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(6,182,212,0.15)] select-none"
         >
           <defs>
             {/* Gradients */}
             <linearGradient id="worldRoadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.8" />
-              <stop offset="30%" stopColor="#8b5cf6" stopOpacity="0.8" />
-              <stop offset="65%" stopColor="#d946ef" stopOpacity="0.8" />
+              <stop offset="25%" stopColor="#38bdf8" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
+              <stop offset="75%" stopColor="#ec4899" stopOpacity="0.8" />
               <stop offset="100%" stopColor="#eab308" stopOpacity="0.9" />
             </linearGradient>
 
@@ -405,16 +406,17 @@ export const WorldMapView: React.FC = () => {
           </defs>
 
           {/* Sector Region Watermarks / Landmark Callouts */}
-          <g className="font-mono text-[14px] font-black fill-slate-700/60 uppercase select-none tracking-widest">
-            <text x="70" y="540">SECTOR 01 // GENESIS AWAKENING</text>
-            <text x="320" y="440">SECTOR 02 // NEON GRIDWAY</text>
-            <text x="600" y="550">SECTOR 03 // FIREWALL CANYON</text>
-            <text x="920" y="470">SECTOR 04 // AUTOMATED SPEEDWAY</text>
-            <text x="890" y="55">SECTOR 05 // DATA REGISTRY</text>
-            <text x="540" y="45">SECTOR 06 // ALGORITHM CORE</text>
-            <text x="260" y="40">SECTOR 07 // OBJECT CITADEL</text>
-            <text x="80" y="90">SECTOR 08 // SHIELD OVERPASS</text>
-            <text x="190" y="210">SECTOR 09 // SINGULARITY CORE</text>
+          <g className="font-mono text-[13px] font-black fill-slate-700/60 uppercase select-none tracking-widest">
+            <text x="90" y="840">SECTOR 01 // GENESIS AWAKENING</text>
+            <text x="430" y="820">SECTOR 02 // NEON GRIDWAY</text>
+            <text x="800" y="850">SECTOR 03 // FIREWALL CANYON</text>
+            <text x="1200" y="740">SECTOR 04 // AUTOMATED SPEEDWAY</text>
+            <text x="1350" y="340">SECTOR 05 // DATA MATRIX VAULT</text>
+            <text x="1000" y="90">SECTOR 06 // ALGORITHM REACTOR</text>
+            <text x="600" y="100">SECTOR 07 // OBJECT CITADEL</text>
+            <text x="150" y="150">SECTOR 08 // SHIELD OVERPASS</text>
+            <text x="100" y="390">SECTOR 09 // QUANTUM FORGE</text>
+            <text x="450" y="490">SECTOR 10 // SUPREME SINGULARITY</text>
           </g>
 
           {/* Wide Track Backdrop Glow */}
@@ -763,9 +765,21 @@ export const WorldMapView: React.FC = () => {
               <button
                 id="world-map-jump-car-btn"
                 onClick={() => moveCarToLevel(selectedWaypoint.level)}
-                className="px-4 py-2 rounded-xl bg-slate-950 border border-violet-500/40 hover:border-cyan-400 text-xs font-mono text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm"
+                className="px-3.5 py-2 rounded-xl bg-slate-950 border border-violet-500/40 hover:border-cyan-400 text-xs font-mono text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm"
               >
-                Position Car Here
+                Position Car
+              </button>
+
+              <button
+                id="world-map-race-btn"
+                onClick={() => {
+                  sound.playWarp();
+                  setActiveTab("arcade");
+                }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 hover:text-white font-mono text-xs font-bold transition-all cursor-pointer shadow-sm"
+              >
+                <Flame className="w-3.5 h-3.5" />
+                <span>Race Track</span>
               </button>
 
               <button
@@ -807,8 +821,8 @@ export const WorldMapView: React.FC = () => {
               />
               <div className="flex justify-between text-[10px] font-mono text-slate-500">
                 <span>Lvl 1 (Zero)</span>
-                <span>Lvl 14 (Dev)</span>
-                <span>Lvl 27 (Supreme)</span>
+                <span>Lvl 90 (Developer)</span>
+                <span>Lvl 180 (Supreme)</span>
               </div>
             </div>
 

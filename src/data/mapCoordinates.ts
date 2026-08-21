@@ -1,377 +1,96 @@
 import { MapCoordinate } from "../types";
+import { MISSIONS, RANKS } from "./missions";
 
-export const WORLD_MAP_COORDINATES: MapCoordinate[] = [
-  // Sector 1: Core Awakening (Rank 1 ZERO)
-  {
-    level: 1,
-    missionId: "m1",
-    x: 80,
-    y: 480,
-    sector: "SECTOR 01",
-    sectorName: "Core Awakening Gate",
-    title: "Print First Signal",
-    concept: "Standard Output (print)",
-    difficulty: "Beginner",
-    color: "#94a3b8",
-    description: "Initialize the vehicle telemetry stream and wake the DeSuper terminal.",
-  },
-  {
-    level: 2,
-    missionId: "m2",
-    x: 160,
-    y: 430,
-    sector: "SECTOR 01",
-    sectorName: "Terminal Bay",
-    title: "Codename Identifier",
-    concept: "Strings & Variables",
-    difficulty: "Beginner",
-    color: "#94a3b8",
-    description: "Broadcast racer identification to the central relay network.",
-  },
-  {
-    level: 3,
-    missionId: "m3",
-    x: 240,
-    y: 470,
-    sector: "SECTOR 01",
-    sectorName: "Power Station Alpha",
-    title: "Energy Influx",
-    concept: "Integers & Arithmetic",
-    difficulty: "Beginner",
-    color: "#94a3b8",
-    description: "Ignite the primary battery cells and calibrate initial horsepower.",
-  },
+// Sector metadata for all 10 ranks
+const SECTOR_INFO: Record<string, { sector: string; sectorName: string; color: string }> = {
+  ZERO: { sector: "SECTOR 01", sectorName: "Genesis Awakening", color: "#94a3b8" },
+  NOVICE: { sector: "SECTOR 02", sectorName: "Neon Gridway", color: "#38bdf8" },
+  APPRENTICE: { sector: "SECTOR 03", sectorName: "Firewall Canyon", color: "#34d399" },
+  CODER: { sector: "SECTOR 04", sectorName: "Automated Speedway", color: "#fbbf24" },
+  DEVELOPER: { sector: "SECTOR 05", sectorName: "Data Matrix Vault", color: "#f97316" },
+  ENGINEER: { sector: "SECTOR 06", sectorName: "Algorithm Reactor", color: "#ec4899" },
+  ARCHITECT: { sector: "SECTOR 07", sectorName: "Object Citadel", color: "#a855f7" },
+  MASTER: { sector: "SECTOR 08", sectorName: "Shield Overpass", color: "#06b6d4" },
+  GRANDMASTER: { sector: "SECTOR 09", sectorName: "Quantum Forge", color: "#e11d48" },
+  SUPREME: { sector: "SECTOR 10", sectorName: "Supreme Singularity", color: "#eab308" },
+};
 
-  // Sector 2: Neon Grid (Rank 2 NOVICE)
-  {
-    level: 4,
-    missionId: "m4",
-    x: 320,
-    y: 390,
-    sector: "SECTOR 02",
-    sectorName: "Neon Gridway",
-    title: "Cyber Slicing",
-    concept: "String Slicing & Methods",
-    difficulty: "Beginner",
-    color: "#38bdf8",
-    description: "Slice encrypted frequency tokens to pass through neon checkpoints.",
-  },
-  {
-    level: 5,
-    missionId: "m5",
-    x: 400,
-    y: 330,
-    sector: "SECTOR 02",
-    sectorName: "Telemetry Ridge",
-    title: "Telemetry Stream",
-    concept: "f-strings & Formatting",
-    difficulty: "Beginner",
-    color: "#38bdf8",
-    description: "Stream high-speed vehicle diagnostic logs across the HUD.",
-  },
-  {
-    level: 6,
-    missionId: "m6",
-    x: 490,
-    y: 380,
-    sector: "SECTOR 02",
-    sectorName: "Flux Junction",
-    title: "Data Transmutation",
-    concept: "Type Casting & Float Math",
-    difficulty: "Beginner",
-    color: "#38bdf8",
-    description: "Convert analog battery voltages into floating-point acceleration units.",
-  },
+// Generates coordinates in a continuous winding cyber circuit across 180 levels
+function generateCircuitCoordinates(): MapCoordinate[] {
+  const totalLevels = MISSIONS.length; // 180
+  const coords: MapCoordinate[] = [];
 
-  // Sector 3: Security Perimeter (Rank 3 APPRENTICE)
-  {
-    level: 7,
-    missionId: "m7",
-    x: 580,
-    y: 460,
-    sector: "SECTOR 03",
-    sectorName: "Firewall Canyon",
-    title: "Perimeter Gate",
-    concept: "If-Else Conditionals",
-    difficulty: "Intermediate",
-    color: "#34d399",
-    description: "Check clearance passes to unlock magnetic barrier gates.",
-  },
-  {
-    level: 8,
-    missionId: "m8",
-    x: 670,
-    y: 490,
-    sector: "SECTOR 03",
-    sectorName: "Threat Matrix Outpost",
-    title: "Threat Matrix",
-    concept: "Elif & Logical Operators",
-    difficulty: "Intermediate",
-    color: "#34d399",
-    description: "Route around hazardous EMP mines using multi-branch logic.",
-  },
-  {
-    level: 9,
-    missionId: "m9",
-    x: 770,
-    y: 440,
-    sector: "SECTOR 03",
-    sectorName: "Plasma Fortress",
-    title: "Plasma Shield",
-    concept: "Ternary & Truthiness",
-    difficulty: "Intermediate",
-    color: "#34d399",
-    description: "Arm the plasma forcefield during hyper-velocity canyon strafes.",
-  },
+  // Define 10 sector anchor zones across an expanded 1800 x 900 canvas
+  const sectorPaths = [
+    // Sector 1: Bottom-left corner heading right
+    { startX: 80, startY: 760, endX: 380, endY: 760, curvature: 40 },
+    // Sector 2: Sweeping up-right through neon flats
+    { startX: 420, startY: 740, endX: 740, endY: 710, curvature: -50 },
+    // Sector 3: Canyon curve heading toward bottom-right
+    { startX: 780, startY: 720, endX: 1120, endY: 770, curvature: 60 },
+    // Sector 4: Climbing up right border
+    { startX: 1170, startY: 740, endX: 1480, endY: 580, curvature: -70 },
+    // Sector 5: Reaching top right plateau
+    { startX: 1480, startY: 530, endX: 1360, endY: 220, curvature: 60 },
+    // Sector 6: Sweeping west across upper northern highway
+    { startX: 1310, startY: 170, endX: 950, endY: 130, curvature: -45 },
+    // Sector 7: Upper-middle citadel descent
+    { startX: 900, startY: 140, endX: 560, endY: 160, curvature: 55 },
+    // Sector 8: Descending northwest overpass
+    { startX: 510, startY: 170, endX: 200, endY: 220, curvature: -50 },
+    // Sector 9: Inward spiral to quantum forge
+    { startX: 170, startY: 270, endX: 260, endY: 480, curvature: 70 },
+    // Sector 10: Central Singularity Core vortex
+    { startX: 310, startY: 510, endX: 760, endY: 440, curvature: -60 },
+  ];
 
-  // Sector 4: Robotics Track (Rank 4 CODER)
-  {
-    level: 10,
-    missionId: "m10",
-    x: 870,
-    y: 410,
-    sector: "SECTOR 04",
-    sectorName: "Automated Speedway",
-    title: "Propulsion Loop",
-    concept: "For Loops & range()",
-    difficulty: "Intermediate",
-    color: "#fbbf24",
-    description: "Run automated throttle sequences for continuous nitro propulsion.",
-  },
-  {
-    level: 11,
-    missionId: "m11",
-    x: 970,
-    y: 350,
-    sector: "SECTOR 04",
-    sectorName: "Solar Harvester Loop",
-    title: "Energy Harvester",
-    concept: "While Loops & break/continue",
-    difficulty: "Intermediate",
-    color: "#fbbf24",
-    description: "Harvest quantum solar orbs until capacitor maximum capacity is reached.",
-  },
-  {
-    level: 12,
-    missionId: "m12",
-    x: 1070,
-    y: 290,
-    sector: "SECTOR 04",
-    sectorName: "Arsenal Overlook",
-    title: "Arsenal Sync",
-    concept: "List Manipulation & Methods",
-    difficulty: "Intermediate",
-    color: "#fbbf24",
-    description: "Equip turbo thrusters and photon blasters into vehicle weapon racks.",
-  },
-  {
-    level: 13,
-    missionId: "m13",
-    x: 1110,
-    y: 200,
-    sector: "SECTOR 04",
-    sectorName: "Dual Stream Interchange",
-    title: "Dual Stream",
-    concept: "enumerate() & zip()",
-    difficulty: "Intermediate",
-    color: "#fbbf24",
-    description: "Synchronize dual engine rpm and temperature telemetry channels.",
-  },
+  const levelsPerSector = 18;
 
-  // Sector 5: Data Matrix (Rank 5 DEVELOPER)
-  {
-    level: 14,
-    missionId: "m14",
-    x: 1040,
-    y: 130,
-    sector: "SECTOR 05",
-    sectorName: "Cyber Registry Vault",
-    title: "Cyber Registry",
-    concept: "Dictionaries & Key-Value Lookups",
-    difficulty: "Advanced",
-    color: "#f97316",
-    description: "Query regional traffic controllers and access road clearance codes.",
-  },
-  {
-    level: 15,
-    missionId: "m15",
-    x: 940,
-    y: 100,
-    sector: "SECTOR 05",
-    sectorName: "Comprehension Canyon",
-    title: "Vector Sieve",
-    concept: "List & Dict Comprehensions",
-    difficulty: "Advanced",
-    color: "#f97316",
-    description: "Filter high-frequency radar pulses with one-line comprehension pipelines.",
-  },
-  {
-    level: 16,
-    missionId: "m16",
-    x: 840,
-    y: 140,
-    sector: "SECTOR 05",
-    sectorName: "Regex Terminal",
-    title: "Regex Extraction",
-    concept: "Regular Expressions (re module)",
-    difficulty: "Advanced",
-    color: "#f97316",
-    description: "Extract corrupted coordinates from encrypted atmospheric beacon logs.",
-  },
+  for (let i = 0; i < totalLevels; i++) {
+    const mission = MISSIONS[i];
+    const sectorIndex = Math.min(Math.floor(i / levelsPerSector), sectorPaths.length - 1);
+    const indexInSector = i % levelsPerSector;
+    const t = indexInSector / (levelsPerSector - 1 || 1);
 
-  // Sector 6: Algorithm Core (Rank 6 ENGINEER)
-  {
-    level: 17,
-    missionId: "m17",
-    x: 730,
-    y: 110,
-    sector: "SECTOR 06",
-    sectorName: "Combustion Lab",
-    title: "Modular Combustion",
-    concept: "Functions, Parameters, & Return",
-    difficulty: "Advanced",
-    color: "#ec4899",
-    description: "Modularize hyperdrive engine ignition subroutines.",
-  },
-  {
-    level: 18,
-    missionId: "m18",
-    x: 630,
-    y: 80,
-    sector: "SECTOR 06",
-    sectorName: "Functional Pipeline",
-    title: "Dynamic Throttle",
-    concept: "*args, **kwargs, & Lambdas",
-    difficulty: "Advanced",
-    color: "#ec4899",
-    description: "Feed variable racing telemetry payloads into dynamic throttle controllers.",
-  },
-  {
-    level: 19,
-    missionId: "m19",
-    x: 530,
-    y: 120,
-    sector: "SECTOR 06",
-    sectorName: "Binary Search Tunnel",
-    title: "Binary Highway",
-    concept: "Binary Search & Recursion",
-    difficulty: "Advanced",
-    color: "#ec4899",
-    description: "Pinpoint the optimal warp jump exit coordinate in log-time.",
-  },
+    const path = sectorPaths[sectorIndex];
+    // Bezier interpolation with sector curvature wave
+    const baseX = path.startX + (path.endX - path.startX) * t;
+    const baseY = path.startY + (path.endY - path.startY) * t;
+    const waveOffset = Math.sin(t * Math.PI) * path.curvature;
 
-  // Sector 7: Object Citadel (Rank 7 ARCHITECT)
-  {
-    level: 20,
-    missionId: "m20",
-    x: 430,
-    y: 90,
-    sector: "SECTOR 07",
-    sectorName: "Object Foundry",
-    title: "OOP Blueprint",
-    concept: "Classes, Objects, & __init__",
-    difficulty: "Supreme",
-    color: "#a855f7",
-    description: "Instantiate custom CyberVehicle drone fleets with encapsulated states.",
-  },
-  {
-    level: 21,
-    missionId: "m21",
-    x: 330,
-    y: 70,
-    sector: "SECTOR 07",
-    sectorName: "Inheritance Spire",
-    title: "Heritage Engine",
-    concept: "Inheritance & Polymorphism",
-    difficulty: "Supreme",
-    color: "#a855f7",
-    description: "Inherit racing chassis archetypes into combat and reconnaissance variants.",
-  },
+    // Add fine-grained serpentine micro-curves for dynamic road shape
+    const microWave = Math.sin(i * 0.9) * 14;
 
-  // Sector 8: Shield Overpass (Rank 8 MASTER)
-  {
-    level: 22,
-    missionId: "m22",
-    x: 230,
-    y: 110,
-    sector: "SECTOR 08",
-    sectorName: "Shield Overpass",
-    title: "Error Shield",
-    concept: "Try-Except & Custom Exceptions",
-    difficulty: "Supreme",
-    color: "#e11d48",
-    description: "Deflect fatal system crashes during cosmic hyper-drift turbulence.",
-  },
-  {
-    level: 23,
-    missionId: "m23",
-    x: 140,
-    y: 160,
-    sector: "SECTOR 08",
-    sectorName: "Collections Depot",
-    title: "Collections Matrix",
-    concept: "collections (Counter, defaultdict)",
-    difficulty: "Supreme",
-    color: "#e11d48",
-    description: "Aggregate thousands of telemetry packets per millisecond.",
-  },
+    const x = Math.round(baseX + (sectorIndex % 2 === 0 ? 0 : microWave));
+    const y = Math.round(baseY + waveOffset + microWave);
 
-  // Sector 9: DeSuper Singularity Core (Rank 9 SUPREME)
-  {
-    level: 24,
-    missionId: "m24",
-    x: 100,
-    y: 250,
-    sector: "SECTOR 09",
-    sectorName: "Vector Singularity",
-    title: "NumPy Matrix Warp",
-    concept: "NumPy & Vectorized Math",
-    difficulty: "Supreme",
-    color: "#eab308",
-    description: "Execute parallel 4D trajectory matrices at light-speed.",
-  },
-  {
-    level: 25,
-    missionId: "m25",
-    x: 170,
-    y: 310,
-    sector: "SECTOR 09",
-    sectorName: "Data Stream Singularity",
-    title: "Pandas Telemetry",
-    concept: "Pandas DataFrames & Aggregation",
-    difficulty: "Supreme",
-    color: "#eab308",
-    description: "Analyze race historical telemetry streams across billions of cycles.",
-  },
-  {
-    level: 26,
-    missionId: "m26",
-    x: 270,
-    y: 280,
-    sector: "SECTOR 09",
-    sectorName: "Neural Circuit Highway",
-    title: "ML Drift Predictor",
-    concept: "Machine Learning Regression",
-    difficulty: "Supreme",
-    color: "#eab308",
-    description: "Train a neural network model to calculate optimal apex drift lines.",
-  },
-  {
-    level: 27,
-    missionId: "m27",
-    x: 370,
-    y: 230,
-    sector: "SECTOR 09",
-    sectorName: "DeSuper Singularity Core",
-    title: "SINGULARITY RESTORATION",
-    concept: "Complete Python Mastery",
-    difficulty: "Supreme",
-    color: "#eab308",
-    description: "Restore the DeSuper Core to full autonomous quantum equilibrium!",
-  },
-];
+    const info = SECTOR_INFO[mission.rank] || {
+      sector: `SECTOR ${sectorIndex + 1}`,
+      sectorName: mission.rank,
+      color: "#94a3b8",
+    };
 
-// Helper to look up coordinates for any level (1-27+)
+    coords.push({
+      level: mission.number,
+      missionId: mission.id,
+      x,
+      y,
+      sector: info.sector,
+      sectorName: info.sectorName,
+      title: mission.title,
+      concept: mission.concept,
+      difficulty: mission.difficulty as any,
+      color: info.color,
+      description: mission.story,
+    });
+  }
+
+  return coords;
+}
+
+export const WORLD_MAP_COORDINATES: MapCoordinate[] = generateCircuitCoordinates();
+
+// Helper to look up coordinates for any level (1-180+)
 export function getCoordinateForLevel(level: number): MapCoordinate {
   const clampedLevel = Math.max(1, Math.min(level, WORLD_MAP_COORDINATES.length));
   const found = WORLD_MAP_COORDINATES.find((c) => c.level === clampedLevel);
@@ -397,7 +116,7 @@ export function calculateCarHeading(level: number): number {
   return angleDeg;
 }
 
-// Generate smooth cubic bezier SVG path connecting all map waypoints
+// Generate smooth cubic bezier SVG path connecting all 180 map waypoints
 export function generateWorldMapPathSvg(): string {
   if (WORLD_MAP_COORDINATES.length === 0) return "";
   let d = `M ${WORLD_MAP_COORDINATES[0].x} ${WORLD_MAP_COORDINATES[0].y}`;
@@ -430,4 +149,3 @@ export function generateActiveMapPathSvg(upToLevel: number): string {
   }
   return d;
 }
-

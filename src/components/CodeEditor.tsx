@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
-import { Play, RotateCcw, Sparkles, Terminal, AlertTriangle, CheckCircle2, ChevronRight, Eye } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Play, RotateCcw, Sparkles, Terminal, AlertTriangle, CheckCircle2, ChevronRight, Eye, Keyboard, HelpCircle } from "lucide-react";
 import { ExecutionResult } from "../types";
 import { sound } from "../utils/audio";
+import { useKeyboardShortcuts, SHORTCUT_DEFINITIONS } from "../utils/useKeyboardShortcuts";
 
 interface CodeEditorProps {
   initialCode: string;
@@ -49,6 +50,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   const [code, setCode] = useState(initialCode);
   const [lastResult, setLastResult] = useState<ExecutionResult | null>(null);
   const [activeTab, setActiveTab] = useState<"console" | "variables" | "error">("console");
+  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Sync initialCode if updated externally
@@ -70,16 +72,21 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
     }
   };
 
-  // Global shortcut handler for Ctrl+R / Cmd+R
-  React.useEffect(() => {
-    const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === "r" || e.key === "R")) {
-        e.preventDefault();
-        handleRun();
-      }
+  // Wire dedicated keyboard shortcut hook
+  useKeyboardShortcuts({
+    onRun: handleRun,
+    targetTextareaRef: textareaRef,
+    code,
+    setCode,
+  });
+
+  // Listen to global run code events
+  useEffect(() => {
+    const handleCustomRun = () => {
+      handleRun();
     };
-    window.addEventListener("keydown", handleGlobalKeyDown);
-    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+    window.addEventListener("desuper:run_code", handleCustomRun);
+    return () => window.removeEventListener("desuper:run_code", handleCustomRun);
   }, [code, onRunCode]);
 
   const handleInsertKey = (keyText: string) => {
@@ -242,6 +249,16 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
 
         <div className="flex items-center gap-2">
           <button
+            id="editor-shortcuts-btn"
+            onClick={() => setShowShortcutsModal((prev) => !prev)}
+            title="View Keyboard Shortcuts (Ctrl+R, Alt+[, Alt+(, etc.)"
+            className="flex items-center gap-1 px-2 py-1 text-xs font-mono text-cyan-300 bg-slate-800/80 hover:bg-slate-700/80 border border-cyan-500/30 rounded-xl transition-all cursor-pointer shadow-sm"
+          >
+            <Keyboard className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="hidden md:inline text-[11px]">Keys</span>
+          </button>
+
+          <button
             id="editor-hint-btn"
             onClick={onRequestHint}
             className="flex items-center gap-1 px-2.5 py-1 text-xs font-mono text-amber-300 bg-amber-950/60 hover:bg-amber-900/70 border border-amber-500/50 rounded-xl transition-all cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(245,158,11,0.25)]"
@@ -332,6 +349,35 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           </button>
         ))}
       </div>
+
+      {/* Keyboard Shortcuts Cheat Sheet Dropdown */}
+      {showShortcutsModal && (
+        <div className="p-3 bg-slate-900/95 border-t border-cyan-500/30 font-mono text-xs space-y-2 animate-in fade-in">
+          <div className="flex items-center justify-between text-cyan-300 font-bold">
+            <span className="flex items-center gap-1.5">
+              <Keyboard className="w-3.5 h-3.5 text-cyan-400" />
+              KEYBOARD SHORTCUTS
+            </span>
+            <button
+              onClick={() => setShowShortcutsModal(false)}
+              className="text-slate-400 hover:text-white text-[11px]"
+            >
+              CLOSE [✕]
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 pt-1 text-[11px]">
+            {SHORTCUT_DEFINITIONS.map((sc) => (
+              <div
+                key={sc.key}
+                className="p-1.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between"
+              >
+                <code className="text-amber-300 font-bold">{sc.key}</code>
+                <span className="text-slate-400 text-[10px]">{sc.desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Output / Diagnostics Tabs */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-slate-950 border-t border-slate-800/80 text-xs font-mono">

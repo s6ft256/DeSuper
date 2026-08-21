@@ -7,6 +7,7 @@ export type RankId =
   | "ENGINEER"
   | "ARCHITECT"
   | "MASTER"
+  | "GRANDMASTER"
   | "SUPREME";
 
 export interface RankInfo {
@@ -21,6 +22,7 @@ export interface RankInfo {
 
 export type ViewTab =
   | "world"
+  | "arcade"
   | "missions"
   | "playground"
   | "skills"
@@ -31,6 +33,25 @@ export type ViewTab =
   | "customize"
   | "profile";
 
+export interface ArcadeTrack {
+  id: string;
+  name: string;
+  sector: string;
+  theme: string;
+  bgGradient: string;
+  roadColor: string;
+  neonBorder: string;
+  targetScore: number;
+  obstacleFrequency: number;
+  baseSpeed: number;
+  unlockedLevel: number;
+  description: string;
+}
+
+export interface ArcadeHighScores {
+  [trackId: string]: number;
+}
+
 export interface MapCoordinate {
   level: number;
   missionId: string;
@@ -40,7 +61,7 @@ export interface MapCoordinate {
   sectorName: string;
   title: string;
   concept: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced" | "Supreme";
+  difficulty: "Beginner" | "Intermediate" | "Advanced" | "Master" | "Grandmaster" | "Supreme";
   color: string;
   description?: string;
 }
@@ -104,7 +125,7 @@ export interface Mission {
   number: number;
   title: string;
   concept: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced" | "Supreme";
+  difficulty: "Beginner" | "Intermediate" | "Advanced" | "Master" | "Grandmaster" | "Supreme";
   story: string;
   objectives: string[];
   conceptExplanation: string;
@@ -121,7 +142,20 @@ export interface Mission {
   xpReward: number;
   coinsReward: number;
   skillIdToUnlock?: string;
-  worldSceneType: "terminal" | "cyber_gate" | "robot_lab" | "drone_grid" | "data_matrix" | "core_reactor";
+  worldSceneType:
+    | "terminal"
+    | "cyber_gate"
+    | "robot_lab"
+    | "drone_grid"
+    | "data_matrix"
+    | "core_reactor"
+    | "quantum_forge"
+    | "boss_arena"
+    | "cyber_highway"
+    | "data_highway"
+    | "algorithm_core"
+    | "shield_generator"
+    | (string & {});
 }
 
 export interface SkillNode {

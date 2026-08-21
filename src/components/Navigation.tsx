@@ -16,6 +16,7 @@ import {
   Zap,
   Coins,
   Sparkles,
+  Flame,
 } from "lucide-react";
 import { RANKS } from "../data/missions";
 
@@ -34,12 +35,13 @@ export const Navigation: React.FC = () => {
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
     { id: "world", label: "World Map", icon: <Map className="w-4 h-4" /> },
+    { id: "arcade", label: "Arcade Racer", icon: <Flame className="w-4 h-4 text-amber-400" /> },
     { id: "missions", label: "Missions", icon: <Compass className="w-4 h-4" /> },
     { id: "playground", label: "Sandbox", icon: <Code className="w-4 h-4" /> },
     { id: "skills", label: "Skill Tree", icon: <GitFork className="w-4 h-4" /> },
     { id: "bosses", label: "Boss Battles", icon: <Swords className="w-4 h-4" /> },
     { id: "projects", label: "Projects", icon: <FolderCode className="w-4 h-4" /> },
-    { id: "minigames", label: "Arcade", icon: <Gamepad2 className="w-4 h-4" /> },
+    { id: "minigames", label: "Trivia", icon: <Gamepad2 className="w-4 h-4" /> },
     { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
   ];
 

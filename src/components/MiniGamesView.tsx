@@ -12,12 +12,14 @@ import {
   AlertTriangle,
   RotateCcw,
   Sparkles,
+  Flame,
+  ArrowRight,
 } from "lucide-react";
 import { sound } from "../utils/audio";
 import confetti from "canvas-confetti";
 
 export const MiniGamesView: React.FC = () => {
-  const { addXpAndCoins, progressDailyQuest } = useGame();
+  const { addXpAndCoins, progressDailyQuest, setActiveTab } = useGame();
   const [activeCategory, setActiveCategory] = useState<MiniGameQuestion["type"]>("bug_hunter");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -86,6 +88,35 @@ export const MiniGamesView: React.FC = () => {
         <div className="px-3.5 py-1.5 bg-violet-950/80 border border-violet-500/40 rounded-xl font-mono text-xs text-cyan-300 font-bold shadow-[0_0_15px_rgba(139,92,246,0.2)]">
           Score: {score} Correct
         </div>
+      </div>
+
+      {/* Cyber Highway Racer Hero Spotlight */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900 to-violet-950/70 border border-cyan-500/40 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+            <Flame className="w-6 h-6 animate-pulse" />
+          </div>
+          <div>
+            <h2 className="text-sm sm:text-base font-extrabold text-white font-mono flex items-center gap-2">
+              CYBER HIGHWAY ARCADE RACER
+              <span className="text-[9px] px-2 py-0.5 rounded-md bg-amber-950 border border-amber-500/50 text-amber-300">LIVE MODE</span>
+            </h2>
+            <p className="text-xs text-slate-300 font-mono mt-0.5">
+              Pilot your custom cyber car at 400+ KM/H, dodge laser barriers, and gather token crystals!
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            sound.playWarp();
+            setActiveTab("arcade");
+          }}
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all cursor-pointer flex items-center gap-2"
+        >
+          <span>PLAY ARCADE RACER</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Mode Selectors */}
