@@ -93,21 +93,24 @@ export const MISSIONS: Mission[] = [
     title: "Core Awakening",
     concept: "print() and Output",
     difficulty: "Beginner",
-    story: "You awaken in a dormant digital sector of DeSuper. The primary terminal is offline. Send a high-frequency broadcast signal to reboot the terminal.",
+    story: "You awaken in a dormant digital sector of DeSuper. The primary terminal is offline. Send a high-frequency broadcast signal using Python to reboot the terminal.",
     objectives: ["Use print() to output 'SYSTEM ONLINE'", "Verify that the terminal illuminates in response"],
     conceptExplanation: "In Python, the print() function sends textual information to the output console or terminal screen. Text (strings) must always be wrapped in quotes like \"HELLO\" or 'HELLO'.",
-    starterCode: `# Transmit the activation phrase
-print("SYSTEM ONLINE")
+    starterCode: `# MISSION OBJECTIVE: Reboot the dormant terminal.
+# Write a print() statement below that outputs: "SYSTEM ONLINE"
+
+# TODO: Write your code here:
+
 `,
     validationRules: {
       requiredOutputIncludes: ["SYSTEM ONLINE"],
       requiredKeywords: ["print"],
     },
     hints: [
-      { level: 1, label: "Subtle Clue", text: "Look closely at the print statement." },
+      { level: 1, label: "Subtle Clue", text: "Look closely at the print statement syntax." },
       { level: 2, label: "Concept", text: "In Python, print(\"...\") outputs whatever string is inside the parentheses." },
       { level: 3, label: "Example", text: 'print("SYSTEM ONLINE")' },
-      { level: 4, label: "Solution", text: 'Write print("SYSTEM ONLINE") and click Execute Protocol.' },
+      { level: 4, label: "Solution", text: 'Write print("SYSTEM ONLINE") and click [RUN].' },
     ],
     xpReward: 100,
     coinsReward: 50,
@@ -127,11 +130,12 @@ print("SYSTEM ONLINE")
       "Print the value of agent_name",
     ],
     conceptExplanation: "Variables are named memory storage containers. In Python, you store data in a variable using the assignment operator (=). For example: player = 'Aura'.",
-    starterCode: `# Store your codename in a variable
-agent_name = "DeSuper"
+    starterCode: `# MISSION OBJECTIVE: Set up your operative identity.
+# 1. Create a variable called agent_name and assign it the string "DeSuper"
+# 2. Use print() to output the agent_name variable
 
-# Print your agent_name
-print(agent_name)
+# TODO: Write your code here:
+
 `,
     validationRules: {
       requiredOutputIncludes: ["DeSuper"],
@@ -163,9 +167,13 @@ print(agent_name)
       "Print 'CONNECTION ESTABLISHED'",
     ],
     conceptExplanation: "Comments in Python begin with the hash symbol (#). Python ignores comments during execution—they are meant for human developers to document code.",
-    starterCode: `# Handshake sequence initiation
-print("CONNECTING TO CORE")
-print("CONNECTION ESTABLISHED")
+    starterCode: `# MISSION OBJECTIVE: Multi-line terminal diagnostic handshake.
+# 1. Add a descriptive comment starting with #
+# 2. Print "CONNECTING TO CORE"
+# 3. Print "CONNECTION ESTABLISHED"
+
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredOutputIncludes: ["CONNECTING TO CORE", "CONNECTION ESTABLISHED"],
@@ -174,8 +182,8 @@ print("CONNECTION ESTABLISHED")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Make sure both print statements execute in order." },
       { level: 2, label: "Concept", text: "Python executes statements line by line from top to bottom." },
-      { level: 3, label: "Example", text: 'print("Line 1")\nprint("Line 2")' },
-      { level: 4, label: "Solution", text: 'Ensure both print lines are present and unquoted for commands.' },
+      { level: 3, label: "Example", text: 'print("CONNECTING TO CORE")\nprint("CONNECTION ESTABLISHED")' },
+      { level: 4, label: "Solution", text: 'Ensure both print lines are present.' },
     ],
     xpReward: 100,
     coinsReward: 50,
@@ -199,15 +207,14 @@ print("CONNECTION ESTABLISHED")
       "Print total_power",
     ],
     conceptExplanation: "Python supports numerical data types: integers (whole numbers like 150) and floats (decimal numbers like 45.5). Operators like +, -, *, / perform arithmetic.",
-    starterCode: `# Configure reactor power
-base_power = 150
-boost_power = 45.5
+    starterCode: `# MISSION OBJECTIVE: Calculate total reactor capacity.
+# 1. Set base_power = 150
+# 2. Set boost_power = 45.5
+# 3. Calculate total_power = base_power + boost_power
+# 4. Print total_power
 
-# Calculate total power
-total_power = base_power + boost_power
+# TODO: Write your code below:
 
-# Print the total power
-print(total_power)
 `,
     validationRules: {
       requiredOutputIncludes: ["195.5"],
@@ -217,7 +224,7 @@ print(total_power)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Add base_power and boost_power using the + operator." },
       { level: 2, label: "Concept", text: "When you add an int to a float, Python produces a float result." },
-      { level: 3, label: "Example", text: "total = 100 + 25.5\nprint(total)" },
+      { level: 3, label: "Example", text: "base_power = 150\nboost_power = 45.5\ntotal_power = base_power + boost_power\nprint(total_power)" },
       { level: 4, label: "Solution", text: "Set total_power = base_power + boost_power and print(total_power)." },
     ],
     xpReward: 150,
@@ -242,9 +249,11 @@ print(total_power)
     starterCode: `sector = "ALPHA-9"
 clearance = 5
 
-# Format using an f-string
-message = f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}"
-print(message)
+# MISSION OBJECTIVE: Format the clearance badge using an f-string.
+# Print: f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}"
+
+# TODO: Write your print statement below:
+
 `,
     validationRules: {
       requiredOutputIncludes: ["ACCESS GRANTED: SECTOR ALPHA-9 LEVEL 5"],
@@ -253,7 +262,7 @@ print(message)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use f\"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}\"." },
       { level: 2, label: "Concept", text: "f-strings dynamically substitute expressions inside {curly braces}." },
-      { level: 3, label: "Example", text: 'name = "AURA"\nprint(f"Agent: {name}")' },
+      { level: 3, label: "Example", text: 'print(f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}")' },
       { level: 4, label: "Solution", text: 'print(f"ACCESS GRANTED: SECTOR {sector} LEVEL {clearance}")' },
     ],
     xpReward: 150,
@@ -277,10 +286,13 @@ print(message)
     conceptExplanation: "Type conversion functions like int(), float(), and str() change data from one type to another. For example, int('10') becomes the number 10.",
     starterCode: `raw_signal = "750"
 
-# Convert to integer and multiply by 2
-power = int(raw_signal) * 2
+# MISSION OBJECTIVE: Convert string signal to int and amplify.
+# 1. Convert raw_signal to an integer using int()
+# 2. Multiply by 2 and store in variable 'power'
+# 3. Print power
 
-print(power)
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredOutputIncludes: ["1500"],
@@ -289,7 +301,7 @@ print(power)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use int(raw_signal) before multiplying by 2." },
       { level: 2, label: "Concept", text: "Multiplying a string '750' * 2 would give '750750'. Converting to int gives 1500." },
-      { level: 3, label: "Example", text: "val = int('50') * 2" },
+      { level: 3, label: "Example", text: "power = int(raw_signal) * 2\nprint(power)" },
       { level: 4, label: "Solution", text: "power = int(raw_signal) * 2\nprint(power)" },
     ],
     xpReward: 150,
@@ -315,11 +327,14 @@ print(power)
     conceptExplanation: "if / else statements let your program make decisions. The indented code block under 'if' runs only when the boolean condition evaluates to True.",
     starterCode: `energy = 85
 
-# Control the security door based on energy
-if energy > 50:
-    door.open()
-else:
-    print("INSUFFICIENT POWER")
+# MISSION OBJECTIVE: Control the security blast door with if/else.
+# If energy is greater than 50:
+#     call door.open()
+# Otherwise:
+#     print("INSUFFICIENT POWER")
+
+# TODO: Write your if/else statement below:
+
 `,
     validationRules: {
       requiredKeywords: ["if", "else", "door.open"],
@@ -327,7 +342,7 @@ else:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Check: if energy > 50:" },
       { level: 2, label: "Concept", text: "Remember to indent the lines under 'if' and 'else' with 4 spaces." },
-      { level: 3, label: "Example", text: "if energy > 50:\n    door.open()\nelse:\n    print('Low')" },
+      { level: 3, label: "Example", text: "if energy > 50:\n    door.open()\nelse:\n    print('INSUFFICIENT POWER')" },
       { level: 4, label: "Solution", text: "Use if energy > 50: followed by indented door.open()." },
     ],
     xpReward: 200,
@@ -353,12 +368,16 @@ else:
     conceptExplanation: "The 'elif' (short for else if) keyword lets you check multiple conditions sequentially. Python stops checking once it finds the first condition that is True.",
     starterCode: `threat_level = 3
 
-if threat_level == 3:
-    shield.set_frequency(999)
-elif threat_level == 2:
-    shield.set_frequency(500)
-else:
-    shield.set_frequency(100)
+# MISSION OBJECTIVE: Calibrate shield frequencies based on threat_level:
+# If threat_level is 3:
+#     call shield.set_frequency(999)
+# Elif threat_level is 2:
+#     call shield.set_frequency(500)
+# Else:
+#     call shield.set_frequency(100)
+
+# TODO: Write your if/elif/else block below:
+
 `,
     validationRules: {
       requiredKeywords: ["if", "elif", "else", "shield.set_frequency"],
@@ -366,7 +385,7 @@ else:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use == for comparison (equality check)." },
       { level: 2, label: "Concept", text: "elif threat_level == 2:" },
-      { level: 3, label: "Example", text: "if level == 3:\n    shield.set_frequency(999)" },
+      { level: 3, label: "Example", text: "if threat_level == 3:\n    shield.set_frequency(999)\nelif threat_level == 2:\n    shield.set_frequency(500)\nelse:\n    shield.set_frequency(100)" },
       { level: 4, label: "Solution", text: "Chain if, elif, and else with the required frequency parameters." },
     ],
     xpReward: 200,
@@ -391,9 +410,12 @@ else:
     starterCode: `has_keycard = True
 biometric_verified = True
 
-# Verify credentials using the 'and' operator
-if has_keycard and biometric_verified:
-    terminal.activate("AUTHORIZED ACCESS")
+# MISSION OBJECTIVE: Verify credentials using the 'and' operator.
+# If both has_keycard AND biometric_verified:
+#     call terminal.activate("AUTHORIZED ACCESS")
+
+# TODO: Write your condition below:
+
 `,
     validationRules: {
       requiredKeywords: ["and", "terminal.activate"],
@@ -402,7 +424,7 @@ if has_keycard and biometric_verified:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Combine both boolean variables with 'and'." },
       { level: 2, label: "Concept", text: "if has_keycard and biometric_verified:" },
-      { level: 3, label: "Example", text: "if ready and armed:\n    launch()" },
+      { level: 3, label: "Example", text: "if has_keycard and biometric_verified:\n    terminal.activate(\"AUTHORIZED ACCESS\")" },
       { level: 4, label: "Solution", text: "if has_keycard and biometric_verified: terminal.activate(\"AUTHORIZED ACCESS\")" },
     ],
     xpReward: 200,
@@ -425,9 +447,11 @@ if has_keycard and biometric_verified:
       "Inside the loop, call collect_energy()",
     ],
     conceptExplanation: "A for loop iterates over a sequence (such as range(5) which produces 0, 1, 2, 3, 4). This lets you repeat actions automatically without duplicating lines.",
-    starterCode: `# Automate energy collection 5 times
-for i in range(5):
-    collect_energy()
+    starterCode: `# MISSION OBJECTIVE: Automate energy collection 5 times.
+# Write a for loop with range(5) and call collect_energy() inside the loop.
+
+# TODO: Write your for loop below:
+
 `,
     validationRules: {
       requiredKeywords: ["for", "in", "range", "collect_energy"],
@@ -459,10 +483,12 @@ for i in range(5):
     conceptExplanation: "A while loop continues executing as long as its condition remains True. Be sure to modify variables inside the loop so the condition eventually becomes False to prevent infinite loops.",
     starterCode: `steps = 0
 
-# Patrol until 4 steps are complete
-while steps < 4:
-    robot.move()
-    steps += 1
+# MISSION OBJECTIVE: Patrol 4 steps with a while loop.
+# While steps < 4:
+#     call robot.move()
+#     increment steps by 1 (steps += 1)
+
+# TODO: Write your while loop below:
 
 print(f"Patrol complete: {steps} steps")
 `,
@@ -472,7 +498,7 @@ print(f"Patrol complete: {steps} steps")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Increment steps inside the loop with steps += 1." },
       { level: 2, label: "Concept", text: "while steps < 4: will stop once steps reaches 4." },
-      { level: 3, label: "Example", text: "while count < 4:\n    robot.move()\n    count += 1" },
+      { level: 3, label: "Example", text: "while steps < 4:\n    robot.move()\n    steps += 1" },
       { level: 4, label: "Solution", text: "Keep while steps < 4: robot.move(); steps += 1." },
     ],
     xpReward: 250,
@@ -494,11 +520,15 @@ print(f"Patrol complete: {steps} steps")
       "Otherwise, print f'Scanned node {node}'",
     ],
     conceptExplanation: "'break' terminates the current loop immediately. 'continue' skips the rest of the current iteration and jumps to the next loop cycle.",
-    starterCode: `for node in range(10):
-    if node == 7:
-        print("CORRUPTED NODE DETECTED")
-        break
-    print(f"Scanned node {node}")
+    starterCode: `# MISSION OBJECTIVE: Scan nodes 0 to 9, breaking when corrupted node 7 is encountered.
+# 1. Loop through range(10) with variable 'node'
+# 2. If node == 7:
+#        print("CORRUPTED NODE DETECTED")
+#        break
+# 3. Print f"Scanned node {node}"
+
+# TODO: Write your loop below:
+
 `,
     validationRules: {
       requiredKeywords: ["break", "for", "in", "range"],
@@ -507,7 +537,7 @@ print(f"Patrol complete: {steps} steps")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use break inside the if block when node == 7." },
       { level: 2, label: "Concept", text: "break exits the for loop immediately, so nodes 8 and 9 are never scanned." },
-      { level: 3, label: "Example", text: "if item == target:\n    break" },
+      { level: 3, label: "Example", text: "for node in range(10):\n    if node == 7:\n        print('CORRUPTED NODE DETECTED')\n        break\n    print(f'Scanned node {node}')" },
       { level: 4, label: "Solution", text: "Ensure 'break' is indented under if node == 7:." },
     ],
     xpReward: 250,
@@ -533,11 +563,13 @@ print(f"Patrol complete: {steps} steps")
     conceptExplanation: "Lists are ordered, mutable collections in Python. You create lists using square brackets []. Use .append(item) to add elements and len(list) to get the item count.",
     starterCode: `inventory = ["Data Pad", "EMP Grenade"]
 
-# Equip the Plasma Blaster
-inventory.append("Plasma Blaster")
+# MISSION OBJECTIVE: Equip the Plasma Blaster.
+# 1. Append "Plasma Blaster" to the inventory list
+# 2. Print "INVENTORY:", inventory
+# 3. Print "TOTAL ITEMS:", len(inventory)
 
-print("INVENTORY:", inventory)
-print("TOTAL ITEMS:", len(inventory))
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredKeywords: ["append", "inventory", "len"],
@@ -546,7 +578,7 @@ print("TOTAL ITEMS:", len(inventory))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use inventory.append(\"Plasma Blaster\")." },
       { level: 2, label: "Concept", text: "Lists keep elements in ordered slots starting at index 0." },
-      { level: 3, label: "Example", text: 'items.append("Shield")\nprint(len(items))' },
+      { level: 3, label: "Example", text: 'inventory.append("Plasma Blaster")\nprint("INVENTORY:", inventory)\nprint("TOTAL ITEMS:", len(inventory))' },
       { level: 4, label: "Solution", text: "Call inventory.append('Plasma Blaster') and print(inventory)." },
     ],
     xpReward: 300,
@@ -570,10 +602,12 @@ print("TOTAL ITEMS:", len(inventory))
     conceptExplanation: "List slicing [start:end] extracts a sub-list starting at 'start' up to (but not including) 'end'. For example, [1:4] gets items at indices 1, 2, and 3.",
     starterCode: `telemetry = [12, 45, 78, 92, 105, 120]
 
-# Slice sensors from index 1 to 4
-active_sector = telemetry[1:4]
+# MISSION OBJECTIVE: Slice sensors from index 1 to 4 into active_sector.
+# 1. Assign active_sector = telemetry[1:4]
+# 2. Print "ACTIVE SECTOR:", active_sector
 
-print("ACTIVE SECTOR:", active_sector)
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredKeywords: ["telemetry", "active_sector"],
@@ -583,7 +617,7 @@ print("ACTIVE SECTOR:", active_sector)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use telemetry[1:4]." },
       { level: 2, label: "Concept", text: "Index 1 is 45, index 2 is 78, index 3 is 92. Index 4 (105) is excluded." },
-      { level: 3, label: "Example", text: "sub = list_data[1:4]" },
+      { level: 3, label: "Example", text: "active_sector = telemetry[1:4]\nprint('ACTIVE SECTOR:', active_sector)" },
       { level: 4, label: "Solution", text: "Set active_sector = telemetry[1:4] and print it." },
     ],
     xpReward: 300,
@@ -611,10 +645,12 @@ print("ACTIVE SECTOR:", active_sector)
     "security_level": 4
 }
 
-# Update firewall status
-core_db["firewall"] = "ACTIVE"
+# MISSION OBJECTIVE: Update the firewall key to "ACTIVE"
+# 1. Set core_db["firewall"] = "ACTIVE"
+# 2. Print "CORE DATABASE:", core_db
 
-print("CORE DATABASE:", core_db)
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredKeywords: ["core_db", "firewall", "ACTIVE"],
@@ -623,7 +659,7 @@ print("CORE DATABASE:", core_db)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Assign 'ACTIVE' to core_db['firewall']." },
       { level: 2, label: "Concept", text: "Dictionaries allow fast lookups and updates by key." },
-      { level: 3, label: "Example", text: 'db["status"] = "OK"' },
+      { level: 3, label: "Example", text: 'core_db["firewall"] = "ACTIVE"\nprint("CORE DATABASE:", core_db)' },
       { level: 4, label: "Solution", text: 'core_db["firewall"] = "ACTIVE"\nprint(core_db)' },
     ],
     xpReward: 300,
@@ -640,19 +676,22 @@ print("CORE DATABASE:", core_db)
     title: "Robot Repair Protocol",
     concept: "Functions, Parameters, and Return Values",
     difficulty: "Advanced",
-    story: "Build a reusable engineering routine 'repair_robot' that takes a target robot object, restores its health by 50, and returns the updated health value.",
+    story: "Build a reusable engineering routine 'repair_unit' that takes a target robot object, restores its health by boost_amount, and returns the updated health value.",
     objectives: [
       "Define function repair_unit(current_health, boost_amount)",
       "Return the sum of current_health and boost_amount",
       "Call repair_unit(40, 50) and print the result",
     ],
     conceptExplanation: "Functions are defined with the 'def' keyword. They accept parameters and pass back results with 'return'. This makes your code modular and reusable.",
-    starterCode: `# Define the repair protocol
-def repair_unit(current_health, boost_amount):
-    new_health = current_health + boost_amount
-    return new_health
+    starterCode: `# MISSION OBJECTIVE: Define a reusable repair function.
+# Function 'repair_unit' should accept (current_health, boost_amount)
+# and return current_health + boost_amount.
 
-# Test the protocol
+def repair_unit(current_health, boost_amount):
+    # TODO: Calculate and return the new health
+    pass
+
+# Test the protocol:
 result = repair_unit(40, 50)
 print("REPAIRED HEALTH:", result)
 `,
@@ -663,7 +702,7 @@ print("REPAIRED HEALTH:", result)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use def repair_unit(current_health, boost_amount):" },
       { level: 2, label: "Concept", text: "Return the calculated sum with 'return current_health + boost_amount'." },
-      { level: 3, label: "Example", text: "def add(a, b):\n    return a + b" },
+      { level: 3, label: "Example", text: "def repair_unit(current_health, boost_amount):\n    return current_health + boost_amount" },
       { level: 4, label: "Solution", text: "Define repair_unit returning current_health + boost_amount." },
     ],
     xpReward: 350,
@@ -685,13 +724,16 @@ print("REPAIRED HEALTH:", result)
       "Print calculate_beam(100) and calculate_beam(100, 2.0)",
     ],
     conceptExplanation: "Default parameters allow arguments to have preset values if the caller doesn't specify them. For example: def greet(name='Agent'): ...",
-    starterCode: `def calculate_beam(power, multiplier=1.5):
-    return power * multiplier
+    starterCode: `# MISSION OBJECTIVE: Function with default parameter.
+# Define 'calculate_beam' taking (power, multiplier=1.5)
+# and returning power * multiplier.
 
-# Call with default multiplier
+def calculate_beam(power, multiplier=1.5):
+    # TODO: Return power multiplied by multiplier
+    pass
+
+# Test calls:
 print("STANDARD BEAM:", calculate_beam(100))
-
-# Call with custom multiplier
 print("OVERCHARGED BEAM:", calculate_beam(100, 2.0))
 `,
     validationRules: {
@@ -701,7 +743,7 @@ print("OVERCHARGED BEAM:", calculate_beam(100, 2.0))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Specify default multiplier in the function header: multiplier=1.5." },
       { level: 2, label: "Concept", text: "If only one argument is given, multiplier defaults to 1.5." },
-      { level: 3, label: "Example", text: "def blast(p, m=1.5):\n    return p * m" },
+      { level: 3, label: "Example", text: "def calculate_beam(power, multiplier=1.5):\n    return power * multiplier" },
       { level: 4, label: "Solution", text: "def calculate_beam(power, multiplier=1.5): return power * multiplier" },
     ],
     xpReward: 350,
@@ -723,14 +765,15 @@ print("OVERCHARGED BEAM:", calculate_beam(100, 2.0))
       "Else: print f'Count: {n}' and recursively call countdown(n - 1)",
     ],
     conceptExplanation: "Recursion is when a function calls itself to solve smaller sub-problems. Every recursive function MUST have a base case to stop calling itself.",
-    starterCode: `def countdown(n):
-    if n <= 0:
-        print("REACTOR STABILIZED")
-        return
-    print(f"Count: {n}")
-    countdown(n - 1)
+    starterCode: `# MISSION OBJECTIVE: Recursive countdown routine.
+# Base case: If n <= 0, print "REACTOR STABILIZED" and return
+# Recursive case: Print f"Count: {n}" and call countdown(n - 1)
 
-# Initiate stabilization
+def countdown(n):
+    # TODO: Implement base case and recursive step
+    pass
+
+# Initiate stabilization:
 countdown(3)
 `,
     validationRules: {
@@ -740,7 +783,7 @@ countdown(3)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Base case: when n <= 0, print 'REACTOR STABILIZED' and return." },
       { level: 2, label: "Concept", text: "Recursive step: call countdown(n - 1) on each step." },
-      { level: 3, label: "Example", text: "def rec(n):\n    if n == 0: return\n    rec(n-1)" },
+      { level: 3, label: "Example", text: "def countdown(n):\n    if n <= 0:\n        print('REACTOR STABILIZED')\n        return\n    print(f'Count: {n}')\n    countdown(n - 1)" },
       { level: 4, label: "Solution", text: "Check n <= 0 for base case, otherwise call countdown(n - 1)." },
     ],
     xpReward: 350,
@@ -765,16 +808,20 @@ countdown(3)
       "Call bot.recharge() and print bot.energy",
     ],
     conceptExplanation: "Classes are blueprints for creating objects. The __init__ constructor initializes attributes on 'self'. Methods are functions inside classes that operate on the object.",
-    starterCode: `class CyberBot:
+    starterCode: `# MISSION OBJECTIVE: Build the CyberBot class.
+# 1. __init__(self, name): sets self.name = name and self.energy = 50
+# 2. recharge(self): sets self.energy = 100 and prints f"{self.name} recharged to 100%!"
+
+class CyberBot:
     def __init__(self, name):
-        self.name = name
-        self.energy = 50
+        # TODO: Initialize self.name and self.energy = 50
+        pass
 
     def recharge(self):
-        self.energy = 100
-        print(f"{self.name} recharged to 100%!")
+        # TODO: Set self.energy = 100 and print confirmation
+        pass
 
-# Create and recharge bot
+# Create and test the bot:
 bot = CyberBot("Sentinel")
 bot.recharge()
 print("FINAL ENERGY:", bot.energy)
@@ -786,7 +833,7 @@ print("FINAL ENERGY:", bot.energy)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Define class CyberBot with __init__(self, name) and recharge(self)." },
       { level: 2, label: "Concept", text: "self refers to the specific instance of the object being created or used." },
-      { level: 3, label: "Example", text: "class Bot:\n    def __init__(self, name):\n        self.name = name" },
+      { level: 3, label: "Example", text: "class CyberBot:\n    def __init__(self, name):\n        self.name = name\n        self.energy = 50\n    def recharge(self):\n        self.energy = 100\n        print(f'{self.name} recharged to 100%!')" },
       { level: 4, label: "Solution", text: "Instantiate bot = CyberBot('Sentinel'), call bot.recharge(), and print bot.energy." },
     ],
     xpReward: 400,
@@ -813,10 +860,14 @@ print("FINAL ENERGY:", bot.energy)
     def __init__(self, name):
         self.name = name
 
-class ScoutDrone(CyberBot):
-    def scan_area(self):
-        return "TARGET LOCATED"
+# MISSION OBJECTIVE: Subclass CyberBot with ScoutDrone.
+# Add a method scan_area(self) that returns "TARGET LOCATED".
 
+class ScoutDrone(CyberBot):
+    # TODO: Implement scan_area method
+    pass
+
+# Instantiate and test scout:
 scout = ScoutDrone("Scout-1")
 print(scout.name, "STATUS:", scout.scan_area())
 `,
@@ -827,7 +878,7 @@ print(scout.name, "STATUS:", scout.scan_area())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Pass CyberBot inside parentheses: class ScoutDrone(CyberBot):" },
       { level: 2, label: "Concept", text: "ScoutDrone inherits the __init__ constructor from CyberBot." },
-      { level: 3, label: "Example", text: "class Scout(Bot):\n    def scan(self):\n        return 'OK'" },
+      { level: 3, label: "Example", text: "class ScoutDrone(CyberBot):\n    def scan_area(self):\n        return 'TARGET LOCATED'" },
       { level: 4, label: "Solution", text: "Define class ScoutDrone(CyberBot) with scan_area(self) returning 'TARGET LOCATED'." },
     ],
     xpReward: 400,
@@ -849,15 +900,21 @@ print(scout.name, "STATUS:", scout.scan_area())
       "Test unlocking with correct code 7799",
     ],
     conceptExplanation: "Encapsulation restricts direct access to internal components of an object, exposing controlled methods to interact safely with state.",
-    starterCode: `class SecurityVault:
+    starterCode: `# MISSION OBJECTIVE: Build the SecurityVault class.
+# __init__(self, code): sets self.code = code
+# unlock(self, input_code):
+#   if input_code == self.code: return "ACCESS GRANTED"
+#   else: return "ACCESS DENIED"
+
+class SecurityVault:
     def __init__(self, code):
         self.code = code
 
     def unlock(self, input_code):
-        if input_code == self.code:
-            return "ACCESS GRANTED"
-        return "ACCESS DENIED"
+        # TODO: Return "ACCESS GRANTED" if code matches, else "ACCESS DENIED"
+        pass
 
+# Test the vault:
 vault = SecurityVault(7799)
 print("TEST 1:", vault.unlock(7799))
 print("TEST 2:", vault.unlock(1234))
@@ -869,7 +926,7 @@ print("TEST 2:", vault.unlock(1234))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Compare input_code with self.code." },
       { level: 2, label: "Concept", text: "Return 'ACCESS GRANTED' when codes match." },
-      { level: 3, label: "Example", text: "if input_code == self.code: return True" },
+      { level: 3, label: "Example", text: "if input_code == self.code:\n    return 'ACCESS GRANTED'\nreturn 'ACCESS DENIED'" },
       { level: 4, label: "Solution", text: "Return 'ACCESS GRANTED' for 7799 and 'ACCESS DENIED' for 1234." },
     ],
     xpReward: 400,
@@ -893,14 +950,16 @@ print("TEST 2:", vault.unlock(1234))
       "Print 'ANOMALY DEFLECTED: FALLBACK 0' when an exception occurs",
     ],
     conceptExplanation: "try / except blocks prevent programs from abruptly crashing when unexpected errors occur at runtime, allowing graceful recovery.",
-    starterCode: `def safe_divide(a, b):
-    try:
-        result = a / b
-        return result
-    except:
-        print("ANOMALY DEFLECTED: FALLBACK 0")
-        return 0
+    starterCode: `# MISSION OBJECTIVE: Exception handling with try/except.
+# In safe_divide(a, b):
+# Try: return a / b
+# Except: print "ANOMALY DEFLECTED: FALLBACK 0" and return 0
 
+def safe_divide(a, b):
+    # TODO: Implement try / except handling
+    pass
+
+# Test division:
 print("NORMAL:", safe_divide(100, 2))
 print("ANOMALY:", safe_divide(100, 0))
 `,
@@ -911,7 +970,7 @@ print("ANOMALY:", safe_divide(100, 0))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use try: and except: to catch the division by zero." },
       { level: 2, label: "Concept", text: "If an error occurs in the try block, execution immediately jumps to except." },
-      { level: 3, label: "Example", text: "try:\n    x = 1/0\nexcept:\n    print('Handled')" },
+      { level: 3, label: "Example", text: "def safe_divide(a, b):\n    try:\n        return a / b\n    except:\n        print('ANOMALY DEFLECTED: FALLBACK 0')\n        return 0" },
       { level: 4, label: "Solution", text: "Return a / b in try block, print fallback message and return 0 in except." },
     ],
     xpReward: 500,
@@ -935,10 +994,12 @@ print("ANOMALY:", safe_divide(100, 0))
     conceptExplanation: "JSON (JavaScript Object Notation) is the universal data exchange format. In Python, json.loads() converts JSON strings into Python dictionaries.",
     starterCode: `raw_json = '{"core": "DeSuper", "status": "OPTIMAL", "level": 9}'
 
-# Parse telemetry stream
-data = json.loads(raw_json)
+# MISSION OBJECTIVE: Parse JSON string into dictionary.
+# 1. Use json.loads(raw_json) to parse the JSON into variable 'data'
+# 2. Print "CORE STATUS:", data["status"]
 
-print("CORE STATUS:", data["status"])
+# TODO: Write your code below:
+
 `,
     validationRules: {
       requiredKeywords: ["json.loads", "raw_json"],
@@ -947,7 +1008,7 @@ print("CORE STATUS:", data["status"])
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use json.loads(raw_json) to convert string to dict." },
       { level: 2, label: "Concept", text: "Access data['status'] on the parsed dictionary." },
-      { level: 3, label: "Example", text: "parsed = json.loads(raw)\nprint(parsed['key'])" },
+      { level: 3, label: "Example", text: 'data = json.loads(raw_json)\nprint("CORE STATUS:", data["status"])' },
       { level: 4, label: "Solution", text: "Set data = json.loads(raw_json) and print(data['status'])." },
     ],
     xpReward: 500,
@@ -969,11 +1030,15 @@ print("CORE STATUS:", data["status"])
       "Iterate over the generator with a for loop and print pulses",
     ],
     conceptExplanation: "Generators use the 'yield' keyword to produce values lazily on-demand without loading entire datasets into memory at once.",
-    starterCode: `def stream_energy(limit):
-    for i in range(1, limit + 1):
-        yield f"PULSE_{i * 10}MW"
+    starterCode: `# MISSION OBJECTIVE: Energy generator function.
+# Define 'stream_energy(limit)' that loops i from 1 to limit + 1
+# and yields f"PULSE_{i * 10}MW"
 
-# Consume the generator stream
+def stream_energy(limit):
+    # TODO: Loop through range(1, limit + 1) and yield pulses
+    pass
+
+# Consume the generator stream:
 for pulse in stream_energy(3):
     print("EMITTED:", pulse)
 `,
@@ -984,7 +1049,7 @@ for pulse in stream_energy(3):
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use yield instead of return inside the generator loop." },
       { level: 2, label: "Concept", text: "yield pauses function execution and emits a value to the caller." },
-      { level: 3, label: "Example", text: "def gen():\n    yield 1\n    yield 2" },
+      { level: 3, label: "Example", text: 'def stream_energy(limit):\n    for i in range(1, limit + 1):\n        yield f"PULSE_{i * 10}MW"' },
       { level: 4, label: "Solution", text: "Loop in stream_energy and yield formatted pulse strings." },
     ],
     xpReward: 500,
@@ -1008,19 +1073,15 @@ for pulse in stream_energy(3):
       "Return the index of target 842",
     ],
     conceptExplanation: "Binary search searches a sorted list by repeatedly dividing the search interval in half, achieving logarithmic O(log n) efficiency.",
-    starterCode: `def binary_search(arr, target):
+    starterCode: `# MISSION OBJECTIVE: Implement O(log n) Binary Search.
+# Find the index of 'target' in sorted array 'arr'. Return index or -1.
+
+def binary_search(arr, target):
     left = 0
     right = len(arr) - 1
     
-    while left <= right:
-        mid = (left + right) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    return -1
+    # TODO: Implement while left <= right loop with mid pointer:
+    pass
 
 grid = [100, 250, 410, 600, 842, 990, 1200]
 idx = binary_search(grid, 842)
@@ -1033,7 +1094,7 @@ print("CORRUPTED SECTOR FOUND AT INDEX:", idx)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Calculate mid = (left + right) // 2 on each iteration." },
       { level: 2, label: "Concept", text: "If arr[mid] < target, search right half by setting left = mid + 1." },
-      { level: 3, label: "Example", text: "while left <= right: mid = (left + right) // 2 ..." },
+      { level: 3, label: "Example", text: "while left <= right:\n    mid = (left + right) // 2\n    if arr[mid] == target: return mid\n    elif arr[mid] < target: left = mid + 1\n    else: right = mid - 1\nreturn -1" },
       { level: 4, label: "Solution", text: "Implement binary search correctly to find index 4 for target 842." },
     ],
     xpReward: 750,
@@ -1055,17 +1116,23 @@ print("CORRUPTED SECTOR FOUND AT INDEX:", idx)
       "Execute automated citywide stabilization protocol",
     ],
     conceptExplanation: "Supreme software engineering combines OOP, data structures, error handling, and algorithmic coordination into cohesive full-stack architectures.",
-    starterCode: `class CityOrchestrator:
+    starterCode: `# MISSION OBJECTIVE: Metropolis Orchestration Architecture.
+# Build CityOrchestrator class with:
+# 1. __init__(self, city_name): sets self.city_name = city_name
+# 2. optimize_grid(self):
+#    calls city.boost_power()
+#    calls city.manage_traffic(5)
+#    returns f"{self.city_name} GRID FULLY OPTIMIZED"
+
+class CityOrchestrator:
     def __init__(self, city_name):
         self.city_name = city_name
-        self.power_level = 100
-        self.traffic_flow = "OPTIMAL"
 
     def optimize_grid(self):
-        city.boost_power()
-        city.manage_traffic(5)
-        return f"{self.city_name} GRID FULLY OPTIMIZED"
+        # TODO: Boost power, manage traffic, and return confirmation
+        pass
 
+# Initialize orchestrator:
 orchestrator = CityOrchestrator("DeSuper-Prime")
 status = orchestrator.optimize_grid()
 print("SYSTEM RESULT:", status)
@@ -1077,7 +1144,7 @@ print("SYSTEM RESULT:", status)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Define CityOrchestrator and call city.boost_power() inside optimize_grid()." },
       { level: 2, label: "Concept", text: "Combine system methods to restore all city subsystems at once." },
-      { level: 3, label: "Example", text: "orchestrator.optimize_grid()" },
+      { level: 3, label: "Example", text: "class CityOrchestrator:\n    def __init__(self, city_name):\n        self.city_name = city_name\n    def optimize_grid(self):\n        city.boost_power()\n        city.manage_traffic(5)\n        return f'{self.city_name} GRID FULLY OPTIMIZED'" },
       { level: 4, label: "Solution", text: "Instantiate CityOrchestrator and call optimize_grid()." },
     ],
     xpReward: 750,
@@ -1101,11 +1168,13 @@ print("SYSTEM RESULT:", status)
     conceptExplanation: "You have progressed from Zero to Supreme! You are no longer just learning to code—you are building and mastering real systems with Python.",
     starterCode: `nodes = ["MEMORY", "LOGIC", "SECURITY", "ENERGY"]
 
-# Repair every subsystem node
-for node in nodes:
-    system.repair(node)
+# MISSION OBJECTIVE: Repair all 4 Core nodes and awaken the universe.
+# 1. Loop through all nodes in the 'nodes' list
+# 2. Call system.repair(node) inside the loop
+# 3. Print "DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED"
 
-print("DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED")
+# TODO: Write your restoration code below:
+
 `,
     validationRules: {
       requiredKeywords: ["for", "in", "system.repair"],
@@ -1114,7 +1183,7 @@ print("DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Iterate over nodes and call system.repair(node)." },
       { level: 2, label: "Concept", text: "Loop through all 4 modules to repair each subsystem." },
-      { level: 3, label: "Example", text: "for n in nodes: system.repair(n)" },
+      { level: 3, label: "Example", text: 'for node in nodes:\n    system.repair(node)\nprint("DESUPER CORE FULLY RESTORED: SUPREME MASTERY ACHIEVED")' },
       { level: 4, label: "Solution", text: "Run the loop and print the final Supreme restoration declaration." },
     ],
     xpReward: 1000,

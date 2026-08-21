@@ -74,22 +74,22 @@ export const MiniGamesView: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold">
-            <Gamepad2 className="w-4 h-4" />
-            <span>PYTHON ARCADE SYSTEM</span>
+          <div className="flex items-center gap-2 text-violet-400 font-mono text-xs font-bold">
+            <Gamepad2 className="w-4 h-4 text-cyan-400" />
+            <span className="bg-violet-950/70 border border-violet-500/40 px-2.5 py-0.5 rounded-md">PYTHON ARCADE SYSTEM</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1">
+          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5 bg-gradient-to-r from-white via-violet-100 to-cyan-200 bg-clip-text text-transparent">
             Cyber Mini-Games
           </h1>
         </div>
 
-        <div className="px-3 py-1 bg-cyan-950/80 border border-cyan-500/40 rounded-xl font-mono text-xs text-cyan-300 font-bold">
+        <div className="px-3.5 py-1.5 bg-violet-950/80 border border-violet-500/40 rounded-xl font-mono text-xs text-cyan-300 font-bold shadow-[0_0_15px_rgba(139,92,246,0.2)]">
           Score: {score} Correct
         </div>
       </div>
 
       {/* Mode Selectors */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {categories.map((cat) => {
           const isActive = activeCategory === cat.id;
           return (
@@ -102,13 +102,13 @@ export const MiniGamesView: React.FC = () => {
                 setHasAnswered(false);
                 sound.playKeyClick();
               }}
-              className={`p-3 rounded-xl border flex items-center justify-center gap-2 font-mono text-xs font-bold transition-all cursor-pointer ${
+              className={`p-3.5 rounded-2xl border flex items-center justify-center gap-2 font-mono text-xs font-bold transition-all cursor-pointer ${
                 isActive
-                  ? "bg-slate-900 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                  : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200"
+                  ? "bg-slate-900 border-violet-400 text-cyan-300 shadow-[0_0_18px_rgba(139,92,246,0.35)]"
+                  : "bg-slate-950/80 border-slate-800/80 text-slate-400 hover:text-slate-100 hover:border-slate-700"
               }`}
             >
-              {cat.icon}
+              <span className={isActive ? "text-cyan-400" : "text-slate-400"}>{cat.icon}</span>
               <span>{cat.label}</span>
             </button>
           );
@@ -117,10 +117,10 @@ export const MiniGamesView: React.FC = () => {
 
       {/* Question Card */}
       {currentQ && (
-        <div className="p-5 sm:p-7 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5 shadow-xl">
-          <div className="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-slate-800 pb-2">
-            <span className="text-cyan-400 font-bold uppercase">{currentQ.title}</span>
-            <span>
+        <div className="p-5 sm:p-7 rounded-3xl bg-slate-900/95 border border-slate-800/90 space-y-5 shadow-2xl">
+          <div className="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-slate-800 pb-3">
+            <span className="text-violet-300 font-bold uppercase bg-violet-950/70 border border-violet-500/30 px-2.5 py-0.5 rounded-md">{currentQ.title}</span>
+            <span className="text-cyan-400 font-semibold">
               Question {currentQuestionIndex + 1} / {categoryQuestions.length}
             </span>
           </div>
@@ -128,7 +128,7 @@ export const MiniGamesView: React.FC = () => {
           <h3 className="text-base font-bold text-white font-mono">{currentQ.question}</h3>
 
           {/* Code Snippet Box */}
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-cyan-500/20 font-mono text-xs text-cyan-300 leading-relaxed overflow-x-auto">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-violet-500/25 font-mono text-xs text-cyan-300 leading-relaxed overflow-x-auto shadow-inner">
             <pre>{currentQ.codeSnippet}</pre>
           </div>
 
@@ -138,12 +138,12 @@ export const MiniGamesView: React.FC = () => {
               const isChosen = selectedOption === idx;
               const isCorrect = idx === currentQ.correctIndex;
 
-              let btnClass = "bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700";
+              let btnClass = "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-violet-500/40 hover:bg-slate-900/60";
               if (hasAnswered) {
                 if (isCorrect) {
-                  btnClass = "bg-emerald-950 border-emerald-400 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.3)]";
+                  btnClass = "bg-emerald-950/90 border-emerald-400 text-emerald-300 shadow-[0_0_18px_rgba(16,185,129,0.35)]";
                 } else if (isChosen) {
-                  btnClass = "bg-rose-950 border-rose-500 text-rose-300";
+                  btnClass = "bg-rose-950/90 border-rose-500 text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.3)]";
                 } else {
                   btnClass = "bg-slate-950/40 border-slate-900 text-slate-600";
                 }
@@ -154,12 +154,12 @@ export const MiniGamesView: React.FC = () => {
                   key={idx}
                   onClick={() => handleSelectOption(idx)}
                   disabled={hasAnswered}
-                  className={`p-3.5 rounded-xl border font-mono text-xs text-left transition-all flex items-start gap-2.5 cursor-pointer ${btnClass}`}
+                  className={`p-4 rounded-2xl border font-mono text-xs text-left transition-all flex items-start gap-3 cursor-pointer ${btnClass}`}
                 >
-                  <span className="w-5 h-5 rounded-md bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-[10px] shrink-0">
+                  <span className="w-6 h-6 rounded-lg bg-slate-800/80 text-violet-300 border border-violet-500/20 flex items-center justify-center font-bold text-[11px] shrink-0">
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className="flex-1">{opt}</span>
+                  <span className="flex-1 pt-0.5">{opt}</span>
                 </button>
               );
             })}
@@ -167,15 +167,18 @@ export const MiniGamesView: React.FC = () => {
 
           {/* Explanation & Next */}
           {hasAnswered && (
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 animate-fade-in">
-              <div className="text-xs font-mono text-cyan-400 font-bold">ANALYSIS:</div>
+            <div className="p-4.5 rounded-2xl bg-slate-950 border border-violet-500/30 space-y-3 animate-fade-in shadow-inner">
+              <div className="text-xs font-mono text-cyan-300 font-bold flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                ANALYSIS:
+              </div>
               <p className="text-xs text-slate-300 leading-relaxed font-sans">
                 {currentQ.explanation}
               </p>
 
               <button
                 onClick={handleNextQuestion}
-                className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-black font-mono text-xs rounded-xl shadow-[0_0_12px_rgba(6,182,212,0.3)] cursor-pointer"
+                className="w-full py-3 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:from-violet-500 hover:via-fuchsia-500 hover:to-cyan-400 text-white font-black font-mono text-xs rounded-xl shadow-[0_0_18px_rgba(168,85,247,0.35)] cursor-pointer transition-all"
               >
                 NEXT CHALLENGE
               </button>

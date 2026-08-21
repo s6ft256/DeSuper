@@ -7,18 +7,18 @@ export const PROJECTS: ProjectTemplate[] = [
     tier: "Beginner",
     category: "Utility Application",
     description: "Build a multi-operation calculator capable of addition, subtraction, multiplication, and division with formatted cyberpunk output.",
-    starterCode: `def cyber_calc(a, b, operation):
-    if operation == "add":
-        return a + b
-    elif operation == "subtract":
-        return a - b
-    elif operation == "multiply":
-        return a * b
-    elif operation == "divide":
-        return a / b if b != 0 else "DIV_ZERO_ERROR"
-    return "INVALID_OP"
+    starterCode: `# PROJECT: Cyberpunk Terminal Calculator
+# Implement cyber_calc(a, b, operation) to handle:
+# "add" -> a + b
+# "subtract" -> a - b
+# "multiply" -> a * b
+# "divide" -> a / b (or "DIV_ZERO_ERROR" if b == 0)
 
-# Test the calculator
+def cyber_calc(a, b, operation):
+    # TODO: Implement operations and return calculated result
+    pass
+
+# Automated Test Runs:
 print("50 + 25 =", cyber_calc(50, 25, "add"))
 print("100 * 4 =", cyber_calc(100, 4, "multiply"))
 `,
@@ -41,17 +41,26 @@ print("100 * 4 =", cyber_calc(100, 4, "multiply"))
     tier: "Intermediate",
     category: "Data Management System",
     description: "Create an object-oriented Inventory System that tracks weapon names, damage levels, durability, and computes total combat gear power.",
-    starterCode: `class CyberInventory:
+    starterCode: `# PROJECT: Cybernetic Inventory & Weapon Manager
+# Create class CyberInventory:
+# 1. __init__(self): initialize self.items dictionary
+# 2. add_item(self, name, power): add name and power to self.items
+# 3. get_total_power(self): return sum of power values
+
+class CyberInventory:
     def __init__(self):
-        self.items = {}
+        # TODO: Initialize items dictionary
+        pass
 
     def add_item(self, name, power):
-        self.items[name] = power
+        # TODO: Store weapon power in self.items
+        pass
 
     def get_total_power(self):
-        return sum(self.items.values())
+        # TODO: Return the sum of all item powers
+        pass
 
-# Construct inventory
+# Construct and test inventory:
 inv = CyberInventory()
 inv.add_item("Plasma Rifle", 120)
 inv.add_item("EMP Disruptor", 85)
@@ -76,16 +85,15 @@ print("TOTAL ARSENAL POWER:", inv.get_total_power())
     tier: "Advanced",
     category: "Cybersecurity Tool",
     description: "Build an automated port & telemetry vulnerability analyzer that scans simulated network ports, flags anomalies, and formats a JSON report.",
-    starterCode: `def scan_security_ports(ports):
-    vulnerabilities = []
-    for port, status in ports.items():
-        if status == "OPEN_UNENCRYPTED":
-            vulnerabilities.append(port)
-    return {
-        "scanned": len(ports),
-        "threats": vulnerabilities,
-        "secure": len(vulnerabilities) == 0
-    }
+    starterCode: `# PROJECT: Autonomous Security & Port Scanner
+# Implement scan_security_ports(ports):
+# 1. Loop through the ports dictionary
+# 2. Collect any port whose status is "OPEN_UNENCRYPTED" into a threats list
+# 3. Return a dict: {"scanned": len(ports), "threats": threats, "secure": len(threats) == 0}
+
+def scan_security_ports(ports):
+    # TODO: Scan ports, find unencrypted ports, and return dictionary report
+    pass
 
 network_ports = {
     80: "OPEN_UNENCRYPTED",
@@ -114,18 +122,21 @@ print("SECURITY REPORT:", report)
     tier: "Supreme",
     category: "Autonomous Systems",
     description: "Architect a comprehensive multi-tier simulation managing energy allocation, traffic signal timings, and emergency emergency dispatch across DeSuper Prime.",
-    starterCode: `class SupremeCityController:
+    starterCode: `# PROJECT: Supreme Metropolis Automation AI
+# Create SupremeCityController:
+# 1. __init__(self, name): sets self.name = name, self.energy_reserves = 5000,
+#    and self.active_districts = ["Alpha", "Beta", "Gamma"]
+# 2. balance_grid(self): calculates allocation = self.energy_reserves // len(self.active_districts)
+#    and returns a dictionary mapping each district to its allocation
+
+class SupremeCityController:
     def __init__(self, name):
-        self.name = name
-        self.energy_reserves = 5000
-        self.active_districts = ["Alpha", "Beta", "Gamma"]
+        # TODO: Initialize name, energy_reserves (5000), and active_districts list
+        pass
 
     def balance_grid(self):
-        allocation = self.energy_reserves // len(self.active_districts)
-        grid_status = {}
-        for district in self.active_districts:
-            grid_status[district] = allocation
-        return grid_status
+        # TODO: Divide reserves among districts and return status dictionary
+        pass
 
 city_ai = SupremeCityController("DeSuper Prime")
 print("METROPOLIS GRID ALLOCATION:", city_ai.balance_grid())

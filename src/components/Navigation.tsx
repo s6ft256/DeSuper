@@ -43,18 +43,18 @@ export const Navigation: React.FC = () => {
   return (
     <>
       {/* Top Cybernetic Status Header */}
-      <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-md border-b border-cyan-500/20 px-3 sm:px-6 py-2.5 flex items-center justify-between">
+      <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-xl border-b border-violet-500/20 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-[0_4px_20px_rgba(139,92,246,0.08)]">
         {/* Brand & Dev Signature */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-indigo-600 border border-cyan-400 flex items-center justify-center shadow-[0_0_12px_rgba(6,182,212,0.4)]">
-            <span className="font-mono font-black text-white text-sm">DS</span>
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-fuchsia-600 to-cyan-400 border border-violet-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+            <span className="font-mono font-black text-white text-sm tracking-wider">DS</span>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-white font-extrabold text-sm sm:text-base tracking-wider font-mono">
+              <span className="text-white font-extrabold text-sm sm:text-base tracking-wider font-mono bg-gradient-to-r from-white via-slate-100 to-violet-200 bg-clip-text text-transparent">
                 DE SUPER
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-400 font-bold">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-violet-950/80 border border-violet-500/40 text-violet-300 font-bold shadow-[0_0_8px_rgba(139,92,246,0.3)]">
                 s6ft
               </span>
             </div>
@@ -70,33 +70,34 @@ export const Navigation: React.FC = () => {
           <div className="flex flex-col items-end min-w-[110px] sm:min-w-[160px]">
             <div className="flex items-center gap-1.5 text-xs font-mono">
               <span
-                className="font-bold text-[11px] px-1.5 py-0.2 rounded border"
+                className="font-bold text-[11px] px-2 py-0.5 rounded-md border shadow-sm"
                 style={{
                   color: currentRankInfo.color,
-                  borderColor: `${currentRankInfo.color}60`,
-                  backgroundColor: `${currentRankInfo.color}15`,
+                  borderColor: `${currentRankInfo.color}70`,
+                  backgroundColor: `${currentRankInfo.color}18`,
+                  boxShadow: `0 0 10px ${currentRankInfo.color}25`,
                 }}
               >
                 RANK {currentRankInfo.numericRank}: {currentRankInfo.title}
               </span>
-              <span className="text-slate-400 text-[10px]">LVL {player.level}</span>
+              <span className="text-slate-400 text-[10px] font-bold">LVL {player.level}</span>
             </div>
 
-            <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1 overflow-hidden">
+            <div className="w-full h-1.5 bg-slate-800/80 rounded-full mt-1.5 overflow-hidden border border-slate-700/50">
               <div
-                className="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-500"
+                className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-400 transition-all duration-500 shadow-[0_0_8px_rgba(217,70,239,0.5)]"
                 style={{ width: `${xpProgress}%` }}
               />
             </div>
-            <div className="flex justify-between w-full text-[9px] font-mono text-slate-500 mt-0.5">
+            <div className="flex justify-between w-full text-[9px] font-mono text-slate-400 mt-0.5">
               <span>{player.xp} XP</span>
-              <span>{nextRank ? `${nextRank.minXp} XP` : "MAX"}</span>
+              <span className="text-slate-500">{nextRank ? `${nextRank.minXp} XP` : "MAX"}</span>
             </div>
           </div>
 
           {/* Coins / Cyber Credits */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-950/40 border border-amber-500/40 rounded-lg text-amber-300 text-xs font-mono font-bold">
-            <Coins className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-950/40 border border-amber-500/50 rounded-lg text-amber-300 text-xs font-mono font-bold shadow-[0_0_10px_rgba(245,158,11,0.15)]">
+            <Coins className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
             <span>{player.coins}</span>
           </div>
 
@@ -104,7 +105,7 @@ export const Navigation: React.FC = () => {
           <button
             onClick={toggleSound}
             title={player.soundEnabled ? "Mute SFX" : "Enable SFX"}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-cyan-300 hover:border-violet-500/40 transition-all cursor-pointer shadow-sm"
           >
             {player.soundEnabled ? (
               <Volume2 className="w-4 h-4 text-cyan-400" />
@@ -116,21 +117,21 @@ export const Navigation: React.FC = () => {
       </header>
 
       {/* Bottom Floating Mobile/Desktop Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-lg border-t border-cyan-500/20 px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_25px_rgba(0,0,0,0.6)]">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-violet-500/20 px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_30px_rgba(0,0,0,0.7)]">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1 px-2.5 sm:px-4 rounded-xl transition-all cursor-pointer ${
+              className={`flex flex-col items-center justify-center py-1.5 px-2.5 sm:px-4 rounded-xl transition-all cursor-pointer ${
                 isActive
-                  ? "text-cyan-400 bg-cyan-950/50 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.25)]"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-cyan-300 bg-gradient-to-b from-violet-950/60 to-slate-900/80 border border-violet-500/50 shadow-[0_0_16px_rgba(139,92,246,0.3)] font-semibold"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
               }`}
             >
-              <div className={isActive ? "animate-bounce" : ""}>{item.icon}</div>
-              <span className="text-[10px] font-mono mt-0.5 font-medium tracking-tight">
+              <div className={isActive ? "text-cyan-400" : ""}>{item.icon}</div>
+              <span className="text-[10px] font-mono mt-0.5 tracking-tight">
                 {item.label}
               </span>
             </button>
