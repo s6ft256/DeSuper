@@ -12,7 +12,6 @@ import { MiniGamesView } from "./components/MiniGamesView";
 import { ProfileView } from "./components/ProfileView";
 import { StartupSplash } from "./components/StartupSplash";
 import { sound } from "./utils/audio";
-import { insertPairedChars } from "./utils/useKeyboardShortcuts";
 
 function MainGameContainer() {
   const { activeTab, setActiveTab } = useGame();
@@ -21,7 +20,7 @@ function MainGameContainer() {
 
   // Global Keyboard Event Interceptor (Ctrl+R, Alt+Brackets/Quotes)
   useEffect(() => {
-    let timeout: any;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
 
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       // 1. Intercept Ctrl+R / Cmd+R to Run Mission Code & prevent page reload
@@ -132,7 +131,7 @@ function MainGameContainer() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary/20 selection:text-primary relative">
       {/* Top Header & Bottom Navigation */}
       <Navigation />
 

@@ -2,146 +2,76 @@ import React from "react";
 import { useGame } from "../context/GameContext";
 import { ViewTab } from "../types";
 import {
-  Map,
-  Car,
-  Compass,
-  Code,
-  GitFork,
-  Swords,
-  FolderCode,
-  Gamepad2,
-  User,
-  Volume2,
-  VolumeX,
-  Zap,
-  Coins,
-  Sparkles,
-  Flame,
+  Map, Flame, Compass, Code, GitFork, Swords, FolderCode,
+  Gamepad2, User, Volume2, VolumeX, Coins,
 } from "lucide-react";
 import { RANKS } from "../data/missions";
 
 export const Navigation: React.FC = () => {
   const { player, activeTab, setActiveTab, toggleSound } = useGame();
-
-  const currentRankInfo = RANKS.find((r) => r.id === player.rank) || RANKS[0];
-
-  const nextRank = RANKS.find((r) => r.numericRank === currentRankInfo.numericRank + 1);
-  const currentRankXp = currentRankInfo.minXp;
-  const nextRankXp = nextRank ? nextRank.minXp : currentRankInfo.minXp + 1500;
-  const xpProgress = Math.min(
-    100,
-    Math.max(0, ((player.xp - currentRankXp) / (nextRankXp - currentRankXp)) * 100)
-  );
+  const currentRankInfo = RANKS.find((rank) => rank.id === player.rank) ?? RANKS[0];
+  const nextRank = RANKS.find((rank) => rank.numericRank === currentRankInfo.numericRank + 1);
+  const nextRankXp = nextRank?.minXp ?? currentRankInfo.minXp + 1500;
+  const xpProgress = Math.min(100, Math.max(0, ((player.xp - currentRankInfo.minXp) / (nextRankXp - currentRankInfo.minXp)) * 100));
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
-    { id: "world", label: "World Map", icon: <Map className="w-4 h-4" /> },
-    { id: "arcade", label: "Arcade Racer", icon: <Flame className="w-4 h-4 text-amber-400" /> },
-    { id: "missions", label: "Missions", icon: <Compass className="w-4 h-4" /> },
-    { id: "playground", label: "Sandbox", icon: <Code className="w-4 h-4" /> },
-    { id: "skills", label: "Skill Tree", icon: <GitFork className="w-4 h-4" /> },
-    { id: "bosses", label: "Boss Battles", icon: <Swords className="w-4 h-4" /> },
-    { id: "projects", label: "Projects", icon: <FolderCode className="w-4 h-4" /> },
-    { id: "minigames", label: "Trivia", icon: <Gamepad2 className="w-4 h-4" /> },
-    { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
+    { id: "world", label: "World", icon: <Map /> },
+    { id: "arcade", label: "Arcade", icon: <Flame /> },
+    { id: "missions", label: "Missions", icon: <Compass /> },
+    { id: "playground", label: "Sandbox", icon: <Code /> },
+    { id: "skills", label: "Skills", icon: <GitFork /> },
+    { id: "bosses", label: "Bosses", icon: <Swords /> },
+    { id: "projects", label: "Projects", icon: <FolderCode /> },
+    { id: "minigames", label: "Trivia", icon: <Gamepad2 /> },
+    { id: "profile", label: "Profile", icon: <User /> },
   ];
 
   return (
     <>
-      {/* Top Cybernetic Status Header */}
-      <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-xl border-b border-violet-500/20 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-[0_4px_20px_rgba(139,92,246,0.08)]">
-        {/* Brand & Dev Signature */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-fuchsia-600 to-cyan-400 border border-violet-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-            <span className="font-mono font-black text-white text-sm tracking-wider">DS</span>
+      <header className="sticky top-0 z-40 flex w-full items-center justify-between gap-4 border-b bg-background/95 px-4 py-3 backdrop-blur-xl sm:px-6">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <span className="font-mono text-sm font-black tracking-wider">DS</span>
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-white font-extrabold text-sm sm:text-base tracking-wider font-mono bg-gradient-to-r from-white via-slate-100 to-violet-200 bg-clip-text text-transparent">
-                DE SUPER
-              </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-violet-950/80 border border-violet-500/40 text-violet-300 font-bold shadow-[0_0_8px_rgba(139,92,246,0.3)]">
-                s6ft
-              </span>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="truncate font-mono text-sm font-extrabold tracking-wider text-foreground sm:text-base">DE SUPER</span>
+              <span className="rounded-md border bg-secondary px-1.5 py-0.5 font-mono text-[10px] font-bold text-secondary-foreground">s6ft</span>
             </div>
-            <p className="text-[10px] text-slate-400 font-mono hidden sm:block">
-              Python Coding Adventure
-            </p>
+            <p className="hidden truncate text-[10px] text-muted-foreground sm:block">Python Coding Adventure</p>
           </div>
         </div>
 
-        {/* Player Rank & Stats */}
-        <div className="flex items-center gap-3 sm:gap-6">
-          {/* XP Progression Gauge */}
-          <div className="flex flex-col items-end min-w-[110px] sm:min-w-[160px]">
-            <div className="flex items-center gap-1.5 text-xs font-mono">
-              <span
-                className="font-bold text-[11px] px-2 py-0.5 rounded-md border shadow-sm"
-                style={{
-                  color: currentRankInfo.color,
-                  borderColor: `${currentRankInfo.color}70`,
-                  backgroundColor: `${currentRankInfo.color}18`,
-                  boxShadow: `0 0 10px ${currentRankInfo.color}25`,
-                }}
-              >
-                RANK {currentRankInfo.numericRank}: {currentRankInfo.title}
-              </span>
-              <span className="text-slate-400 text-[10px] font-bold">LVL {player.level}</span>
+        <div className="flex items-center gap-2 sm:gap-5">
+          <div className="hidden w-44 flex-col items-end gap-1 sm:flex">
+            <div className="flex w-full items-center justify-between gap-2 font-mono text-[10px]">
+              <span className="truncate font-bold" style={{ color: currentRankInfo.color }}>RANK {currentRankInfo.numericRank}: {currentRankInfo.title}</span>
+              <span className="shrink-0 text-muted-foreground">LVL {player.level}</span>
             </div>
-
-            <div className="w-full h-1.5 bg-slate-800/80 rounded-full mt-1.5 overflow-hidden border border-slate-700/50">
-              <div
-                className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-400 transition-all duration-500 shadow-[0_0_8px_rgba(217,70,239,0.5)]"
-                style={{ width: `${xpProgress}%` }}
-              />
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${xpProgress}%` }} />
             </div>
-            <div className="flex justify-between w-full text-[9px] font-mono text-slate-400 mt-0.5">
-              <span>{player.xp} XP</span>
-              <span className="text-slate-500">{nextRank ? `${nextRank.minXp} XP` : "MAX"}</span>
-            </div>
+            <div className="flex w-full justify-between font-mono text-[9px] text-muted-foreground"><span>{player.xp} XP</span><span>{nextRank ? `${nextRank.minXp} XP` : "MAX"}</span></div>
           </div>
-
-          {/* Coins / Cyber Credits */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-950/40 border border-amber-500/50 rounded-lg text-amber-300 text-xs font-mono font-bold shadow-[0_0_10px_rgba(245,158,11,0.15)]">
-            <Coins className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            <span>{player.coins}</span>
+          <div className="flex items-center gap-1.5 rounded-lg border bg-secondary px-2.5 py-1.5 font-mono text-xs font-bold text-secondary-foreground" aria-label={`${player.coins} credits`}>
+            <Coins className="size-3.5 text-primary" />{player.coins}
           </div>
-
-          {/* Audio Toggle */}
-          <button
-            onClick={toggleSound}
-            title={player.soundEnabled ? "Mute SFX" : "Enable SFX"}
-            className="p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-cyan-300 hover:border-violet-500/40 transition-all cursor-pointer shadow-sm"
-          >
-            {player.soundEnabled ? (
-              <Volume2 className="w-4 h-4 text-cyan-400" />
-            ) : (
-              <VolumeX className="w-4 h-4 text-slate-500" />
-            )}
+          <button onClick={toggleSound} title={player.soundEnabled ? "Mute SFX" : "Enable SFX"} aria-label={player.soundEnabled ? "Mute sound effects" : "Enable sound effects"} className="rounded-lg border bg-card p-2 text-muted-foreground transition-colors hover:text-primary">
+            {player.soundEnabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
           </button>
         </div>
       </header>
 
-      {/* Bottom Floating Mobile/Desktop Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-violet-500/20 px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_30px_rgba(0,0,0,0.7)]">
-        {navItems.map((item) => {
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1.5 px-2.5 sm:px-4 rounded-xl transition-all cursor-pointer ${
-                isActive
-                  ? "text-cyan-300 bg-gradient-to-b from-violet-950/60 to-slate-900/80 border border-violet-500/50 shadow-[0_0_16px_rgba(139,92,246,0.3)] font-semibold"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
-              }`}
-            >
-              <div className={isActive ? "text-cyan-400" : ""}>{item.icon}</div>
-              <span className="text-[10px] font-mono mt-0.5 tracking-tight">
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
+      <nav aria-label="Main navigation" className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/95 px-2 py-2 backdrop-blur-xl sm:px-4">
+        <div className="mx-auto flex max-w-5xl items-center gap-1 overflow-x-auto sm:justify-center sm:gap-2">
+          {navItems.map((item) => {
+            const isActive = activeTab === item.id;
+            return <button key={item.id} onClick={() => setActiveTab(item.id)} aria-current={isActive ? "page" : undefined} className={`flex min-w-[4.25rem] shrink-0 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-medium transition-colors ${isActive ? "bg-secondary text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
+              {React.cloneElement(item.icon as React.ReactElement<{ className?: string }>, { className: "size-4" })}
+              <span>{item.label}</span>
+            </button>;
+          })}
+        </div>
       </nav>
     </>
   );
