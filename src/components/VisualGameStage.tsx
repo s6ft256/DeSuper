@@ -169,7 +169,6 @@ export const VisualGameStage: React.FC<VisualGameStageProps> = ({
       delay += 320;
     });
 
-    return () => {};
   }, [visualActions]);
 
   // Animated background track, road marks & speed warp canvas

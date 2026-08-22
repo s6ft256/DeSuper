@@ -80,15 +80,6 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
     setCode,
   });
 
-  // Listen to global run code events
-  useEffect(() => {
-    const handleCustomRun = () => {
-      handleRun();
-    };
-    window.addEventListener("desuper:run_code", handleCustomRun);
-    return () => window.removeEventListener("desuper:run_code", handleCustomRun);
-  }, [code, onRunCode]);
-
   const handleInsertKey = (keyText: string) => {
     sound.playKeyClick();
     const textarea = textareaRef.current;
