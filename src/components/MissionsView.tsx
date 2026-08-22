@@ -58,7 +58,17 @@ export const MissionsView: React.FC = () => {
   const [failureDiagnostic, setFailureDiagnostic] = useState<FailureDiagnostic | null>(null);
   const [editorCodeResetTrigger, setEditorCodeResetTrigger] = useState<number>(0);
 
-  const activeMission = MISSIONS.find((m) => m.id === selectedMissionId) || MISSIONS[0];
+  const isMissionUnlocked = (missionIndex: number) =>
+    missionIndex === 0 || player.completedMissions.includes(MISSIONS[missionIndex - 1].id);
+  const requestedMission = MISSIONS.find((m) => m.id === selectedMissionId) || MISSIONS[0];
+  const requestedMissionIndex = MISSIONS.findIndex((m) => m.id === requestedMission.id);
+  const firstIncompleteMission = MISSIONS.find((mission) => !player.completedMissions.includes(mission.id));
+  const activeMission =
+    isMissionUnlocked(requestedMissionIndex) || player.completedMissions.includes(requestedMission.id)
+      ? requestedMission
+      : firstIncompleteMission || MISSIONS[MISSIONS.length - 1];
+  const activeMissionIndex = MISSIONS.findIndex((m) => m.id === activeMission.id);
+  const isFinalMission = activeMissionIndex === MISSIONS.length - 1;
 
   // Execute Code in Python Sandbox
   const handleRunCode = (code: string): ExecutionResult => {
@@ -275,13 +285,19 @@ export const MissionsView: React.FC = () => {
 
           <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
             {MISSIONS.filter((m) => m.rank === selectedRank).map((m) => {
+              const missionIndex = MISSIONS.findIndex((mission) => mission.id === m.id);
               const isCurrent = m.id === activeMission.id;
               const isCompleted = player.completedMissions.includes(m.id);
+              const isUnlocked = isMissionUnlocked(missionIndex);
 
               return (
-                <div
+                <button
+                  type="button"
                   key={m.id}
+                  disabled={!isUnlocked}
+                  aria-label={isUnlocked ? `Open mission ${m.number}: ${m.title}` : `Mission ${m.number} locked until the previous mission is completed`}
                   onClick={() => {
+                    if (!isUnlocked) return;
                     setSelectedMissionId(m.id);
                     setCurrentHintLevel(1);
                     setVisualActions([]);
@@ -289,10 +305,12 @@ export const MissionsView: React.FC = () => {
                     setAttemptCount(0);
                     sound.playKeyClick();
                   }}
-                  className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                  className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between ${
                     isCurrent
                       ? "bg-gradient-to-r from-violet-950/40 via-slate-900 to-slate-900 border-violet-400 shadow-[0_0_18px_rgba(139,92,246,0.25)]"
-                      : "bg-slate-950/80 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/50"
+                      : isUnlocked
+                      ? "bg-slate-950/80 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/50 cursor-pointer"
+                      : "bg-slate-950/40 border-slate-900/80 text-slate-600 opacity-60 cursor-not-allowed"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -315,12 +333,13 @@ export const MissionsView: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  <div className="text-right flex items-center gap-2">
                     <span className="text-[10px] font-mono text-amber-300 font-semibold block">
                       +{m.xpReward} XP
                     </span>
+                    {!isUnlocked && <Lock className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -552,15 +571,16 @@ export const MissionsView: React.FC = () => {
             </div>
 
             <p className="text-xs text-slate-300">
-              The DeSuper Core has accepted your code transmission. Concept mastered!
+              Your code passed every validation check. The next level is now unlocked.
             </p>
 
             <button
               onClick={handleNextMission}
-              className="w-full py-3.5 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:from-violet-500 hover:via-fuchsia-500 hover:to-cyan-400 text-white font-black font-mono text-sm rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.4)] flex items-center justify-center gap-2 cursor-pointer transition-all"
+              disabled={isFinalMission}
+              className="w-full py-3.5 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:from-violet-500 hover:via-fuchsia-500 hover:to-cyan-400 disabled:from-slate-700 disabled:via-slate-700 disabled:to-slate-700 disabled:cursor-default text-white font-black font-mono text-sm rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.4)] flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
-              <span>NEXT MISSION</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>{isFinalMission ? "ALL LEVELS COMPLETE" : "NEXT LEVEL UNLOCKED"}</span>
+              {!isFinalMission && <ArrowRight className="w-4 h-4" />}
             </button>
           </div>
         </div>
