@@ -66,13 +66,6 @@ export interface MapCoordinate {
   description?: string;
 }
 
-export interface CarPosition {
-  x: number;
-  y: number;
-  level: number;
-  heading?: number;
-}
-
 export interface VisualAction {
   type:
     | "print"
@@ -106,7 +99,6 @@ export interface ExecutionResult {
     whatHappened: string;
     whyItHappened: string;
     conceptHint: string;
-    exampleFix: string;
   };
   variables: Record<string, any>;
   visualActions: VisualAction[];

@@ -11,12 +11,7 @@ export const RANK3_APPRENTICE_MISSIONS: Mission[] = [
     story: "Approach the Sector 3 perimeter gate. If vehicle energy is 100 or greater, lower the security barriers.",
     objectives: ["Check if energy >= 100", "If true, print 'BARRIER LOWERED: ACCESS GRANTED'"],
     conceptExplanation: "An 'if' statement executes a block of indented code only when its condition expression evaluates to True.",
-    starterCode: `energy = 120
-
-# MISSION OBJECTIVE: Check if energy >= 100
-if energy >= 100:
-    print("BARRIER LOWERED: ACCESS GRANTED")
-`,
+    starterCode: `# MISSION OBJECTIVE: Check if energy >= 100`,
     validationRules: {
       requiredKeywords: ["if", "energy >= 100:", "print"],
       requiredOutputIncludes: ["BARRIER LOWERED: ACCESS GRANTED"],
@@ -24,8 +19,8 @@ if energy >= 100:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Write if energy >= 100: followed by indented print." },
       { level: 2, label: "Concept", text: "Python uses 4-space indentation for code blocks." },
-      { level: 3, label: "Example", text: 'if energy >= 100:\n    print("BARRIER LOWERED: ACCESS GRANTED")' },
-      { level: 4, label: "Solution", text: 'if energy >= 100:\n    print("BARRIER LOWERED: ACCESS GRANTED")' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 250,
     coinsReward: 125,
@@ -42,13 +37,7 @@ if energy >= 100:
     story: "Route the vehicle through the fast-lane if nitro level is above 50, otherwise route to the charging bay.",
     objectives: ["If nitro > 50, print 'FAST LANE ENGAGED'", "Else, print 'CHARGING BAY ROUTE'"],
     conceptExplanation: "The 'else' keyword defines an alternate code block that executes when the preceding 'if' condition is False.",
-    starterCode: `nitro = 75
-
-if nitro > 50:
-    print("FAST LANE ENGAGED")
-else:
-    print("CHARGING BAY ROUTE")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if", "else:", "print"],
       requiredOutputIncludes: ["FAST LANE ENGAGED"],
@@ -56,8 +45,8 @@ else:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Write the if-else branch structure." },
       { level: 2, label: "Concept", text: "if condition:\n    ...\nelse:\n    ..." },
-      { level: 3, label: "Example", text: 'if nitro > 50:\n    print("FAST LANE ENGAGED")\nelse:\n    print("CHARGING BAY ROUTE")' },
-      { level: 4, label: "Solution", text: "Execute the if-else branch." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 255,
     coinsReward: 125,
@@ -77,15 +66,7 @@ else:
       "Else, print 'STATUS: SLOW'",
     ],
     conceptExplanation: "'elif' allows checking multiple conditional expressions in sequence until one matches.",
-    starterCode: `speed = 340
-
-if speed >= 300:
-    print("STATUS: HYPER")
-elif speed >= 150:
-    print("STATUS: CRUISE")
-else:
-    print("STATUS: SLOW")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if", "elif", "else:", "print"],
       requiredOutputIncludes: ["STATUS: HYPER"],
@@ -93,8 +74,8 @@ else:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Chain if, elif, and else." },
       { level: 2, label: "Concept", text: "elif checks subsequent conditions." },
-      { level: 3, label: "Example", text: 'if speed >= 300:\n    print("STATUS: HYPER")\nelif speed >= 150:\n    print("STATUS: CRUISE")\nelse:\n    print("STATUS: SLOW")' },
-      { level: 4, label: "Solution", text: "Execute the multi-tier speed classifier." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 260,
     coinsReward: 130,
@@ -113,13 +94,7 @@ else:
       "If both match, print 'ACCESS: FULL VAULT UNLOCKED'",
     ],
     conceptExplanation: "You can place if statements inside other if statements to create nested logical decision trees.",
-    starterCode: `clearance = "LEVEL_5"
-biometric = True
-
-if clearance == "LEVEL_5":
-    if biometric:
-        print("ACCESS: FULL VAULT UNLOCKED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if clearance ==", "if biometric", "print"],
       requiredOutputIncludes: ["ACCESS: FULL VAULT UNLOCKED"],
@@ -127,8 +102,8 @@ if clearance == "LEVEL_5":
     hints: [
       { level: 1, label: "Subtle Clue", text: "Nest the second if inside the first." },
       { level: 2, label: "Concept", text: "Double indent 8 spaces for nested blocks." },
-      { level: 3, label: "Example", text: 'if clearance == "LEVEL_5":\n    if biometric:\n        print("ACCESS: FULL VAULT UNLOCKED")' },
-      { level: 4, label: "Solution", text: "Execute the nested security verification." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 265,
     coinsReward: 130,
@@ -144,11 +119,7 @@ if clearance == "LEVEL_5":
     story: "Engage laser headlights when it is not daylight.",
     objectives: ["Set is_daylight = False", "If not is_daylight, print 'LIGHTS: ACTIVE'"],
     conceptExplanation: "The 'not' keyword inverts boolean values (not False is True, not True is False).",
-    starterCode: `is_daylight = False
-
-if not is_daylight:
-    print("LIGHTS: ACTIVE")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["not", "is_daylight", "print"],
       requiredOutputIncludes: ["LIGHTS: ACTIVE"],
@@ -156,8 +127,8 @@ if not is_daylight:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use if not is_daylight:." },
       { level: 2, label: "Concept", text: "not inverts the boolean condition." },
-      { level: 3, label: "Example", text: 'if not is_daylight:\n    print("LIGHTS: ACTIVE")' },
-      { level: 4, label: "Solution", text: "Execute the logical NOT inversion." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 270,
     coinsReward: 135,
@@ -173,13 +144,7 @@ if not is_daylight:
     story: "Allow turbo boost if (nitro > 80 and temp < 100) or override_switch is True.",
     objectives: ["Evaluate compound condition", "If satisfied, print 'TURBO OVERDRIVE ENGAGED'"],
     conceptExplanation: "Parentheses group boolean operations to control precedence between 'and' and 'or'.",
-    starterCode: `nitro = 90
-temp = 75
-override_switch = False
-
-if (nitro > 80 and temp < 100) or override_switch:
-    print("TURBO OVERDRIVE ENGAGED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["nitro > 80 and temp < 100", "override_switch", "print"],
       requiredOutputIncludes: ["TURBO OVERDRIVE ENGAGED"],
@@ -187,8 +152,8 @@ if (nitro > 80 and temp < 100) or override_switch:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Group the and conditions in parentheses." },
       { level: 2, label: "Concept", text: "Parentheses group sub-expressions." },
-      { level: 3, label: "Example", text: 'if (nitro > 80 and temp < 100) or override_switch:\n    print("TURBO OVERDRIVE ENGAGED")' },
-      { level: 4, label: "Solution", text: "Run the compound conditional trigger." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 275,
     coinsReward: 135,
@@ -204,10 +169,7 @@ if (nitro > 80 and temp < 100) or override_switch:
     story: "Determine vehicle suspension stiffness using an inline Python ternary operator.",
     objectives: ["Set mode = 'RACE'", "Set stiffness = 'HIGH' if mode == 'RACE' else 'NORMAL'", "Print stiffness"],
     conceptExplanation: "Python's ternary syntax is value_if_true if condition else value_if_false.",
-    starterCode: `mode = "RACE"
-stiffness = "HIGH" if mode == "RACE" else "NORMAL"
-print(stiffness)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if mode ==", "else", "stiffness", "print"],
       requiredOutputIncludes: ["HIGH"],
@@ -215,8 +177,8 @@ print(stiffness)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use inline if-else." },
       { level: 2, label: "Concept", text: "'HIGH' if mode == 'RACE' else 'NORMAL'" },
-      { level: 3, label: "Example", text: 'stiffness = "HIGH" if mode == "RACE" else "NORMAL"\nprint(stiffness)' },
-      { level: 4, label: "Solution", text: "Execute the ternary expression." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 280,
     coinsReward: 140,
@@ -232,11 +194,7 @@ print(stiffness)
     story: "Verify whether the pilot callsign input is non-empty without using len().",
     objectives: ["Set pilot = 'CYBER_ACE'", "If pilot: print 'VALID PILOT: REGISTERED'"],
     conceptExplanation: "In Python, non-empty strings, non-zero numbers, and non-empty collections evaluate to True in boolean contexts.",
-    starterCode: `pilot = "CYBER_ACE"
-
-if pilot:
-    print("VALID PILOT: REGISTERED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if pilot:", "print"],
       requiredOutputIncludes: ["VALID PILOT: REGISTERED"],
@@ -244,8 +202,8 @@ if pilot:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use if pilot: directly." },
       { level: 2, label: "Concept", text: "Non-empty string is truthy." },
-      { level: 3, label: "Example", text: 'if pilot:\n    print("VALID PILOT: REGISTERED")' },
-      { level: 4, label: "Solution", text: "Execute truthiness check." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 285,
     coinsReward: 140,
@@ -261,11 +219,7 @@ if pilot:
     story: "Detect when the vehicle battery charge reaches zero.",
     objectives: ["Set charge = 0", "If not charge: print 'EMERGENCY: CHARGE DEPLETED'"],
     conceptExplanation: "0, empty strings '', None, and False are considered falsy.",
-    starterCode: `charge = 0
-
-if not charge:
-    print("EMERGENCY: CHARGE DEPLETED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if not charge:", "print"],
       requiredOutputIncludes: ["EMERGENCY: CHARGE DEPLETED"],
@@ -273,8 +227,8 @@ if not charge:
     hints: [
       { level: 1, label: "Subtle Clue", text: "0 is falsy, so not charge is True." },
       { level: 2, label: "Concept", text: "if not charge:" },
-      { level: 3, label: "Example", text: 'if not charge:\n    print("EMERGENCY: CHARGE DEPLETED")' },
-      { level: 4, label: "Solution", text: "Execute falsy zero detection." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 290,
     coinsReward: 145,
@@ -290,11 +244,7 @@ if not charge:
     story: "Verify that engine RPM is within optimal safety margins (3000 <= rpm <= 7000).",
     objectives: ["Set rpm = 5500", "If 3000 <= rpm <= 7000, print 'RPM: OPTIMAL ZONE'"],
     conceptExplanation: "Python supports chained comparisons like a < b < c, which evaluates as (a < b and b < c).",
-    starterCode: `rpm = 5500
-
-if 3000 <= rpm <= 7000:
-    print("RPM: OPTIMAL ZONE")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["3000 <=", "<= 7000:", "print"],
       requiredOutputIncludes: ["RPM: OPTIMAL ZONE"],
@@ -302,8 +252,8 @@ if 3000 <= rpm <= 7000:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Write 3000 <= rpm <= 7000." },
       { level: 2, label: "Concept", text: "Chained comparisons are clean in Python." },
-      { level: 3, label: "Example", text: 'if 3000 <= rpm <= 7000:\n    print("RPM: OPTIMAL ZONE")' },
-      { level: 4, label: "Solution", text: "Execute chained RPM comparison." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 295,
     coinsReward: 145,
@@ -319,11 +269,7 @@ if 3000 <= rpm <= 7000:
     story: "Check if the active error object is None.",
     objectives: ["Set active_error = None", "If active_error is None: print 'DIAGNOSTICS: NO ERRORS'"],
     conceptExplanation: "'is' checks object identity in memory (ideal for checking 'is None'), while '==' checks value equality.",
-    starterCode: `active_error = None
-
-if active_error is None:
-    print("DIAGNOSTICS: NO ERRORS")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["active_error is None:", "print"],
       requiredOutputIncludes: ["DIAGNOSTICS: NO ERRORS"],
@@ -331,8 +277,8 @@ if active_error is None:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use 'is None'." },
       { level: 2, label: "Concept", text: "Always compare against None using 'is'." },
-      { level: 3, label: "Example", text: 'if active_error is None:\n    print("DIAGNOSTICS: NO ERRORS")' },
-      { level: 4, label: "Solution", text: "Execute identity verification." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 300,
     coinsReward: 150,
@@ -348,11 +294,7 @@ if active_error is None:
     story: "Construct an empty condition branch placeholder using pass for future expansion.",
     objectives: ["If False, use pass", "Else, print 'PASSED SAFELY'"],
     conceptExplanation: "'pass' is a null statement in Python used as a syntactic placeholder when code is required.",
-    starterCode: `if False:
-    pass
-else:
-    print("PASSED SAFELY")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["pass", "else:", "print"],
       requiredOutputIncludes: ["PASSED SAFELY"],
@@ -360,8 +302,8 @@ else:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use pass inside the if block." },
       { level: 2, label: "Concept", text: "pass does nothing, acting as a placeholder." },
-      { level: 3, label: "Example", text: 'if False:\n    pass\nelse:\n    print("PASSED SAFELY")' },
-      { level: 4, label: "Solution", text: "Execute the pass statement structure." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 305,
     coinsReward: 150,
@@ -377,15 +319,7 @@ else:
     story: "Route the vehicle according to zone name: 'ALPHA' -> Gate 1, 'BETA' -> Gate 2, 'GAMMA' -> Gate 3.",
     objectives: ["Test zone = 'BETA'", "Print 'ROUTED TO GATE 2'"],
     conceptExplanation: "Use elif ladders to implement multi-way dispatching.",
-    starterCode: `zone = "BETA"
-
-if zone == "ALPHA":
-    print("ROUTED TO GATE 1")
-elif zone == "BETA":
-    print("ROUTED TO GATE 2")
-elif zone == "GAMMA":
-    print("ROUTED TO GATE 3")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["if zone ==", "elif zone ==", "print"],
       requiredOutputIncludes: ["ROUTED TO GATE 2"],
@@ -393,8 +327,8 @@ elif zone == "GAMMA":
     hints: [
       { level: 1, label: "Subtle Clue", text: "Check zone == 'BETA'." },
       { level: 2, label: "Concept", text: "Dispatch based on string match." },
-      { level: 3, label: "Example", text: 'if zone == "BETA": print("ROUTED TO GATE 2")' },
-      { level: 4, label: "Solution", text: "Execute the multi-way route." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 310,
     coinsReward: 155,
@@ -410,13 +344,7 @@ elif zone == "GAMMA":
     story: "Ensure vehicle shield value is clamped between 0 and 100.",
     objectives: ["Set raw_shield = 140", "If raw_shield > 100, set shield = 100", "Print shield"],
     conceptExplanation: "Conditional logic is used to clamp or sanitize numeric ranges.",
-    starterCode: `raw_shield = 140
-if raw_shield > 100:
-    shield = 100
-else:
-    shield = raw_shield
-print(shield)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["raw_shield > 100", "shield = 100", "print"],
       requiredOutputIncludes: ["100"],
@@ -424,8 +352,8 @@ print(shield)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Clamp raw_shield if above 100." },
       { level: 2, label: "Concept", text: "shield = 100 if raw_shield > 100 else raw_shield" },
-      { level: 3, label: "Example", text: "if raw_shield > 100:\n    shield = 100\nprint(shield)" },
-      { level: 4, label: "Solution", text: "Execute shield clamping." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 315,
     coinsReward: 155,
@@ -444,12 +372,7 @@ print(shield)
       "If hazard in ['FIREWALL', 'GLITCH_SPIKE']: print 'EVASIVE MANEUVER TRIGGERED'",
     ],
     conceptExplanation: "The 'in' operator combined with lists creates powerful membership tests.",
-    starterCode: `hazard = "FIREWALL"
-hazards_list = ["FIREWALL", "GLITCH_SPIKE"]
-
-if hazard in hazards_list:
-    print("EVASIVE MANEUVER TRIGGERED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["hazard in hazards_list", "print"],
       requiredOutputIncludes: ["EVASIVE MANEUVER TRIGGERED"],
@@ -457,8 +380,8 @@ if hazard in hazards_list:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use if hazard in hazards_list:." },
       { level: 2, label: "Concept", text: "'in' checks membership." },
-      { level: 3, label: "Example", text: 'if hazard in hazards_list:\n    print("EVASIVE MANEUVER TRIGGERED")' },
-      { level: 4, label: "Solution", text: "Execute membership hazard check." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 320,
     coinsReward: 160,
@@ -474,10 +397,7 @@ if hazard in hazards_list:
     story: "Check if cooldown timer is 0 to re-enable boost.",
     objectives: ["Set cooldown = 0", "If cooldown == 0: print 'BOOST: READY'"],
     conceptExplanation: "State checks govern vehicle ability triggers.",
-    starterCode: `cooldown = 0
-if cooldown == 0:
-    print("BOOST: READY")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["cooldown == 0:", "print"],
       requiredOutputIncludes: ["BOOST: READY"],
@@ -485,8 +405,8 @@ if cooldown == 0:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Check cooldown == 0." },
       { level: 2, label: "Concept", text: "Compare zero cooldown." },
-      { level: 3, label: "Example", text: 'if cooldown == 0:\n    print("BOOST: READY")' },
-      { level: 4, label: "Solution", text: "Execute boost cooldown check." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 325,
     coinsReward: 160,
@@ -506,12 +426,7 @@ if cooldown == 0:
       "If key == 'QUANTUM_99' and version >= 3: print 'ACCESS: GRANTED'",
     ],
     conceptExplanation: "Combining multiple criteria ensures strict validation.",
-    starterCode: `key = "QUANTUM_99"
-version = 3
-
-if key == "QUANTUM_99" and version >= 3:
-    print("ACCESS: GRANTED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["key == \"QUANTUM_99\"", "version >= 3", "print"],
       requiredOutputIncludes: ["ACCESS: GRANTED"],
@@ -519,8 +434,8 @@ if key == "QUANTUM_99" and version >= 3:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Combine both with and." },
       { level: 2, label: "Concept", text: "Both conditions must be True." },
-      { level: 3, label: "Example", text: 'if key == "QUANTUM_99" and version >= 3:\n    print("ACCESS: GRANTED")' },
-      { level: 4, label: "Solution", text: "Execute quantum key authentication." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 330,
     coinsReward: 165,
@@ -540,13 +455,7 @@ if key == "QUANTUM_99" and version >= 3:
       "If security_code == 909 and shield_active: print 'FIREWALL CANYON BREACHED: APPRENTICE COMPLETE'",
     ],
     conceptExplanation: "You have mastered all Python conditional logic, branch execution, truthiness, and security evaluation!",
-    starterCode: `security_code = 909
-shield_active = True
-
-# MISSION OBJECTIVE: Pass security code and shield check
-if security_code == 909 and shield_active:
-    print("FIREWALL CANYON BREACHED: APPRENTICE COMPLETE")
-`,
+    starterCode: `# MISSION OBJECTIVE: Pass security code and shield check`,
     validationRules: {
       requiredKeywords: ["security_code == 909", "shield_active", "print"],
       requiredOutputIncludes: ["FIREWALL CANYON BREACHED: APPRENTICE COMPLETE"],
@@ -554,8 +463,8 @@ if security_code == 909 and shield_active:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Check code and shield status." },
       { level: 2, label: "Concept", text: "Validate both conditions." },
-      { level: 3, label: "Example", text: 'if security_code == 909 and shield_active:\n    print("FIREWALL CANYON BREACHED: APPRENTICE COMPLETE")' },
-      { level: 4, label: "Solution", text: "Execute the Apprentice Capstone verification." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 350,
     coinsReward: 175,

@@ -15,14 +15,7 @@ export const RANK7_ARCHITECT_MISSIONS: Mission[] = [
       "Print f'{car.model} @ {car.top_speed} KM/H'",
     ],
     conceptExplanation: "Classes are blueprints for creating objects. The __init__ method initializes new instance attributes.",
-    starterCode: `class CyberVehicle:
-    def __init__(self, model, top_speed):
-        self.model = model
-        self.top_speed = top_speed
-
-car = CyberVehicle("PHANTOM_GT", 450)
-print(f"{car.model} @ {car.top_speed} KM/H")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class CyberVehicle:", "def __init__(self, model, top_speed):", "self.model =", "print"],
       requiredOutputIncludes: ["PHANTOM_GT @ 450 KM/H"],
@@ -30,8 +23,8 @@ print(f"{car.model} @ {car.top_speed} KM/H")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Define class with __init__." },
       { level: 2, label: "Concept", text: "Assign self.model and self.top_speed." },
-      { level: 3, label: "Example", text: 'car = CyberVehicle("PHANTOM_GT", 450)\nprint(f"{car.model} @ {car.top_speed} KM/H")' },
-      { level: 4, label: "Solution", text: "Execute class definition and instantiation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 650,
     coinsReward: 325,
@@ -52,18 +45,7 @@ print(f"{car.model} @ {car.top_speed} KM/H")
       "Print car.current_speed",
     ],
     conceptExplanation: "Methods are functions defined inside a class that operate on instance data via 'self'.",
-    starterCode: `class CyberVehicle:
-    def __init__(self, model):
-        self.model = model
-        self.current_speed = 100
-
-    def accelerate(self, boost_amount):
-        self.current_speed += boost_amount
-
-car = CyberVehicle("VIPER")
-car.accelerate(50)
-print(car.current_speed)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def accelerate(self, boost_amount):", "self.current_speed +=", "print"],
       requiredOutputIncludes: ["150"],
@@ -71,8 +53,8 @@ print(car.current_speed)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Define accelerate method taking self and boost_amount." },
       { level: 2, label: "Concept", text: "100 + 50 = 150." },
-      { level: 3, label: "Example", text: "car.accelerate(50)\nprint(car.current_speed)" },
-      { level: 4, label: "Solution", text: "Execute instance method acceleration." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 655,
     coinsReward: 325,
@@ -93,17 +75,7 @@ print(car.current_speed)
       "Print result",
     ],
     conceptExplanation: "Subclasses inherit attributes and methods from their parent (superclass).",
-    starterCode: `class Vehicle:
-    def __init__(self, name):
-        self.name = name
-
-class WarpRacer(Vehicle):
-    def engage_warp(self):
-        return f"{self.name}: WARP SPEED ACTIVATED"
-
-racer = WarpRacer("STEALTH_99")
-print(racer.engage_warp())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class WarpRacer(Vehicle):", "def engage_warp(self):", "print"],
       requiredOutputIncludes: ["STEALTH_99: WARP SPEED ACTIVATED"],
@@ -111,8 +83,8 @@ print(racer.engage_warp())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Inherit with class WarpRacer(Vehicle):." },
       { level: 2, label: "Concept", text: "WarpRacer gets self.name from Vehicle." },
-      { level: 3, label: "Example", text: 'racer = WarpRacer("STEALTH_99")\nprint(racer.engage_warp())' },
-      { level: 4, label: "Solution", text: "Execute class inheritance." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 660,
     coinsReward: 330,
@@ -133,19 +105,7 @@ print(racer.engage_warp())
       "Print f'{hv.name} | SPEED: {hv.speed} | HYPER: {hv.hyper_drive}'",
     ],
     conceptExplanation: "super() delegates method calls to the parent superclass, ensuring proper base initialization.",
-    starterCode: `class Vehicle:
-    def __init__(self, name, speed):
-        self.name = name
-        self.speed = speed
-
-class HyperVehicle(Vehicle):
-    def __init__(self, name, speed, hyper_drive):
-        super().__init__(name, speed)
-        self.hyper_drive = hyper_drive
-
-hv = HyperVehicle("TITAN", 500, True)
-print(f"{hv.name} | SPEED: {hv.speed} | HYPER: {hv.hyper_drive}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["super().__init__(name, speed)", "self.hyper_drive =", "print"],
       requiredOutputIncludes: ["TITAN | SPEED: 500 | HYPER: True"],
@@ -153,8 +113,8 @@ print(f"{hv.name} | SPEED: {hv.speed} | HYPER: {hv.hyper_drive}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Call super().__init__(name, speed)." },
       { level: 2, label: "Concept", text: "Initializes parent fields cleanly." },
-      { level: 3, label: "Example", text: 'hv = HyperVehicle("TITAN", 500, True)' },
-      { level: 4, label: "Solution", text: "Execute super() constructor chaining." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 665,
     coinsReward: 330,
@@ -173,16 +133,7 @@ print(f"{hv.name} | SPEED: {hv.speed} | HYPER: {hv.hyper_drive}")
       "Print str(v)",
     ],
     conceptExplanation: "__str__ defines the informal string representation returned by str() and print().",
-    starterCode: `class Vehicle:
-    def __init__(self, name):
-        self.name = name
-
-    def __str__(self):
-        return f"<Vehicle: {self.name}>"
-
-v = Vehicle("TITANIUM_X")
-print(str(v))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __str__(self):", "return f\"<Vehicle: {self.name}>\"", "print"],
       requiredOutputIncludes: ["<Vehicle: TITANIUM_X>"],
@@ -190,8 +141,8 @@ print(str(v))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Define def __str__(self):." },
       { level: 2, label: "Concept", text: "Returns custom string for print()." },
-      { level: 3, label: "Example", text: "print(str(v))" },
-      { level: 4, label: "Solution", text: "Execute __str__ magic method." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 670,
     coinsReward: 335,
@@ -211,16 +162,7 @@ print(str(v))
       "Print core.get_key()",
     ],
     conceptExplanation: "Prefixing an attribute with '__' invokes name mangling (_ClassName__attribute) for privacy.",
-    starterCode: `class Core:
-    def __init__(self):
-        self.__reactor_key = 9988
-
-    def get_key(self):
-        return self.__reactor_key
-
-core = Core()
-print(core.get_key())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["self.__reactor_key =", "def get_key(self):", "print"],
       requiredOutputIncludes: ["9988"],
@@ -228,8 +170,8 @@ print(core.get_key())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use self.__reactor_key and getter method." },
       { level: 2, label: "Concept", text: "Getter provides controlled read access." },
-      { level: 3, label: "Example", text: "print(core.get_key())" },
-      { level: 4, label: "Solution", text: "Execute encapsulated attribute access." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 675,
     coinsReward: 335,
@@ -250,22 +192,7 @@ print(core.get_key())
       "Print battery.charge",
     ],
     conceptExplanation: "@property turns methods into attribute getters, while @name.setter defines validation logic.",
-    starterCode: `class Battery:
-    def __init__(self):
-        self._charge = 100
-
-    @property
-    def charge(self):
-        return self._charge
-
-    @charge.setter
-    def charge(self, val):
-        self._charge = min(100, max(0, val))
-
-b = Battery()
-b.charge = 150
-print(b.charge)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@property", "@charge.setter", "min(100, max(0, val))", "print"],
       requiredOutputIncludes: ["100"],
@@ -273,8 +200,8 @@ print(b.charge)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @property and @charge.setter." },
       { level: 2, label: "Concept", text: "Clamps value to 100." },
-      { level: 3, label: "Example", text: "b.charge = 150\nprint(b.charge)" },
-      { level: 4, label: "Solution", text: "Execute property validation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 680,
     coinsReward: 340,
@@ -295,18 +222,7 @@ print(b.charge)
       "Print model.speed",
     ],
     conceptExplanation: "@classmethod receives the class object 'cls' instead of an instance 'self', often used for alternative constructors.",
-    starterCode: `class Racer:
-    def __init__(self, name, speed):
-        self.name = name
-        self.speed = speed
-
-    @classmethod
-    def create_turbo_model(cls, name):
-        return cls(name, speed=500)
-
-r = Racer.create_turbo_model("BLAZE")
-print(r.speed)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@classmethod", "def create_turbo_model(cls, name):", "return cls(", "print"],
       requiredOutputIncludes: ["500"],
@@ -314,8 +230,8 @@ print(r.speed)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @classmethod with cls parameter." },
       { level: 2, label: "Concept", text: "Instantiates object with pre-set turbo speed." },
-      { level: 3, label: "Example", text: 'r = Racer.create_turbo_model("BLAZE")\nprint(r.speed)' },
-      { level: 4, label: "Solution", text: "Execute classmethod factory." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 685,
     coinsReward: 340,
@@ -335,13 +251,7 @@ print(r.speed)
       "Print result",
     ],
     conceptExplanation: "@staticmethod is a self-contained utility function attached to a class namespace without self or cls.",
-    starterCode: `class Vehicle:
-    @staticmethod
-    def kmh_to_mph(kmh):
-        return round(kmh * 0.621371)
-
-print(Vehicle.kmh_to_mph(300))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@staticmethod", "def kmh_to_mph(kmh):", "print"],
       requiredOutputIncludes: ["186"],
@@ -349,8 +259,8 @@ print(Vehicle.kmh_to_mph(300))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @staticmethod." },
       { level: 2, label: "Concept", text: "round(300 * 0.621371) is 186." },
-      { level: 3, label: "Example", text: "print(Vehicle.kmh_to_mph(300))" },
-      { level: 4, label: "Solution", text: "Execute static utility method." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 690,
     coinsReward: 345,
@@ -370,18 +280,7 @@ print(Vehicle.kmh_to_mph(300))
       "Print combined.weight",
     ],
     conceptExplanation: "Dunder methods like __add__ customize how built-in operators behave on user-defined objects.",
-    starterCode: `class Container:
-    def __init__(self, weight):
-        self.weight = weight
-
-    def __add__(self, other):
-        return Container(self.weight + other.weight)
-
-c1 = Container(50)
-c2 = Container(75)
-combined = c1 + c2
-print(combined.weight)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __add__(self, other):", "c1 + c2", "print"],
       requiredOutputIncludes: ["125"],
@@ -389,8 +288,8 @@ print(combined.weight)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Implement __add__(self, other)." },
       { level: 2, label: "Concept", text: "50 + 75 = 125." },
-      { level: 3, label: "Example", text: "combined = c1 + c2\nprint(combined.weight)" },
-      { level: 4, label: "Solution", text: "Execute operator overloading." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 695,
     coinsReward: 345,
@@ -410,19 +309,7 @@ print(combined.weight)
       "Print len(fleet) and fleet[1]",
     ],
     conceptExplanation: "__len__ and __getitem__ make your custom classes act like native Python sequences.",
-    starterCode: `class Fleet:
-    def __init__(self, racers):
-        self.racers = racers
-
-    def __len__(self):
-        return len(self.racers)
-
-    def __getitem__(self, idx):
-        return self.racers[idx]
-
-fleet = Fleet(["PHANTOM", "VIPER", "TITAN"])
-print(f"COUNT: {len(fleet)} | FIRST: {fleet[0]}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __len__(self):", "def __getitem__(self, idx):", "print"],
       requiredOutputIncludes: ["COUNT: 3 | FIRST: PHANTOM"],
@@ -430,8 +317,8 @@ print(f"COUNT: {len(fleet)} | FIRST: {fleet[0]}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Implement __len__ and __getitem__." },
       { level: 2, label: "Concept", text: "Allows len() and [index] syntax on the object." },
-      { level: 3, label: "Example", text: "print(f'COUNT: {len(fleet)} | FIRST: {fleet[0]}')" },
-      { level: 4, label: "Solution", text: "Execute sequence protocol." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 700,
     coinsReward: 350,
@@ -452,17 +339,7 @@ print(f"COUNT: {len(fleet)} | FIRST: {fleet[0]}")
       "Print p",
     ],
     conceptExplanation: "The @dataclass decorator automatically generates __init__, __repr__, and __eq__ methods for data classes.",
-    starterCode: `from dataclasses import dataclass
-
-@dataclass
-class PilotData:
-    pilot_id: str
-    rank: int
-    active: bool = True
-
-p = PilotData("DES_01", 7)
-print(p)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from dataclasses import dataclass", "@dataclass", "pilot_id: str", "print"],
       requiredOutputIncludes: ["PilotData(pilot_id='DES_01', rank=7, active=True)"],
@@ -470,8 +347,8 @@ print(p)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @dataclass decorator." },
       { level: 2, label: "Concept", text: "Auto-generates clean dataclass representations." },
-      { level: 3, label: "Example", text: 'p = PilotData("DES_01", 7)\nprint(p)' },
-      { level: 4, label: "Solution", text: "Execute dataclass declaration." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 705,
     coinsReward: 350,
@@ -492,17 +369,7 @@ print(p)
       "Print result",
     ],
     conceptExplanation: "Composition models 'has-a' relationships by assembling smaller objects into larger components.",
-    starterCode: `class Engine:
-    def ignite(self):
-        return "ENGINE: FIRED UP (1000 HP)"
-
-class Vehicle:
-    def __init__(self, engine):
-        self.engine = engine
-
-v = Vehicle(Engine())
-print(v.engine.ignite())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class Engine:", "self.engine = engine", "print"],
       requiredOutputIncludes: ["ENGINE: FIRED UP (1000 HP)"],
@@ -510,8 +377,8 @@ print(v.engine.ignite())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Pass Engine() to Vehicle." },
       { level: 2, label: "Concept", text: "v.engine.ignite() calls the component method." },
-      { level: 3, label: "Example", text: "v = Vehicle(Engine())\nprint(v.engine.ignite())" },
-      { level: 4, label: "Solution", text: "Execute object composition." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 710,
     coinsReward: 355,
@@ -530,18 +397,7 @@ print(v.engine.ignite())
       "Call .activate() on each",
     ],
     conceptExplanation: "Polymorphism allows different classes to share identical method interfaces.",
-    starterCode: `class Radar:
-    def activate(self):
-        return "RADAR ONLINE"
-
-class Nitro:
-    def activate(self):
-        return "NITRO ONLINE"
-
-subsystems = [Radar(), Nitro()]
-for sub in subsystems:
-    print(sub.activate())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def activate(self):", "sub.activate()", "print"],
       requiredOutputIncludes: ["RADAR ONLINE", "NITRO ONLINE"],
@@ -549,8 +405,8 @@ for sub in subsystems:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Call .activate() uniformly." },
       { level: 2, label: "Concept", text: "Different classes respond to the same method." },
-      { level: 3, label: "Example", text: "for sub in subsystems:\n    print(sub.activate())" },
-      { level: 4, label: "Solution", text: "Execute polymorphic dispatch." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 715,
     coinsReward: 355,
@@ -569,17 +425,7 @@ for sub in subsystems:
       "Use with TurboMode(): print inside block",
     ],
     conceptExplanation: "Context managers manage resource setup and cleanup using '__enter__' and '__exit__'.",
-    starterCode: `class TurboMode:
-    def __enter__(self):
-        print("TURBO: ACTIVATED")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("TURBO: DEACTIVATED")
-
-with TurboMode():
-    print("RACING AT WARP SPEED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __enter__(self):", "def __exit__(self,", "with TurboMode():", "print"],
       requiredOutputIncludes: ["TURBO: ACTIVATED", "RACING AT WARP SPEED", "TURBO: DEACTIVATED"],
@@ -587,8 +433,8 @@ with TurboMode():
     hints: [
       { level: 1, label: "Subtle Clue", text: "Implement __enter__ and __exit__." },
       { level: 2, label: "Concept", text: "__exit__ always runs upon leaving the with block." },
-      { level: 3, label: "Example", text: "with TurboMode():\n    print('RACING AT WARP SPEED')" },
-      { level: 4, label: "Solution", text: "Execute custom context manager." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 720,
     coinsReward: 360,
@@ -608,20 +454,7 @@ with TurboMode():
       "Print result",
     ],
     conceptExplanation: "Abstract base classes define interface contracts that derived classes MUST implement.",
-    starterCode: `from abc import ABC, abstractmethod
-
-class BaseController(ABC):
-    @abstractmethod
-    def steer(self):
-        pass
-
-class CyberController(BaseController):
-    def steer(self):
-        return "STEERING: LOCKED ON COURSE"
-
-ctrl = CyberController()
-print(ctrl.steer())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from abc import ABC, abstractmethod", "@abstractmethod", "def steer(self):", "print"],
       requiredOutputIncludes: ["STEERING: LOCKED ON COURSE"],
@@ -629,8 +462,8 @@ print(ctrl.steer())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use ABC and @abstractmethod." },
       { level: 2, label: "Concept", text: "Derived class implements steer()." },
-      { level: 3, label: "Example", text: "ctrl = CyberController()\nprint(ctrl.steer())" },
-      { level: 4, label: "Solution", text: "Execute abstract class implementation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 725,
     coinsReward: 360,
@@ -649,15 +482,7 @@ print(ctrl.steer())
       "Instantiate and print point coordinates",
     ],
     conceptExplanation: "__slots__ prevents dynamic instance dict creation, drastically reducing memory footprint.",
-    starterCode: `class TelemetryPoint:
-    __slots__ = ("x", "y")
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-pt = TelemetryPoint(100, 200)
-print(f"POINT: ({pt.x}, {pt.y})")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["__slots__ = (\"x\", \"y\")", "pt.x", "print"],
       requiredOutputIncludes: ["POINT: (100, 200)"],
@@ -665,8 +490,8 @@ print(f"POINT: ({pt.x}, {pt.y})")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Declare __slots__ tuple." },
       { level: 2, label: "Concept", text: "Restricts attribute creation for speed and memory efficiency." },
-      { level: 3, label: "Example", text: "print(f'POINT: ({pt.x}, {pt.y})')" },
-      { level: 4, label: "Solution", text: "Execute slots optimization." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 730,
     coinsReward: 365,
@@ -685,25 +510,7 @@ print(f"POINT: ({pt.x}, {pt.y})")
       "Print 'QUANTUM OOP FORGE ONLINE: ARCHITECT MASTERY ACHIEVED'",
     ],
     conceptExplanation: "You have mastered Python Object-Oriented Architecture, class hierarchies, dataclasses, and design patterns!",
-    starterCode: `from dataclasses import dataclass
-
-@dataclass
-class EngineSpec:
-    hp: int
-    turbo: bool
-
-class MegaRacer:
-    def __init__(self, name: str, spec: EngineSpec):
-        self.name = name
-        self.spec = spec
-
-    def __str__(self):
-        return f"<MegaRacer: {self.name} | {self.spec.hp}HP>"
-
-car = MegaRacer("QUANTUM_ZENITH", EngineSpec(hp=1200, turbo=True))
-print(str(car))
-print("QUANTUM OOP FORGE ONLINE: ARCHITECT MASTERY ACHIEVED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@dataclass", "class MegaRacer:", "def __str__(self):", "print"],
       requiredOutputIncludes: ["<MegaRacer: QUANTUM_ZENITH | 1200HP>", "QUANTUM OOP FORGE ONLINE: ARCHITECT MASTERY ACHIEVED"],
@@ -711,8 +518,8 @@ print("QUANTUM OOP FORGE ONLINE: ARCHITECT MASTERY ACHIEVED")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Build the complete dataclass and composite class." },
       { level: 2, label: "Concept", text: "Demonstrates full OOP architecture." },
-      { level: 3, label: "Example", text: 'print("QUANTUM OOP FORGE ONLINE: ARCHITECT MASTERY ACHIEVED")' },
-      { level: 4, label: "Solution", text: "Execute Architect Capstone script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 750,
     coinsReward: 375,

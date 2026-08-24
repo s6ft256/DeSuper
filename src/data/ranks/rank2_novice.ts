@@ -11,10 +11,7 @@ export const RANK2_NOVICE_MISSIONS: Mission[] = [
     story: "Extract the security header 'CYBER' from the packet 'CYBER_RACER_77'.",
     objectives: ["Set packet = 'CYBER_RACER_77'", "Extract header = packet[0:5]", "Print header"],
     conceptExplanation: "String slicing syntax is string[start:stop], where start is inclusive and stop is exclusive.",
-    starterCode: `packet = "CYBER_RACER_77"
-header = packet[0:5]
-print(header)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["packet", "[0:5]", "header", "print"],
       requiredOutputIncludes: ["CYBER"],
@@ -22,8 +19,8 @@ print(header)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Slice from index 0 to index 5." },
       { level: 2, label: "Concept", text: "packet[0:5] extracts characters at 0, 1, 2, 3, 4." },
-      { level: 3, label: "Example", text: 'header = packet[0:5]\nprint(header)' },
-      { level: 4, label: "Solution", text: 'header = packet[0:5] and print(header).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 150,
     coinsReward: 75,
@@ -40,10 +37,7 @@ print(header)
     story: "Extract the vehicle ID '77' from the end of 'CYBER_RACER_77'.",
     objectives: ["Set packet = 'CYBER_RACER_77'", "Extract tail = packet[-2:]", "Print tail"],
     conceptExplanation: "Negative indexing counts from the end of the string. -1 is the last character.",
-    starterCode: `packet = "CYBER_RACER_77"
-tail = packet[-2:]
-print(tail)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["packet", "[-2:]", "tail", "print"],
       requiredOutputIncludes: ["77"],
@@ -51,8 +45,8 @@ print(tail)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use negative slicing [-2:]." },
       { level: 2, label: "Concept", text: "packet[-2:] grabs the last 2 characters." },
-      { level: 3, label: "Example", text: 'tail = packet[-2:]\nprint(tail)' },
-      { level: 4, label: "Solution", text: 'tail = packet[-2:] and print(tail).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 155,
     coinsReward: 75,
@@ -68,10 +62,7 @@ print(tail)
     story: "Convert incoming lowercase beacon data into urgent uppercase alert signals.",
     objectives: ["Set signal = 'highway emergency'", "Set alert = signal.upper()", "Print alert"],
     conceptExplanation: ".upper() returns a new copy of the string converted entirely to uppercase.",
-    starterCode: `signal = "highway emergency"
-alert = signal.upper()
-print(alert)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["signal", "upper()", "alert", "print"],
       requiredOutputIncludes: ["HIGHWAY EMERGENCY"],
@@ -79,8 +70,8 @@ print(alert)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Call .upper() on the signal." },
       { level: 2, label: "Concept", text: "alert = signal.upper()" },
-      { level: 3, label: "Example", text: 'alert = signal.upper()\nprint(alert)' },
-      { level: 4, label: "Solution", text: 'alert = signal.upper() and print(alert).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 160,
     coinsReward: 80,
@@ -96,10 +87,7 @@ print(alert)
     story: "Normalize loud terminal commands to standard lowercase for internal parsing.",
     objectives: ["Set cmd = 'INITIALIZE_ENGINES'", "Set normalized = cmd.lower()", "Print normalized"],
     conceptExplanation: ".lower() returns a lowercase version of the target string.",
-    starterCode: `cmd = "INITIALIZE_ENGINES"
-normalized = cmd.lower()
-print(normalized)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["cmd", "lower()", "normalized", "print"],
       requiredOutputIncludes: ["initialize_engines"],
@@ -107,8 +95,8 @@ print(normalized)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use .lower()." },
       { level: 2, label: "Concept", text: "normalized = cmd.lower()" },
-      { level: 3, label: "Example", text: 'normalized = cmd.lower()\nprint(normalized)' },
-      { level: 4, label: "Solution", text: 'normalized = cmd.lower() and print(normalized).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 165,
     coinsReward: 80,
@@ -129,11 +117,7 @@ print(normalized)
       "Print msg",
     ],
     conceptExplanation: "f-strings (f'...') allow embedding expressions directly inside curly braces {var}.",
-    starterCode: `speed = 320
-temp = 85
-msg = f"SPEED: {speed} KM/H | TEMP: {temp} C"
-print(msg)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["speed", "temp", "f\"", "print"],
       requiredOutputIncludes: ["SPEED: 320 KM/H | TEMP: 85 C"],
@@ -141,8 +125,8 @@ print(msg)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use an f-string starting with f"..."' },
       { level: 2, label: "Concept", text: 'f"SPEED: {speed} KM/H | TEMP: {temp} C"' },
-      { level: 3, label: "Example", text: 'msg = f"SPEED: {speed} KM/H | TEMP: {temp} C"\nprint(msg)' },
-      { level: 4, label: "Solution", text: "Execute the f-string formatting statement." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 170,
     coinsReward: 85,
@@ -159,10 +143,7 @@ print(msg)
     story: "Strip extraneous white spaces around decrypted pilot credentials.",
     objectives: ["Set raw_pilot = '   CYBER_PHOENIX   '", "Set clean_pilot = raw_pilot.strip()", "Print clean_pilot"],
     conceptExplanation: ".strip() removes leading and trailing whitespace from strings.",
-    starterCode: `raw_pilot = "   CYBER_PHOENIX   "
-clean_pilot = raw_pilot.strip()
-print(clean_pilot)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["raw_pilot", "strip()", "clean_pilot", "print"],
       requiredOutputIncludes: ["CYBER_PHOENIX"],
@@ -170,8 +151,8 @@ print(clean_pilot)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use .strip() to trim whitespace." },
       { level: 2, label: "Concept", text: "clean_pilot = raw_pilot.strip()" },
-      { level: 3, label: "Example", text: 'clean_pilot = raw_pilot.strip()\nprint(clean_pilot)' },
-      { level: 4, label: "Solution", text: 'clean_pilot = raw_pilot.strip() and print(clean_pilot).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 175,
     coinsReward: 85,
@@ -187,10 +168,7 @@ print(clean_pilot)
     story: "Patch glitch codes by replacing 'GLITCH' with 'SECURE'.",
     objectives: ["Set code = 'SYSTEM_GLITCH_MODE'", "Set patched = code.replace('GLITCH', 'SECURE')", "Print patched"],
     conceptExplanation: ".replace(old, new) replaces occurrences of a substring with a replacement string.",
-    starterCode: `code = "SYSTEM_GLITCH_MODE"
-patched = code.replace("GLITCH", "SECURE")
-print(patched)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["code", "replace", "patched", "print"],
       requiredOutputIncludes: ["SYSTEM_SECURE_MODE"],
@@ -198,8 +176,8 @@ print(patched)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use code.replace("GLITCH", "SECURE").' },
       { level: 2, label: "Concept", text: ".replace(old, new) replaces all matching fragments." },
-      { level: 3, label: "Example", text: 'patched = code.replace("GLITCH", "SECURE")\nprint(patched)' },
-      { level: 4, label: "Solution", text: 'patched = code.replace("GLITCH", "SECURE") and print(patched).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 180,
     coinsReward: 90,
@@ -215,10 +193,7 @@ print(patched)
     story: "Check if the keyword 'NITRO' exists in the active engine config.",
     objectives: ["Set config = 'TURBO_NITRO_INJECTION'", "Check exists = 'NITRO' in config", "Print exists"],
     conceptExplanation: "The 'in' operator checks if a substring or element exists within a sequence, returning True or False.",
-    starterCode: `config = "TURBO_NITRO_INJECTION"
-exists = "NITRO" in config
-print(exists)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["config", "\"NITRO\" in config", "exists", "print"],
       requiredOutputIncludes: ["True"],
@@ -226,8 +201,8 @@ print(exists)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Check "NITRO" in config.' },
       { level: 2, label: "Concept", text: "'in' evaluates to a boolean." },
-      { level: 3, label: "Example", text: 'exists = "NITRO" in config\nprint(exists)' },
-      { level: 4, label: "Solution", text: 'exists = "NITRO" in config and print(exists).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 185,
     coinsReward: 90,
@@ -243,10 +218,7 @@ print(exists)
     story: "Split a comma-separated sensor stream into a list of individual values.",
     objectives: ["Set stream = '240,85,99'", "Set tokens = stream.split(',')", "Print tokens"],
     conceptExplanation: ".split(delimiter) breaks a string into a list of tokens based on the specified delimiter.",
-    starterCode: `stream = "240,85,99"
-tokens = stream.split(",")
-print(tokens)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["stream", "split", "tokens", "print"],
       requiredOutputIncludes: ["['240', '85', '99']"],
@@ -254,8 +226,8 @@ print(tokens)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use stream.split(',')." },
       { level: 2, label: "Concept", text: ".split(',') yields a list of strings." },
-      { level: 3, label: "Example", text: 'tokens = stream.split(",")\nprint(tokens)' },
-      { level: 4, label: "Solution", text: 'tokens = stream.split(",") and print(tokens).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 190,
     coinsReward: 95,
@@ -271,10 +243,7 @@ print(tokens)
     story: "Verify if the track code starts with 'SECTOR'.",
     objectives: ["Set track = 'SECTOR_02_NEON'", "Set valid = track.startswith('SECTOR')", "Print valid"],
     conceptExplanation: ".startswith(prefix) checks if a string begins with a specified substring.",
-    starterCode: `track = "SECTOR_02_NEON"
-valid = track.startswith("SECTOR")
-print(valid)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["track", "startswith", "valid", "print"],
       requiredOutputIncludes: ["True"],
@@ -282,8 +251,8 @@ print(valid)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use track.startswith("SECTOR").' },
       { level: 2, label: "Concept", text: ".startswith() returns True or False." },
-      { level: 3, label: "Example", text: 'valid = track.startswith("SECTOR")\nprint(valid)' },
-      { level: 4, label: "Solution", text: 'valid = track.startswith("SECTOR") and print(valid).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 195,
     coinsReward: 95,
@@ -299,10 +268,7 @@ print(valid)
     story: "Check if the vehicle firmware file ends with '.bin'.",
     objectives: ["Set filename = 'firmware_v2.bin'", "Set is_bin = filename.endswith('.bin')", "Print is_bin"],
     conceptExplanation: ".endswith(suffix) tests if a string terminates with the given substring.",
-    starterCode: `filename = "firmware_v2.bin"
-is_bin = filename.endswith(".bin")
-print(is_bin)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["filename", "endswith", "is_bin", "print"],
       requiredOutputIncludes: ["True"],
@@ -310,8 +276,8 @@ print(is_bin)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use filename.endswith(".bin").' },
       { level: 2, label: "Concept", text: ".endswith() checks the tail of a string." },
-      { level: 3, label: "Example", text: 'is_bin = filename.endswith(".bin")\nprint(is_bin)' },
-      { level: 4, label: "Solution", text: 'is_bin = filename.endswith(".bin") and print(is_bin).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 200,
     coinsReward: 100,
@@ -327,10 +293,7 @@ print(is_bin)
     story: "Assemble a path URL using '/' as a joiner between sector segments.",
     objectives: ["Set segments = ['desuper', 'sector2', 'neon']", "Set path = '/'.join(segments)", "Print path"],
     conceptExplanation: "'delimiter'.join(iterable) joins a list of strings into one string separated by the delimiter.",
-    starterCode: `segments = ["desuper", "sector2", "neon"]
-path = "/".join(segments)
-print(path)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["segments", "join", "path", "print"],
       requiredOutputIncludes: ["desuper/sector2/neon"],
@@ -338,8 +301,8 @@ print(path)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use "/".join(segments).' },
       { level: 2, label: "Concept", text: "join() combines list items with a separator." },
-      { level: 3, label: "Example", text: 'path = "/".join(segments)\nprint(path)' },
-      { level: 4, label: "Solution", text: 'path = "/".join(segments) and print(path).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 205,
     coinsReward: 100,
@@ -355,11 +318,7 @@ print(path)
     story: "Compare current vehicle velocity against the track speed limit of 280 km/h.",
     objectives: ["Set current_speed = 310", "Set speed_limit = 280", "Set is_speeding = current_speed > speed_limit", "Print is_speeding"],
     conceptExplanation: "Relational operators compare values and evaluate to boolean True or False.",
-    starterCode: `current_speed = 310
-speed_limit = 280
-is_speeding = current_speed > speed_limit
-print(is_speeding)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["current_speed", "speed_limit", "is_speeding", "print"],
       requiredOutputIncludes: ["True"],
@@ -367,8 +326,8 @@ print(is_speeding)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Compare with '>'." },
       { level: 2, label: "Concept", text: "310 > 280 evaluates to True." },
-      { level: 3, label: "Example", text: "is_speeding = current_speed > speed_limit\nprint(is_speeding)" },
-      { level: 4, label: "Solution", text: "is_speeding = current_speed > speed_limit and print(is_speeding)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 210,
     coinsReward: 105,
@@ -384,11 +343,7 @@ print(is_speeding)
     story: "Check if the entered security PIN matches the sector passkey.",
     objectives: ["Set entered_pin = 4455", "Set system_pin = 4455", "Set is_match = (entered_pin == system_pin)", "Print is_match"],
     conceptExplanation: "'==' tests equality between two values, whereas '=' assigns a value to a variable.",
-    starterCode: `entered_pin = 4455
-system_pin = 4455
-is_match = entered_pin == system_pin
-print(is_match)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["entered_pin", "system_pin", "==", "is_match", "print"],
       requiredOutputIncludes: ["True"],
@@ -396,8 +351,8 @@ print(is_match)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '==' for comparison." },
       { level: 2, label: "Concept", text: "entered_pin == system_pin evaluates to True." },
-      { level: 3, label: "Example", text: "is_match = entered_pin == system_pin\nprint(is_match)" },
-      { level: 4, label: "Solution", text: "is_match = entered_pin == system_pin and print(is_match)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 215,
     coinsReward: 105,
@@ -413,11 +368,7 @@ print(is_match)
     story: "Verify that the vehicle target destination is not identical to current location.",
     objectives: ["Set current_loc = 'NEON_JUNCTION'", "Set target_loc = 'SILICON_RIFT'", "Set is_different = (current_loc != target_loc)", "Print is_different"],
     conceptExplanation: "'!=' checks if two values are not equal.",
-    starterCode: `current_loc = "NEON_JUNCTION"
-target_loc = "SILICON_RIFT"
-is_different = current_loc != target_loc
-print(is_different)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["current_loc", "target_loc", "!=", "is_different", "print"],
       requiredOutputIncludes: ["True"],
@@ -425,8 +376,8 @@ print(is_different)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '!=' to test inequality." },
       { level: 2, label: "Concept", text: "current_loc != target_loc evaluates to True." },
-      { level: 3, label: "Example", text: "is_different = current_loc != target_loc\nprint(is_different)" },
-      { level: 4, label: "Solution", text: "is_different = current_loc != target_loc and print(is_different)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 220,
     coinsReward: 110,
@@ -442,11 +393,7 @@ print(is_different)
     story: "Engage warp propulsion only when both shields and boost pressure are at maximum.",
     objectives: ["Set shield_ready = True", "Set boost_ready = True", "Set warp_allowed = shield_ready and boost_ready", "Print warp_allowed"],
     conceptExplanation: "The 'and' operator returns True only if both operand expressions evaluate to True.",
-    starterCode: `shield_ready = True
-boost_ready = True
-warp_allowed = shield_ready and boost_ready
-print(warp_allowed)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["shield_ready", "boost_ready", "and", "warp_allowed", "print"],
       requiredOutputIncludes: ["True"],
@@ -454,8 +401,8 @@ print(warp_allowed)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use 'and' to combine booleans." },
       { level: 2, label: "Concept", text: "True and True is True." },
-      { level: 3, label: "Example", text: "warp_allowed = shield_ready and boost_ready\nprint(warp_allowed)" },
-      { level: 4, label: "Solution", text: "warp_allowed = shield_ready and boost_ready and print(warp_allowed)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 225,
     coinsReward: 110,
@@ -471,11 +418,7 @@ print(warp_allowed)
     story: "Allow lane overtaking if either the left or right lane is clear.",
     objectives: ["Set left_clear = False", "Set right_clear = True", "Set can_overtake = left_clear or right_clear", "Print can_overtake"],
     conceptExplanation: "The 'or' operator returns True if at least one operand evaluates to True.",
-    starterCode: `left_clear = False
-right_clear = True
-can_overtake = left_clear or right_clear
-print(can_overtake)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["left_clear", "right_clear", "or", "can_overtake", "print"],
       requiredOutputIncludes: ["True"],
@@ -483,8 +426,8 @@ print(can_overtake)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use 'or'." },
       { level: 2, label: "Concept", text: "False or True is True." },
-      { level: 3, label: "Example", text: "can_overtake = left_clear or right_clear\nprint(can_overtake)" },
-      { level: 4, label: "Solution", text: "can_overtake = left_clear or right_clear and print(can_overtake)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 230,
     coinsReward: 115,
@@ -506,14 +449,7 @@ print(can_overtake)
       "Print hud",
     ],
     conceptExplanation: "You have mastered Python string operations, methods, formatting, comparisons, and boolean logic!",
-    starterCode: `racer = "nexus_prime"
-clean_racer = racer.upper()
-speed = 360
-is_ready = speed > 300
-
-hud = f"PILOT: {clean_racer} | VELOCITY: {speed} KM/H | READY: {is_ready}"
-print(hud)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["upper()", "f\"", "speed", "print"],
       requiredOutputIncludes: ["PILOT: NEXUS_PRIME | VELOCITY: 360 KM/H | READY: True"],
@@ -521,8 +457,8 @@ print(hud)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Transform racer with upper() and format with an f-string." },
       { level: 2, label: "Concept", text: "Combine string methods with f-string interpolation." },
-      { level: 3, label: "Example", text: 'hud = f"PILOT: {clean_racer} | VELOCITY: {speed} KM/H | READY: {is_ready}"\nprint(hud)' },
-      { level: 4, label: "Solution", text: "Run the final Novice passport script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 250,
     coinsReward: 125,

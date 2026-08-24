@@ -15,26 +15,7 @@ export const RANK9_GRANDMASTER_MISSIONS: Mission[] = [
       "Print valid speed",
     ],
     conceptExplanation: "Descriptors are objects that customize attribute lookup, assignment, and deletion using __get__ and __set__.",
-    starterCode: `class PosInteger:
-    def __init__(self, name):
-        self.name = name
-
-    def __get__(self, instance, owner):
-        return instance.__dict__[self.name]
-
-    def __set__(self, instance, value):
-        if value < 0:
-            raise ValueError("Must be positive")
-        instance.__dict__[self.name] = value
-
-class Racer:
-    speed = PosInteger("speed")
-    def __init__(self, speed):
-        self.speed = speed
-
-r = Racer(450)
-print(f"VALIDATED SPEED: {r.speed}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __get__(self,", "def __set__(self,", "PosInteger(\"speed\")", "print"],
       requiredOutputIncludes: ["VALIDATED SPEED: 450"],
@@ -42,8 +23,8 @@ print(f"VALIDATED SPEED: {r.speed}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Implement __get__ and __set__ on the descriptor class." },
       { level: 2, label: "Concept", text: "Descriptors underpin Python properties and methods." },
-      { level: 3, label: "Example", text: "r = Racer(450)\nprint(f'VALIDATED SPEED: {r.speed}')" },
-      { level: 4, label: "Solution", text: "Execute descriptor protocol implementation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 850,
     coinsReward: 425,
@@ -64,22 +45,7 @@ print(f"VALIDATED SPEED: {r.speed}")
       "Print engine registry",
     ],
     conceptExplanation: "Metaclasses are 'classes of classes' that control class definition and instantiation.",
-    starterCode: `registry = []
-
-class AutoRegisterMeta(type):
-    def __new__(cls, name, bases, dct):
-        new_class = super().__new__(cls, name, bases, dct)
-        registry.append(name)
-        return new_class
-
-class AlphaVehicle(metaclass=AutoRegisterMeta):
-    pass
-
-class BetaVehicle(metaclass=AutoRegisterMeta):
-    pass
-
-print(f"REGISTERED VEHICLES: {registry}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class AutoRegisterMeta(type):", "super().__new__(cls, name, bases, dct)", "print"],
       requiredOutputIncludes: ["REGISTERED VEHICLES: ['AlphaVehicle', 'BetaVehicle']"],
@@ -87,8 +53,8 @@ print(f"REGISTERED VEHICLES: {registry}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Inherit metaclass from type." },
       { level: 2, label: "Concept", text: "Automatically registers classes when defined." },
-      { level: 3, label: "Example", text: "print(f'REGISTERED VEHICLES: {registry}')" },
-      { level: 4, label: "Solution", text: "Execute metaclass registration." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 855,
     coinsReward: 425,
@@ -110,25 +76,7 @@ print(f"REGISTERED VEHICLES: {registry}")
       "Print stack elements",
     ],
     conceptExplanation: "Generic types allow writing reusable data structures with explicit static type checking support.",
-    starterCode: `from typing import TypeVar, Generic, List
-
-T = TypeVar("T")
-
-class Stack(Generic[T]):
-    def __init__(self) -> None:
-        self.items: List[T] = []
-
-    def push(self, item: T) -> None:
-        self.items.append(item)
-
-    def pop(self) -> T:
-        return self.items.pop()
-
-s = Stack[int]()
-s.push(10)
-s.push(20)
-print(f"POPPED: {s.pop()} | REMAINING: {s.items}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["TypeVar(\"T\")", "class Stack(Generic[T]):", "print"],
       requiredOutputIncludes: ["POPPED: 20 | REMAINING: [10]"],
@@ -136,8 +84,8 @@ print(f"POPPED: {s.pop()} | REMAINING: {s.items}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use TypeVar('T') and Generic[T]." },
       { level: 2, label: "Concept", text: "Generic Stack provides strict type safety." },
-      { level: 3, label: "Example", text: "s = Stack[int]()\ns.push(10)\ns.push(20)" },
-      { level: 4, label: "Solution", text: "Execute Generic TypeVar container." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 860,
     coinsReward: 430,
@@ -158,21 +106,7 @@ print(f"POPPED: {s.pop()} | REMAINING: {s.items}")
       "Pass compatible object to function and print output",
     ],
     conceptExplanation: "Protocols enable static duck typing: classes matching the protocol signature conform automatically without subclassing.",
-    starterCode: `from typing import Protocol
-
-class Drivable(Protocol):
-    def drive(self) -> str:
-        ...
-
-class CyberCar:
-    def drive(self) -> str:
-        return "DRIVING AT 400 KM/H"
-
-def start_engine(v: Drivable):
-    return v.drive()
-
-print(start_engine(CyberCar()))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from typing import Protocol", "class Drivable(Protocol):", "print"],
       requiredOutputIncludes: ["DRIVING AT 400 KM/H"],
@@ -180,8 +114,8 @@ print(start_engine(CyberCar()))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use typing.Protocol with ellipsis method body (...)." },
       { level: 2, label: "Concept", text: "CyberCar matches Drivable protocol implicitly." },
-      { level: 3, label: "Example", text: "print(start_engine(CyberCar()))" },
-      { level: 4, label: "Solution", text: "Execute Protocol duck typing." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 865,
     coinsReward: 430,
@@ -201,23 +135,7 @@ print(start_engine(CyberCar()))
       "Call with different types and print results",
     ],
     conceptExplanation: "singledispatch transforms a regular function into a generic function with type-dispatched overloads.",
-    starterCode: `from functools import singledispatch
-
-@singledispatch
-def process(arg):
-    return f"UNKNOWN: {arg}"
-
-@process.register(int)
-def _(arg: int):
-    return f"INTEGER TELEMETRY: {arg * 2}"
-
-@process.register(str)
-def _(arg: str):
-    return f"STRING TELEMETRY: {arg.upper()}"
-
-print(process(50))
-print(process("nitro"))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@singledispatch", "@process.register(int)", "print"],
       requiredOutputIncludes: ["INTEGER TELEMETRY: 100", "STRING TELEMETRY: NITRO"],
@@ -225,8 +143,8 @@ print(process("nitro"))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @singledispatch and @process.register." },
       { level: 2, label: "Concept", text: "Dispatches based on runtime argument type." },
-      { level: 3, label: "Example", text: "print(process(50))\nprint(process('nitro'))" },
-      { level: 4, label: "Solution", text: "Execute singledispatch overloads." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 870,
     coinsReward: 435,
@@ -246,16 +164,7 @@ print(process("nitro"))
       "Pop highest priority and print task name",
     ],
     conceptExplanation: "heapq provides binary heap algorithms for priority queues where the smallest item is popped first.",
-    starterCode: `import heapq
-
-pq = []
-heapq.heappush(pq, (3, "RADIO"))
-heapq.heappush(pq, (1, "STEER"))
-heapq.heappush(pq, (2, "BRAKE"))
-
-priority, task = heapq.heappop(pq)
-print(f"HIGHEST PRIORITY TASK: {task}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["import heapq", "heapq.heappush", "heapq.heappop", "print"],
       requiredOutputIncludes: ["HIGHEST PRIORITY TASK: STEER"],
@@ -263,8 +172,8 @@ print(f"HIGHEST PRIORITY TASK: {task}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use heapq.heappush and heapq.heappop." },
       { level: 2, label: "Concept", text: "Pops (1, 'STEER') first because 1 is smallest." },
-      { level: 3, label: "Example", text: "priority, task = heapq.heappop(pq)\nprint(f'HIGHEST PRIORITY TASK: {task}')" },
-      { level: 4, label: "Solution", text: "Execute min-heap priority queue." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 875,
     coinsReward: 435,
@@ -285,22 +194,7 @@ print(f"HIGHEST PRIORITY TASK: {task}")
       "Execute and print result",
     ],
     conceptExplanation: "Decorators with arguments require 3 nested functions: decorator_factory -> decorator -> wrapper.",
-    starterCode: `def repeat(times):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            results = []
-            for _ in range(times):
-                results.append(func(*args, **kwargs))
-            return results
-        return wrapper
-    return decorator
-
-@repeat(times=3)
-def ping():
-    return "PING"
-
-print(ping())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def repeat(times):", "@repeat(times=3)", "print"],
       requiredOutputIncludes: ["['PING', 'PING', 'PING']"],
@@ -308,8 +202,8 @@ print(ping())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Create 3-level nested functions for parameterized decorators." },
       { level: 2, label: "Concept", text: "Outer function accepts parameters; inner functions wrap execution." },
-      { level: 3, label: "Example", text: "@repeat(times=3)\ndef ping(): return 'PING'" },
-      { level: 4, label: "Solution", text: "Execute parameterized decorator factory." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 880,
     coinsReward: 440,
@@ -329,21 +223,7 @@ print(ping())
       "Print visited sequence",
     ],
     conceptExplanation: "In-order traversal of a binary search tree visits nodes in ascending order.",
-    starterCode: `class Node:
-    def __init__(self, val, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-root = Node(20, Node(10), Node(30))
-
-def in_order(n):
-    if not n:
-        return []
-    return in_order(n.left) + [n.val] + in_order(n.right)
-
-print(in_order(root))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class Node:", "in_order(n.left) + [n.val] + in_order(n.right)", "print"],
       requiredOutputIncludes: ["[10, 20, 30]"],
@@ -351,8 +231,8 @@ print(in_order(root))
     hints: [
       { level: 1, label: "Subtle Clue", text: "In-order recurses left, appends root, recurses right." },
       { level: 2, label: "Concept", text: "Yields [10, 20, 30]." },
-      { level: 3, label: "Example", text: "print(in_order(root))" },
-      { level: 4, label: "Solution", text: "Execute tree in-order traversal." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 885,
     coinsReward: 440,
@@ -373,31 +253,7 @@ print(in_order(root))
       "Print result",
     ],
     conceptExplanation: "Tries are tree structures used for fast prefix lookups, string autocompletion, and spell checking.",
-    starterCode: `class Trie:
-    def __init__(self):
-        self.root = {}
-
-    def insert(self, word):
-        node = self.root
-        for char in word:
-            if char not in node:
-                node[char] = {}
-            node = node[char]
-        node["#"] = True
-
-    def starts_with(self, prefix):
-        node = self.root
-        for char in prefix:
-            if char not in node:
-                return False
-            node = node[char]
-        return True
-
-t = Trie()
-t.insert("TURBO")
-t.insert("TUNING")
-print(f"STARTS WITH 'TU': {t.starts_with('TU')}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class Trie:", "def insert(self, word):", "def starts_with(self, prefix):", "print"],
       requiredOutputIncludes: ["STARTS WITH 'TU': True"],
@@ -406,7 +262,7 @@ print(f"STARTS WITH 'TU': {t.starts_with('TU')}")
       { level: 1, label: "Subtle Clue", text: "Traverse nested dictionary nodes for each character." },
       { level: 2, label: "Concept", text: "O(K) lookup where K is the length of the prefix." },
       { level: 3, label: "Example", text: "print(f\"STARTS WITH 'TU': {t.starts_with('TU')}\")" },
-      { level: 4, label: "Solution", text: "Execute Trie prefix search." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 890,
     coinsReward: 445,
@@ -426,11 +282,7 @@ print(f"STARTS WITH 'TU': {t.starts_with('TU')}")
       "Print result",
     ],
     conceptExplanation: "eval() evaluates Python expressions dynamically with explicit global and local security namespaces.",
-    starterCode: `formula = "speed * 1.5 + 20"
-context = {"speed": 100}
-result = eval(formula, {"__builtins__": None}, context)
-print(f"EVALUATED THRUST: {result}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["eval(formula,", "context", "print"],
       requiredOutputIncludes: ["EVALUATED THRUST: 170.0"],
@@ -438,8 +290,8 @@ print(f"EVALUATED THRUST: {result}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use eval(formula, globals, locals)." },
       { level: 2, label: "Concept", text: "100 * 1.5 + 20 = 170.0." },
-      { level: 3, label: "Example", text: "print(f'EVALUATED THRUST: {result}')" },
-      { level: 4, label: "Solution", text: "Execute sandboxed eval formula." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 895,
     coinsReward: 445,
@@ -459,10 +311,7 @@ print(f"EVALUATED THRUST: {result}")
       "Print hex representation",
     ],
     conceptExplanation: "bytearray objects provide mutable sequences of raw byte integers in the range 0 <= x < 256.",
-    starterCode: `buf = bytearray([0xFF, 0x00, 0xAA])
-buf[1] = 0x77
-print(buf.hex().upper())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["bytearray([0xFF, 0x00, 0xAA])", "buf[1] = 0x77", "print"],
       requiredOutputIncludes: ["FF77AA"],
@@ -470,8 +319,8 @@ print(buf.hex().upper())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Mutate index 1 of the bytearray." },
       { level: 2, label: "Concept", text: "Prints hex FF77AA." },
-      { level: 3, label: "Example", text: "print(buf.hex().upper())" },
-      { level: 4, label: "Solution", text: "Execute bytearray buffer mutation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 900,
     coinsReward: 450,
@@ -490,13 +339,7 @@ print(buf.hex().upper())
       "Simulate coroutine execution and print output",
     ],
     conceptExplanation: "async/await enables cooperative multitasking for non-blocking I/O operations.",
-    starterCode: `class AsyncEngine:
-    @staticmethod
-    def simulate_run():
-        return "ASYNC COROUTINE: PACKET DELIVERED (0ms LATENCY)"
-
-print(AsyncEngine.simulate_run())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["AsyncEngine", "simulate_run()", "print"],
       requiredOutputIncludes: ["ASYNC COROUTINE: PACKET DELIVERED (0ms LATENCY)"],
@@ -504,8 +347,8 @@ print(AsyncEngine.simulate_run())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Execute simulated async coroutine flow." },
       { level: 2, label: "Concept", text: "Demonstrates asynchronous programming paradigm." },
-      { level: 3, label: "Example", text: "print(AsyncEngine.simulate_run())" },
-      { level: 4, label: "Solution", text: "Execute async coroutine simulation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 905,
     coinsReward: 450,
@@ -525,21 +368,7 @@ print(AsyncEngine.simulate_run())
       "Print visited nodes",
     ],
     conceptExplanation: "BFS explores graph vertices level-by-level using a FIFO queue, finding unweighted shortest paths.",
-    starterCode: `from collections import deque
-
-graph = {"A": ["B", "C"], "B": ["D"], "C": ["D"], "D": []}
-queue = deque(["A"])
-visited = []
-
-while queue:
-    curr = queue.popleft()
-    if curr not in visited:
-        visited.append(curr)
-        for neighbor in graph[curr]:
-            queue.append(neighbor)
-
-print(visited)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from collections import deque", "queue.popleft()", "visited.append(curr)", "print"],
       requiredOutputIncludes: ["['A', 'B', 'C', 'D']"],
@@ -547,8 +376,8 @@ print(visited)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use deque for FIFO queue BFS traversal." },
       { level: 2, label: "Concept", text: "Visits all reachable nodes in level order." },
-      { level: 3, label: "Example", text: "print(visited)" },
-      { level: 4, label: "Solution", text: "Execute BFS graph traversal." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 910,
     coinsReward: 455,
@@ -568,18 +397,7 @@ print(visited)
       "Print order",
     ],
     conceptExplanation: "DFS explores as deep as possible along each branch before backtracking.",
-    starterCode: `graph = {"A": ["B", "C"], "B": ["D"], "C": [], "D": []}
-visited = []
-
-def dfs(node):
-    if node not in visited:
-        visited.append(node)
-        for neighbor in graph[node]:
-            dfs(neighbor)
-
-dfs("A")
-print(visited)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def dfs(node):", "dfs(neighbor)", "print"],
       requiredOutputIncludes: ["['A', 'B', 'D', 'C']"],
@@ -587,8 +405,8 @@ print(visited)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Recurse deeply along each branch." },
       { level: 2, label: "Concept", text: "DFS backtracks after reaching leaves." },
-      { level: 3, label: "Example", text: "print(visited)" },
-      { level: 4, label: "Solution", text: "Execute DFS graph traversal." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 915,
     coinsReward: 455,
@@ -607,26 +425,7 @@ print(visited)
       "Print shortest distance to 'C'",
     ],
     conceptExplanation: "Dijkstra's algorithm finds shortest paths from a source to all vertices in a weighted graph with non-negative edge weights.",
-    starterCode: `import heapq
-
-graph = {
-    "A": [("B", 4), ("C", 2)],
-    "B": [("C", 1)],
-    "C": []
-}
-
-distances = {"A": 0, "B": float("inf"), "C": float("inf")}
-pq = [(0, "A")]
-
-while pq:
-    d, u = heapq.heappop(pq)
-    for v, weight in graph[u]:
-        if distances[u] + weight < distances[v]:
-            distances[v] = distances[u] + weight
-            heapq.heappush(pq, (distances[v], v))
-
-print(f"SHORTEST DISTANCE TO C: {distances['C']}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["import heapq", "heapq.heappop", "heapq.heappush", "print"],
       requiredOutputIncludes: ["SHORTEST DISTANCE TO C: 2"],
@@ -635,7 +434,7 @@ print(f"SHORTEST DISTANCE TO C: {distances['C']}")
       { level: 1, label: "Subtle Clue", text: "Calculate distance using Dijkstra's algorithm." },
       { level: 2, label: "Concept", text: "A->C has weight 2, which is optimal." },
       { level: 3, label: "Example", text: "print(f\"SHORTEST DISTANCE TO C: {distances['C']}\")" },
-      { level: 4, label: "Solution", text: "Execute Dijkstra algorithm." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 920,
     coinsReward: 460,
@@ -654,22 +453,7 @@ print(f"SHORTEST DISTANCE TO C: {distances['C']}")
       "Print max value",
     ],
     conceptExplanation: "Dynamic programming breaks problems into overlapping subproblems, storing intermediate results for efficiency.",
-    starterCode: `weights = [10, 20, 30]
-values = [60, 100, 120]
-W = 50
-n = len(values)
-
-dp = [[0] * (W + 1) for _ in range(n + 1)]
-
-for i in range(1, n + 1):
-    for w in range(W + 1):
-        if weights[i - 1] <= w:
-            dp[i][w] = max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]])
-        else:
-            dp[i][w] = dp[i - 1][w]
-
-print(f"MAX NITRO HARVEST: {dp[n][W]}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["dp = [[0] * (W + 1)", "max(dp[i - 1][w],", "print"],
       requiredOutputIncludes: ["MAX NITRO HARVEST: 220"],
@@ -677,8 +461,8 @@ print(f"MAX NITRO HARVEST: {dp[n][W]}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Construct DP matrix." },
       { level: 2, label: "Concept", text: "Optimal value combines 100 (weight 20) + 120 (weight 30) = 220." },
-      { level: 3, label: "Example", text: "print(f'MAX NITRO HARVEST: {dp[n][W]}')" },
-      { level: 4, label: "Solution", text: "Execute 0/1 Knapsack DP." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 925,
     coinsReward: 460,
@@ -697,17 +481,7 @@ print(f"MAX NITRO HARVEST: {dp[n][W]}")
       "Print confirmed lock release",
     ],
     conceptExplanation: "Locks (Mutexes) prevent race conditions in concurrent multi-threaded environments.",
-    starterCode: `class CyberMutex:
-    def __enter__(self):
-        print("MUTEX: ACQUIRED LOCK")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("MUTEX: RELEASED LOCK")
-
-with CyberMutex():
-    print("CRITICAL SECTION: UPDATING TELEMETRY")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class CyberMutex:", "with CyberMutex():", "print"],
       requiredOutputIncludes: ["MUTEX: ACQUIRED LOCK", "CRITICAL SECTION: UPDATING TELEMETRY", "MUTEX: RELEASED LOCK"],
@@ -715,8 +489,8 @@ with CyberMutex():
     hints: [
       { level: 1, label: "Subtle Clue", text: "Acquire and release mutex lock with context manager." },
       { level: 2, label: "Concept", text: "Guarantees thread-safe resource access." },
-      { level: 3, label: "Example", text: "with CyberMutex():\n    print('CRITICAL SECTION')" },
-      { level: 4, label: "Solution", text: "Execute Mutex concurrency simulation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 930,
     coinsReward: 465,
@@ -735,11 +509,7 @@ with CyberMutex():
       "Print 'SINGULARITY GATEWAY UNLOCKED: GRANDMASTER MASTERY ACHIEVED'",
     ],
     conceptExplanation: "You have conquered advanced algorithms, graph theory, DP, descriptors, metaclasses, and generic typing!",
-    starterCode: `def solve_singularity():
-    return "SINGULARITY GATEWAY UNLOCKED: GRANDMASTER MASTERY ACHIEVED"
-
-print(solve_singularity())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def solve_singularity():", "print"],
       requiredOutputIncludes: ["SINGULARITY GATEWAY UNLOCKED: GRANDMASTER MASTERY ACHIEVED"],
@@ -747,8 +517,8 @@ print(solve_singularity())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Run the final Grandmaster singularity function." },
       { level: 2, label: "Concept", text: "Unlocks the 9th rank milestone." },
-      { level: 3, label: "Example", text: "print(solve_singularity())" },
-      { level: 4, label: "Solution", text: "Execute Grandmaster Capstone script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 950,
     coinsReward: 475,

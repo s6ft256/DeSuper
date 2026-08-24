@@ -5,7 +5,6 @@ import { RankId, ExecutionResult, VisualAction } from "../types";
 import { PythonRuntime } from "../engine/pythonEngine";
 import { VisualGameStage } from "./VisualGameStage";
 import { CodeEditor } from "./CodeEditor";
-import { CarProgressMap } from "./CarProgressMap";
 import {
   CheckCircle2,
   Lock,
@@ -22,13 +21,12 @@ import {
   HelpCircle,
   XCircle,
 } from "lucide-react";
-import confetti from "canvas-confetti";
 import { sound } from "../utils/audio";
 
 interface FailureDiagnostic {
   reasons: string[];
   checks: { label: string; passed: boolean; tip?: string }[];
-  error?: { type: string; whatHappened: string; whyItHappened: string; exampleFix: string };
+  error?: { type: string; whatHappened: string; whyItHappened: string };
   attemptCount: number;
 }
 
@@ -53,14 +51,12 @@ export const MissionsView: React.FC = () => {
     coins: number;
   } | null>(null);
 
-  // Failure and Retry State
   const [attemptCount, setAttemptCount] = useState<number>(0);
   const [failureDiagnostic, setFailureDiagnostic] = useState<FailureDiagnostic | null>(null);
   const [editorCodeResetTrigger, setEditorCodeResetTrigger] = useState<number>(0);
 
   const activeMission = MISSIONS.find((m) => m.id === selectedMissionId) || MISSIONS[0];
 
-  // Execute Code in Python Sandbox
   const handleRunCode = (code: string): ExecutionResult => {
     setLastExecutedCode(code);
     const newAttemptCount = attemptCount + 1;
@@ -91,16 +87,7 @@ export const MissionsView: React.FC = () => {
         });
         setShowVictoryModal(true);
         sound.playSuccess();
-        try {
-          confetti({
-            particleCount: 100,
-            spread: 80,
-            origin: { y: 0.6 },
-            colors: ["#06b6d4", "#10b981", "#fbbf24"],
-          });
-        } catch {}
       } else {
-        // Code ran with no crash, but did not satisfy mission objectives
         sound.playError();
         setFailureDiagnostic({
           reasons: validation.reasons,
@@ -109,7 +96,6 @@ export const MissionsView: React.FC = () => {
         });
       }
     } else {
-      // Code threw syntax error or runtime error
       sound.playError();
       const reasons = [result.error?.whatHappened || "Syntax or runtime error in Python script"];
       setFailureDiagnostic({
@@ -138,7 +124,6 @@ export const MissionsView: React.FC = () => {
     const reasons: string[] = [];
     const checks: { label: string; passed: boolean; tip?: string }[] = [];
 
-    // 1. Check Output
     if (rules.requiredOutputIncludes && rules.requiredOutputIncludes.length > 0) {
       const allOutput = result.output.join("\n");
       for (const req of rules.requiredOutputIncludes) {
@@ -154,7 +139,6 @@ export const MissionsView: React.FC = () => {
       }
     }
 
-    // 2. Check Keywords
     if (rules.requiredKeywords && rules.requiredKeywords.length > 0) {
       for (const kw of rules.requiredKeywords) {
         const hasKw = code.includes(kw);
@@ -169,7 +153,6 @@ export const MissionsView: React.FC = () => {
       }
     }
 
-    // 3. Check Variables
     if (rules.requiredVariableValues) {
       for (const [varName, expectedVal] of Object.entries(rules.requiredVariableValues)) {
         const actualVal = result.variables[varName];
@@ -222,7 +205,6 @@ export const MissionsView: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
-      {/* Rank Selector Ribbon */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
         {RANKS.map((r) => {
           const isSelected = selectedRank === r.id;
@@ -236,17 +218,17 @@ export const MissionsView: React.FC = () => {
             <button
               key={r.id}
               onClick={() => setSelectedRank(r.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs whitespace-nowrap transition-all border cursor-pointer ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs whitespace-nowrap border cursor-pointer ${
                 isSelected
-                  ? "bg-slate-900 border-violet-400 text-cyan-300 shadow-[0_0_15px_rgba(139,92,246,0.35)] font-bold"
+                  ? "bg-slate-900 border-slate-500 text-cyan-300 font-bold"
                   : isRankUnlocked
-                  ? "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700"
-                  : "bg-slate-950/40 border-slate-900 text-slate-600 opacity-60"
+                  ? "bg-slate-950 border-slate-700 text-slate-300"
+                  : "bg-slate-950 border-slate-800 text-slate-600"
               }`}
             >
               <span
-                className="w-2.5 h-2.5 rounded-full shadow-[0_0_8px_currentColor]"
-                style={{ backgroundColor: isRankUnlocked ? r.color : "#475569", color: r.color }}
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: isRankUnlocked ? r.color : "#475569" }}
               />
               <span>
                 {r.numericRank}. {r.title}
@@ -259,16 +241,14 @@ export const MissionsView: React.FC = () => {
         })}
       </div>
 
-      {/* Main Mission Arena Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Mission Directory List */}
         <div className="lg:col-span-4 space-y-3">
           <div className="flex items-center justify-between font-mono text-xs text-slate-400 px-1">
-            <span className="font-bold text-violet-400 flex items-center gap-1.5">
+            <span className="font-bold text-slate-300 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               AVAILABLE MISSIONS
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-violet-950/60 border border-violet-500/30 text-violet-300 text-[10px]">
+            <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 text-[10px]">
               {selectedRank} TIER
             </span>
           </div>
@@ -289,19 +269,19 @@ export const MissionsView: React.FC = () => {
                     setAttemptCount(0);
                     sound.playKeyClick();
                   }}
-                  className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                  className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between ${
                     isCurrent
-                      ? "bg-gradient-to-r from-violet-950/40 via-slate-900 to-slate-900 border-violet-400 shadow-[0_0_18px_rgba(139,92,246,0.25)]"
-                      : "bg-slate-950/80 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/50"
+                      ? "bg-slate-900 border-slate-500"
+                      : "bg-slate-950 border-slate-800 hover:border-slate-700"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-bold border ${
                         isCompleted
-                          ? "bg-emerald-950/80 border-emerald-500/60 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]"
+                          ? "bg-slate-900 border-emerald-500 text-emerald-300"
                           : isCurrent
-                          ? "bg-violet-950/80 border-violet-500/60 text-cyan-300 shadow-[0_0_10px_rgba(139,92,246,0.3)]"
+                          ? "bg-slate-900 border-slate-500 text-cyan-300"
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}
                     >
@@ -326,21 +306,19 @@ export const MissionsView: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Mission Active Lab */}
         <div className="lg:col-span-8 space-y-4">
-          {/* Mission Briefing Card */}
-          <div className="p-4.5 rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/90 space-y-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+          <div className="p-4.5 rounded-2xl bg-slate-900 border border-slate-700 space-y-3.5">
             <div className="flex items-start justify-between">
               <div>
-                <div className="flex items-center gap-2 font-mono text-xs text-violet-400 font-bold mb-1">
-                  <span className="bg-violet-950/80 border border-violet-500/30 px-2 py-0.5 rounded-md text-violet-300">
+                <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold mb-1">
+                  <span className="bg-slate-800 border border-slate-600 px-2 py-0.5 rounded-md text-slate-200">
                     MISSION {activeMission.number} // {activeMission.rank}
                   </span>
-                  <span className="px-2 py-0.5 rounded-md bg-slate-800/80 text-cyan-300 border border-cyan-500/30 text-[10px]">
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 text-cyan-300 border border-slate-600 text-[10px]">
                     {activeMission.difficulty}
                   </span>
                   {attemptCount > 0 && (
-                    <span className="px-2 py-0.5 rounded-md bg-slate-900 text-slate-400 border border-slate-800 text-[10px]">
+                    <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">
                       ATTEMPT #{attemptCount}
                     </span>
                   )}
@@ -349,25 +327,23 @@ export const MissionsView: React.FC = () => {
               </div>
 
               {player.completedMissions.includes(activeMission.id) && (
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-mono font-bold shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-emerald-500 text-emerald-300 text-xs font-mono font-bold">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   <span>RESOLVED</span>
                 </div>
               )}
             </div>
 
-            {/* Story & Concept Explanation */}
             <p className="text-xs text-slate-300 leading-relaxed">{activeMission.story}</p>
 
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-violet-500/25 text-xs text-violet-200 shadow-inner">
-              <div className="flex items-center gap-1.5 font-bold font-mono text-violet-300 mb-1">
+            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
+              <div className="flex items-center gap-1.5 font-bold font-mono text-slate-300 mb-1">
                 <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
                 <span>CONCEPT: {activeMission.concept}</span>
               </div>
               <p className="leading-relaxed text-slate-300">{activeMission.conceptExplanation}</p>
             </div>
 
-            {/* Objectives */}
             <div className="space-y-1.5 pt-1">
               <span className="text-[11px] font-mono text-amber-400 font-bold flex items-center gap-1">
                 <Target className="w-3 h-3 text-amber-400" />
@@ -384,7 +360,6 @@ export const MissionsView: React.FC = () => {
             </div>
           </div>
 
-          {/* Real-time 2D Visual Stage */}
           <VisualGameStage
             sceneType={activeMission.worldSceneType}
             visualActions={visualActions}
@@ -393,28 +368,25 @@ export const MissionsView: React.FC = () => {
             isLevelPassed={player.completedMissions.includes(activeMission.id)}
             missionTitle={activeMission.title}
             rankTitle={activeMission.rank}
-            onAdvanceLevel={handleNextMission}
           />
 
-          {/* Dedicated Mission Failure & Retry Banner */}
           {failureDiagnostic && (
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-rose-950/90 via-slate-900 to-slate-950 border-2 border-rose-500/70 shadow-[0_0_30px_rgba(244,63,94,0.25)] space-y-3 animate-shake">
+            <div className="p-4 rounded-2xl bg-slate-900 border-2 border-rose-500 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-rose-400 font-mono font-bold text-sm">
-                  <AlertTriangle className="w-5 h-5 text-rose-400 animate-pulse" />
+                  <AlertTriangle className="w-5 h-5 text-rose-400" />
                   <span>MISSION VALIDATION FAILED (ATTEMPT #{failureDiagnostic.attemptCount})</span>
                 </div>
                 <button
                   onClick={handleRetryMission}
-                  className="px-3 py-1 bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs font-mono rounded-lg border border-rose-500/50 flex items-center gap-1 cursor-pointer transition-all"
+                  className="px-3 py-1 bg-rose-900 hover:bg-rose-800 text-rose-200 text-xs font-mono rounded-lg border border-rose-500 flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Dismiss</span>
                 </button>
               </div>
 
-              {/* Specific checks */}
-              <div className="space-y-1.5 bg-slate-950/80 p-3 rounded-xl border border-rose-500/30">
+              <div className="space-y-1.5 bg-slate-950 p-3 rounded-xl border border-rose-500/30">
                 <span className="text-[11px] font-mono text-slate-400 font-bold block mb-1">
                   OBJECTIVE EVALUATION REPORT:
                 </span>
@@ -439,24 +411,19 @@ export const MissionsView: React.FC = () => {
                 ))}
               </div>
 
-              {/* Error details if syntax/runtime crash */}
               {failureDiagnostic.error && (
-                <div className="p-3 rounded-xl bg-slate-950/90 border border-amber-500/30 text-xs font-mono space-y-1 text-amber-200">
+                <div className="p-3 rounded-xl bg-slate-950 border border-amber-500/30 text-xs font-mono space-y-1 text-amber-200">
                   <div className="text-rose-400 font-bold">
                     {failureDiagnostic.error.type}: {failureDiagnostic.error.whatHappened}
-                  </div>
-                  <div className="text-cyan-300 text-[11px]">
-                    Recommendation: {failureDiagnostic.error.exampleFix}
                   </div>
                 </div>
               )}
 
-              {/* Interactive Retry Action Bar */}
               <div className="flex flex-wrap items-center gap-2.5 pt-1">
                 <button
                   id="mission-retry-btn"
                   onClick={handleRetryMission}
-                  className="flex-1 py-2.5 px-4 bg-gradient-to-r from-rose-600 via-fuchsia-600 to-violet-600 hover:from-rose-500 hover:to-violet-500 text-white font-mono font-bold text-xs rounded-xl shadow-[0_0_15px_rgba(244,63,94,0.4)] flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="flex-1 py-2.5 px-4 bg-rose-700 hover:bg-rose-600 text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>RETRY CODE (KEEP EDITS)</span>
@@ -465,7 +432,7 @@ export const MissionsView: React.FC = () => {
                 <button
                   id="mission-reset-scaffold-btn"
                   onClick={handleResetToStarter}
-                  className="py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white font-mono text-xs rounded-xl border border-slate-700 flex items-center gap-1.5 cursor-pointer transition-all"
+                  className="py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white font-mono text-xs rounded-xl border border-slate-700 flex items-center gap-1.5 cursor-pointer"
                   title="Revert back to clean starter code scaffold"
                 >
                   <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
@@ -474,7 +441,7 @@ export const MissionsView: React.FC = () => {
 
                 <button
                   onClick={() => setCurrentHintLevel((prev) => Math.min(4, prev + 1))}
-                  className="py-2.5 px-3 bg-amber-950/70 hover:bg-amber-900/80 text-amber-300 font-mono text-xs rounded-xl border border-amber-500/40 flex items-center gap-1.5 cursor-pointer transition-all"
+                  className="py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-amber-300 font-mono text-xs rounded-xl border border-amber-500/40 flex items-center gap-1.5 cursor-pointer"
                 >
                   <HelpCircle className="w-3.5 h-3.5" />
                   <span>Level {Math.min(4, currentHintLevel + 1)} Hint</span>
@@ -483,7 +450,6 @@ export const MissionsView: React.FC = () => {
             </div>
           )}
 
-          {/* Python Code Editor */}
           <CodeEditor
             key={`${activeMission.id}-${editorCodeResetTrigger}`}
             initialCode={activeMission.starterCode}
@@ -500,37 +466,18 @@ export const MissionsView: React.FC = () => {
             isFailed={!!failureDiagnostic}
           />
 
-          {/* Car Progress Map Screen & Visual Tracker */}
-          <CarProgressMap
-            currentMission={activeMission}
-            currentHintLevel={currentHintLevel}
-            onAdvanceHint={() => setCurrentHintLevel((prev) => Math.min(4, prev + 1))}
-            playerCode={lastExecutedCode}
-            errorMessage={failureDiagnostic?.reasons.join(" | ")}
-            onSelectMission={(missionId) => {
-              setSelectedMissionId(missionId);
-              const targetMission = MISSIONS.find((m) => m.id === missionId);
-              if (targetMission) {
-                setSelectedRank(targetMission.rank);
-              }
-              setCurrentHintLevel(1);
-              setVisualActions([]);
-              setFailureDiagnostic(null);
-            }}
-          />
         </div>
       </div>
 
-      {/* Victory Celebration Modal */}
       {showVictoryModal && victoryDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-lg">
-          <div className="w-full max-w-md p-6 rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-2 border-violet-500/60 shadow-[0_0_50px_rgba(139,92,246,0.35)] text-center space-y-4 animate-scale-up">
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-cyan-400 flex items-center justify-center shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-              <Award className="w-9 h-9 text-slate-950" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85">
+          <div className="w-full max-w-md p-6 rounded-3xl bg-slate-900 border-2 border-slate-700 text-center space-y-4">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <Award className="w-9 h-9 text-white" />
             </div>
 
             <div>
-              <span className="text-xs font-mono font-bold text-emerald-400 tracking-widest uppercase bg-emerald-950/60 border border-emerald-500/40 px-3 py-1 rounded-full shadow-sm">
+              <span className="text-xs font-mono font-bold text-emerald-400 tracking-widest uppercase bg-slate-800 border border-emerald-500/40 px-3 py-1 rounded-full">
                 MISSION ACCOMPLISHED
               </span>
               <h3 className="text-xl font-black text-white font-mono mt-2.5">
@@ -539,11 +486,11 @@ export const MissionsView: React.FC = () => {
             </div>
 
             <div className="flex items-center justify-center gap-4 py-2">
-              <div className="px-4 py-2.5 rounded-2xl bg-slate-950/80 border border-violet-500/30 font-mono shadow-sm">
+              <div className="px-4 py-2.5 rounded-2xl bg-slate-950 border border-slate-700 font-mono">
                 <span className="text-[10px] text-slate-400 block font-semibold">EARNED</span>
                 <span className="text-lg font-bold text-cyan-300">+{victoryDetails.xp} XP</span>
               </div>
-              <div className="px-4 py-2.5 rounded-2xl bg-slate-950/80 border border-amber-500/30 font-mono shadow-sm">
+              <div className="px-4 py-2.5 rounded-2xl bg-slate-950 border border-slate-700 font-mono">
                 <span className="text-[10px] text-slate-400 block font-semibold">REWARD</span>
                 <span className="text-lg font-bold text-amber-300">
                   +{victoryDetails.coins} Coins
@@ -557,7 +504,7 @@ export const MissionsView: React.FC = () => {
 
             <button
               onClick={handleNextMission}
-              className="w-full py-3.5 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:from-violet-500 hover:via-fuchsia-500 hover:to-cyan-400 text-white font-black font-mono text-sm rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.4)] flex items-center justify-center gap-2 cursor-pointer transition-all"
+              className="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-black font-mono text-sm rounded-2xl flex items-center justify-center gap-2 cursor-pointer border border-slate-700"
             >
               <span>NEXT MISSION</span>
               <ArrowRight className="w-4 h-4" />

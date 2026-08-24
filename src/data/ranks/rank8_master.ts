@@ -15,13 +15,7 @@ export const RANK8_MASTER_MISSIONS: Mission[] = [
       "Print output",
     ],
     conceptExplanation: "Generators use 'yield' to produce values one at a time on-demand, maintaining state between yields.",
-    starterCode: `def pulse_generator(n):
-    for i in range(1, n + 1):
-        yield i * 10
-
-pulses = list(pulse_generator(3))
-print(pulses)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def pulse_generator", "yield", "print"],
       requiredOutputIncludes: ["[10, 20, 30]"],
@@ -29,8 +23,8 @@ print(pulses)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use yield i * 10." },
       { level: 2, label: "Concept", text: "Produces values lazily." },
-      { level: 3, label: "Example", text: "pulses = list(pulse_generator(3))\nprint(pulses)" },
-      { level: 4, label: "Solution", text: "Execute generator function." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 750,
     coinsReward: 375,
@@ -50,12 +44,7 @@ print(pulses)
       "Print list(combined_stream())",
     ],
     conceptExplanation: "'yield from' transparently forwards all items from a sub-iterable or sub-generator.",
-    starterCode: `def combined_stream():
-    yield from [10, 20]
-    yield from [30, 40]
-
-print(list(combined_stream()))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["yield from", "print"],
       requiredOutputIncludes: ["[10, 20, 30, 40]"],
@@ -63,8 +52,8 @@ print(list(combined_stream()))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use yield from sequence." },
       { level: 2, label: "Concept", text: "Chains multiple iterables into one stream." },
-      { level: 3, label: "Example", text: "print(list(combined_stream()))" },
-      { level: 4, label: "Solution", text: "Execute sub-generator delegation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 755,
     coinsReward: 375,
@@ -84,23 +73,7 @@ print(list(combined_stream()))
       "Print sequence",
     ],
     conceptExplanation: "An iterator implements __iter__() returning self, and __next__() raising StopIteration when exhausted.",
-    starterCode: `class CountdownIterator:
-    def __init__(self, start):
-        self.current = start
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.current <= 0:
-            raise StopIteration
-        val = self.current
-        self.current -= 1
-        return val
-
-items = list(CountdownIterator(3))
-print(items)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["def __iter__(self):", "def __next__(self):", "raise StopIteration", "print"],
       requiredOutputIncludes: ["[3, 2, 1]"],
@@ -108,8 +81,8 @@ print(items)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Raise StopIteration when self.current <= 0." },
       { level: 2, label: "Concept", text: "Core of Python's iteration protocol." },
-      { level: 3, label: "Example", text: "items = list(CountdownIterator(3))\nprint(items)" },
-      { level: 4, label: "Solution", text: "Execute custom iterator." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 760,
     coinsReward: 380,
@@ -128,14 +101,7 @@ print(items)
       "Print safe error recovery messages",
     ],
     conceptExplanation: "The try block tests for errors; except catches them; finally always executes for guaranteed resource cleanup.",
-    starterCode: `try:
-    thrust = 100 / 0
-except ZeroDivisionError:
-    thrust = 0
-    print("WARNING: DIV BY ZERO HANDLED")
-finally:
-    print(f"FINAL THRUST: {thrust}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["try:", "except ZeroDivisionError:", "finally:", "print"],
       requiredOutputIncludes: ["WARNING: DIV BY ZERO HANDLED", "FINAL THRUST: 0"],
@@ -143,8 +109,8 @@ finally:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Catch ZeroDivisionError and use finally:." },
       { level: 2, label: "Concept", text: "finally block executes unconditionally." },
-      { level: 3, label: "Example", text: 'except ZeroDivisionError:\n    thrust = 0' },
-      { level: 4, label: "Solution", text: "Execute try-except-finally." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 765,
     coinsReward: 380,
@@ -165,19 +131,7 @@ finally:
       "Catch and print exception message",
     ],
     conceptExplanation: "Custom exceptions inherit from Exception to provide explicit error types for your applications.",
-    starterCode: `class EngineOverheatError(Exception):
-    pass
-
-def check_temp(temp):
-    if temp > 200:
-        raise EngineOverheatError("ENGINE CORE OVERHEATING")
-    return "TEMP OK"
-
-try:
-    check_temp(250)
-except EngineOverheatError as e:
-    print(f"ALERT CAUGHT: {e}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["class EngineOverheatError(Exception):", "raise EngineOverheatError", "except EngineOverheatError as e:", "print"],
       requiredOutputIncludes: ["ALERT CAUGHT: ENGINE CORE OVERHEATING"],
@@ -185,8 +139,8 @@ except EngineOverheatError as e:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Inherit from Exception and raise it." },
       { level: 2, label: "Concept", text: "raise EngineOverheatError('msg')" },
-      { level: 3, label: "Example", text: "except EngineOverheatError as e:\n    print(f'ALERT CAUGHT: {e}')" },
-      { level: 4, label: "Solution", text: "Execute custom exception dispatch." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 770,
     coinsReward: 385,
@@ -206,12 +160,7 @@ except EngineOverheatError as e:
       "Print counts['MINE']",
     ],
     conceptExplanation: "Counter is a dictionary subclass designed for counting hashable objects efficiently.",
-    starterCode: `from collections import Counter
-
-obstacles = ["MINE", "LASER", "MINE", "WALL", "MINE"]
-counts = Counter(obstacles)
-print(f"MINE COUNT: {counts['MINE']}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from collections import Counter", "Counter(obstacles)", "print"],
       requiredOutputIncludes: ["MINE COUNT: 3"],
@@ -220,7 +169,7 @@ print(f"MINE COUNT: {counts['MINE']}")
       { level: 1, label: "Subtle Clue", text: "Use Counter(obstacles)." },
       { level: 2, label: "Concept", text: "Counts occurrences of each item." },
       { level: 3, label: "Example", text: "print(f\"MINE COUNT: {counts['MINE']}\")" },
-      { level: 4, label: "Solution", text: "Execute frequency counting." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 775,
     coinsReward: 385,
@@ -241,15 +190,7 @@ print(f"MINE COUNT: {counts['MINE']}")
       "Print grouped laps",
     ],
     conceptExplanation: "defaultdict calls a factory function to provide default values for non-existent keys.",
-    starterCode: `from collections import defaultdict
-
-laps = defaultdict(list)
-laps["NEXUS"].append(42.5)
-laps["NEXUS"].append(41.8)
-laps["AURA"].append(43.1)
-
-print(dict(laps))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from collections import defaultdict", "defaultdict(list)", "print"],
       requiredOutputIncludes: ["'NEXUS': [42.5, 41.8]", "'AURA': [43.1]"],
@@ -257,8 +198,8 @@ print(dict(laps))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use defaultdict(list)." },
       { level: 2, label: "Concept", text: "Automatically creates empty list on key access." },
-      { level: 3, label: "Example", text: "laps = defaultdict(list)\nlaps['NEXUS'].append(42.5)" },
-      { level: 4, label: "Solution", text: "Execute defaultdict grouping." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 780,
     coinsReward: 390,
@@ -279,14 +220,7 @@ print(dict(laps))
       "Print deque content",
     ],
     conceptExplanation: "deque provides O(1) appends and pops from both ends, ideal for sliding window algorithms.",
-    starterCode: `from collections import deque
-
-window = deque(maxlen=3)
-for speed in [100, 200, 300, 400]:
-    window.append(speed)
-
-print(list(window))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from collections import deque", "deque(maxlen=3)", "print"],
       requiredOutputIncludes: ["[200, 300, 400]"],
@@ -294,8 +228,8 @@ print(list(window))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use deque(maxlen=3)." },
       { level: 2, label: "Concept", text: "Automatically drops oldest element when limit reached." },
-      { level: 3, label: "Example", text: "window = deque(maxlen=3)\nprint(list(window))" },
-      { level: 4, label: "Solution", text: "Execute deque window buffer." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 785,
     coinsReward: 390,
@@ -315,12 +249,7 @@ print(list(window))
       "Print pairs",
     ],
     conceptExplanation: "itertools provides high-performance combinatorial generators like permutations and combinations.",
-    starterCode: `from itertools import combinations
-
-pilots = ["AURA", "BLAZE", "CYBER"]
-pairs = list(combinations(pilots, 2))
-print(pairs)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from itertools import combinations", "combinations(pilots, 2)", "print"],
       requiredOutputIncludes: ["('AURA', 'BLAZE')", "('AURA', 'CYBER')", "('BLAZE', 'CYBER')"],
@@ -328,8 +257,8 @@ print(pairs)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use combinations(pilots, 2)." },
       { level: 2, label: "Concept", text: "Finds all distinct subsets of size 2." },
-      { level: 3, label: "Example", text: "pairs = list(combinations(pilots, 2))\nprint(pairs)" },
-      { level: 4, label: "Solution", text: "Execute itertools combinations." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 790,
     coinsReward: 395,
@@ -350,12 +279,7 @@ print(pairs)
       "Print first 4 states",
     ],
     conceptExplanation: "itertools.cycle(iterable) endlessly repeats elements from an iterable.",
-    starterCode: `from itertools import cycle
-
-lights = cycle(["GREEN", "YELLOW", "RED"])
-sequence = [next(lights) for _ in range(4)]
-print(sequence)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from itertools import cycle", "next(lights)", "print"],
       requiredOutputIncludes: ["['GREEN', 'YELLOW', 'RED', 'GREEN']"],
@@ -363,8 +287,8 @@ print(sequence)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use cycle() and next()." },
       { level: 2, label: "Concept", text: "Wraps back around to GREEN on step 4." },
-      { level: 3, label: "Example", text: "sequence = [next(lights) for _ in range(4)]\nprint(sequence)" },
-      { level: 4, label: "Solution", text: "Execute infinite cycle iteration." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 795,
     coinsReward: 395,
@@ -385,16 +309,7 @@ print(sequence)
       "Print result",
     ],
     conceptExplanation: "@lru_cache automatically caches function return values for previously seen arguments.",
-    starterCode: `from functools import lru_cache
-
-@lru_cache(maxsize=None)
-def fib(n):
-    if n <= 2:
-        return 1
-    return fib(n - 1) + fib(n - 2)
-
-print(fib(30))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from functools import lru_cache", "@lru_cache", "print"],
       requiredOutputIncludes: ["832040"],
@@ -402,8 +317,8 @@ print(fib(30))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Decorate fib with @lru_cache(maxsize=None)." },
       { level: 2, label: "Concept", text: "fib(30) calculates instantly with memoization." },
-      { level: 3, label: "Example", text: "@lru_cache(maxsize=None)\ndef fib(n):\n    ...\nprint(fib(30))" },
-      { level: 4, label: "Solution", text: "Execute memoized LRU cache." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 800,
     coinsReward: 400,
@@ -425,14 +340,7 @@ print(fib(30))
       "Print turbo_apply(50, 2)",
     ],
     conceptExplanation: "partial() freezes a portion of a function's arguments to produce a new callable with a simpler signature.",
-    starterCode: `from functools import partial
-
-def apply_thrust(base, boost, duration):
-    return (base + boost) * duration
-
-turbo_apply = partial(apply_thrust, 500)
-print(turbo_apply(50, 2))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from functools import partial", "partial(apply_thrust, 500)", "print"],
       requiredOutputIncludes: ["1100"],
@@ -440,8 +348,8 @@ print(turbo_apply(50, 2))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use partial(apply_thrust, 500)." },
       { level: 2, label: "Concept", text: "(500 + 50) * 2 = 1100." },
-      { level: 3, label: "Example", text: "turbo_apply = partial(apply_thrust, 500)\nprint(turbo_apply(50, 2))" },
-      { level: 4, label: "Solution", text: "Execute partial function binding." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 805,
     coinsReward: 400,
@@ -461,14 +369,7 @@ print(turbo_apply(50, 2))
       "Parse back to obj and print obj['speed']",
     ],
     conceptExplanation: "The 'json' module serializes Python dictionaries/lists to JSON strings (dumps) and parses them back (loads).",
-    starterCode: `import json
-
-data = {"pilot": "CYBER_ACE", "speed": 480}
-json_str = json.dumps(data)
-parsed = json.loads(json_str)
-
-print(f"PARSED SPEED: {parsed['speed']}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["import json", "json.dumps", "json.loads", "print"],
       requiredOutputIncludes: ["PARSED SPEED: 480"],
@@ -476,8 +377,8 @@ print(f"PARSED SPEED: {parsed['speed']}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use json.dumps and json.loads." },
       { level: 2, label: "Concept", text: "Standard data exchange format in Python." },
-      { level: 3, label: "Example", text: "parsed = json.loads(json_str)\nprint(parsed['speed'])" },
-      { level: 4, label: "Solution", text: "Execute JSON serialization roundtrip." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 810,
     coinsReward: 405,
@@ -498,17 +399,7 @@ print(f"PARSED SPEED: {parsed['speed']}")
       "Yield inside session and print start/stop notifications",
     ],
     conceptExplanation: "@contextmanager turns a generator with a single yield into a full context manager without writing a class.",
-    starterCode: `from contextlib import contextmanager
-
-@contextmanager
-def telemetry_session():
-    print("SESSION OPENED")
-    yield
-    print("SESSION CLOSED")
-
-with telemetry_session():
-    print("STREAMING PACKETS...")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from contextlib import contextmanager", "@contextmanager", "yield", "print"],
       requiredOutputIncludes: ["SESSION OPENED", "STREAMING PACKETS...", "SESSION CLOSED"],
@@ -516,8 +407,8 @@ with telemetry_session():
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use @contextmanager on generator." },
       { level: 2, label: "Concept", text: "Code before yield is __enter__, code after is __exit__." },
-      { level: 3, label: "Example", text: "with telemetry_session():\n    print('STREAMING PACKETS...')" },
-      { level: 4, label: "Solution", text: "Execute @contextmanager decorator." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 815,
     coinsReward: 405,
@@ -537,15 +428,7 @@ with telemetry_session():
       "Print method()",
     ],
     conceptExplanation: "getattr(obj, name) dynamically accesses attributes or methods using string names at runtime.",
-    starterCode: `class VehicleSystem:
-    def turbo_boost(self):
-        return "TURBO CHARGED"
-
-sys = VehicleSystem()
-action = "turbo_boost"
-method = getattr(sys, action)
-print(method())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["getattr(sys, action)", "method()", "print"],
       requiredOutputIncludes: ["TURBO CHARGED"],
@@ -553,8 +436,8 @@ print(method())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use getattr(sys, action)." },
       { level: 2, label: "Concept", text: "Dynamic method invocation via reflection." },
-      { level: 3, label: "Example", text: "method = getattr(sys, action)\nprint(method())" },
-      { level: 4, label: "Solution", text: "Execute dynamic getattr dispatch." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 820,
     coinsReward: 410,
@@ -574,15 +457,7 @@ print(method())
       "Print 'BOOST BIT ACTIVE'",
     ],
     conceptExplanation: "Bitwise operations manipulate individual bits, commonly used for high-efficiency permission bitmasks.",
-    starterCode: `FLAG_SHIELD = 1   # 001
-FLAG_BOOST = 2    # 010
-FLAG_STEALTH = 4  # 100
-
-vehicle_flags = FLAG_SHIELD | FLAG_BOOST
-
-if vehicle_flags & FLAG_BOOST:
-    print("BOOST BIT ACTIVE")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["FLAG_SHIELD | FLAG_BOOST", "vehicle_flags & FLAG_BOOST", "print"],
       requiredOutputIncludes: ["BOOST BIT ACTIVE"],
@@ -590,8 +465,8 @@ if vehicle_flags & FLAG_BOOST:
     hints: [
       { level: 1, label: "Subtle Clue", text: "Combine flags with '|' and test with '&'." },
       { level: 2, label: "Concept", text: "Bitwise mask verification." },
-      { level: 3, label: "Example", text: "if vehicle_flags & FLAG_BOOST:\n    print('BOOST BIT ACTIVE')" },
-      { level: 4, label: "Solution", text: "Execute bitwise flags validation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 825,
     coinsReward: 410,
@@ -611,12 +486,7 @@ if vehicle_flags & FLAG_BOOST:
       "Print cumulative",
     ],
     conceptExplanation: "itertools.accumulate returns accumulated sums or accumulated results of a binary function.",
-    starterCode: `from itertools import accumulate
-
-sector_distances = [10, 25, 15, 30]
-cumulative = list(accumulate(sector_distances))
-print(cumulative)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["from itertools import accumulate", "accumulate(sector_distances)", "print"],
       requiredOutputIncludes: ["[10, 35, 50, 80]"],
@@ -624,8 +494,8 @@ print(cumulative)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use list(accumulate(sector_distances))." },
       { level: 2, label: "Concept", text: "Produces running totals [10, 35, 50, 80]." },
-      { level: 3, label: "Example", text: "cumulative = list(accumulate(sector_distances))\nprint(cumulative)" },
-      { level: 4, label: "Solution", text: "Execute itertools accumulate." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 830,
     coinsReward: 415,
@@ -644,21 +514,7 @@ print(cumulative)
       "Print 'HYPER-DIMENSIONAL ENGINE SYNCHRONIZED: MASTER MASTERY ACHIEVED'",
     ],
     conceptExplanation: "You have mastered Python advanced data structures, iterators, generators, context managers, and collections!",
-    starterCode: `from collections import Counter
-from functools import lru_cache
-
-@lru_cache(maxsize=10)
-def compute_vector(x):
-    return x * 10
-
-def stream_vectors(count):
-    for i in range(1, count + 1):
-        yield compute_vector(i)
-
-results = list(stream_vectors(3))
-print(f"VECTORS: {results}")
-print("HYPER-DIMENSIONAL ENGINE SYNCHRONIZED: MASTER MASTERY ACHIEVED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["@lru_cache", "yield compute_vector", "print"],
       requiredOutputIncludes: ["VECTORS: [10, 20, 30]", "HYPER-DIMENSIONAL ENGINE SYNCHRONIZED: MASTER MASTERY ACHIEVED"],
@@ -666,8 +522,8 @@ print("HYPER-DIMENSIONAL ENGINE SYNCHRONIZED: MASTER MASTERY ACHIEVED")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Combine lru_cache and generator streaming." },
       { level: 2, label: "Concept", text: "Showcases combined functional and streaming master patterns." },
-      { level: 3, label: "Example", text: 'print("HYPER-DIMENSIONAL ENGINE SYNCHRONIZED: MASTER MASTERY ACHIEVED")' },
-      { level: 4, label: "Solution", text: "Execute Master Capstone script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 850,
     coinsReward: 425,

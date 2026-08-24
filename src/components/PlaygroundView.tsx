@@ -85,30 +85,28 @@ export const PlaygroundView: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-violet-400 font-mono text-xs font-bold">
+          <div className="flex items-center gap-2 text-slate-300 font-mono text-xs font-bold">
             <Code className="w-4 h-4 text-cyan-400" />
-            <span className="bg-violet-950/70 border border-violet-500/40 px-2.5 py-0.5 rounded-md">UNRESTRICTED PYTHON SANDBOX</span>
+            <span className="bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded-md text-slate-200">UNRESTRICTED PYTHON SANDBOX</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5 bg-gradient-to-r from-white via-violet-100 to-cyan-200 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5">
             Cyber Terminal IDE
           </h1>
         </div>
 
         <button
           onClick={handleCopyCode}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900 border border-violet-500/40 text-slate-200 hover:text-cyan-300 hover:border-violet-400 font-mono text-xs cursor-pointer shadow-sm transition-all"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 hover:text-cyan-300 font-mono text-xs cursor-pointer"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-cyan-400" />}
           <span>{copied ? "Copied!" : "Copy Code"}</span>
         </button>
       </div>
 
-      {/* Preset Code Snippets Ribbon */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1.5 no-scrollbar">
-        <span className="text-[10px] font-mono text-violet-400 font-bold px-1">PRESETS:</span>
+        <span className="text-[10px] font-mono text-slate-400 font-bold px-1">PRESETS:</span>
         {CODE_PRESETS.map((p, idx) => (
           <button
             key={idx}
@@ -117,17 +115,15 @@ export const PlaygroundView: React.FC = () => {
               setVisualActions([]);
               sound.playKeyClick();
             }}
-            className="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-900 border border-violet-500/30 hover:border-violet-400 text-cyan-300 font-mono text-xs rounded-xl whitespace-nowrap transition-all cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(139,92,246,0.25)]"
+            className="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-cyan-300 font-mono text-xs rounded-xl whitespace-nowrap cursor-pointer"
           >
             {p.name}
           </button>
         ))}
       </div>
 
-      {/* Visual Game Stage */}
       <VisualGameStage sceneType="robot_lab" visualActions={visualActions} />
 
-      {/* Code Editor */}
       <CodeEditor
         initialCode={currentCode}
         onRunCode={handleRunCode}

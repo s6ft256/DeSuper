@@ -18,7 +18,6 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { sound } from "../utils/audio";
-import confetti from "canvas-confetti";
 
 export const ProjectsView: React.FC = () => {
   const { player, completeProject } = useGame();
@@ -53,14 +52,6 @@ export const ProjectsView: React.FC = () => {
           selectedProject.xpReward,
           selectedProject.coinsReward
         );
-        try {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ["#06b6d4", "#a855f7", "#10b981"],
-          });
-        } catch {}
       } else {
         sound.playError();
       }
@@ -94,20 +85,18 @@ export const ProjectsView: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-violet-400 font-mono text-xs font-bold">
+          <div className="flex items-center gap-2 text-slate-300 font-mono text-xs font-bold">
             <FolderCode className="w-4 h-4 text-cyan-400" />
-            <span className="bg-violet-950/70 border border-violet-500/40 px-2.5 py-0.5 rounded-md">REAL-WORLD PYTHON LAB</span>
+            <span className="bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded-md text-slate-200">REAL-WORLD PYTHON LAB</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5 bg-gradient-to-r from-white via-violet-100 to-cyan-200 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5">
             Project Studio // Software Engineering
           </h1>
         </div>
       </div>
 
-      {/* Project Selector Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         {PROJECTS.map((proj) => {
           const isSelected = proj.id === selectedProject.id;
@@ -122,19 +111,19 @@ export const ProjectsView: React.FC = () => {
                 setVisualActions([]);
                 sound.playKeyClick();
               }}
-              className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+              className={`p-4 rounded-2xl border cursor-pointer flex flex-col justify-between ${
                 isSelected
-                  ? "bg-slate-900 border-violet-400 shadow-[0_0_22px_rgba(139,92,246,0.35)] scale-101"
-                  : "bg-slate-950/80 border-slate-800/80 hover:border-violet-500/40 hover:bg-slate-900/60"
+                  ? "bg-slate-900 border-slate-500"
+                  : "bg-slate-950 border-slate-800 hover:border-slate-700"
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-violet-950/80 text-cyan-300 border border-violet-500/40 shadow-sm">
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-slate-300">
                     {proj.tier}
                   </span>
                   {isDone && (
-                    <span className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-500/30">
+                    <span className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-bold bg-slate-900 border border-emerald-500/40 px-2 py-0.5 rounded-md">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       BUILT
                     </span>
@@ -156,12 +145,10 @@ export const ProjectsView: React.FC = () => {
         })}
       </div>
 
-      {/* Active Project Workspace */}
-      <div className="p-4 sm:p-6 rounded-3xl bg-slate-900/95 border border-slate-800/90 space-y-5 shadow-2xl">
-        {/* Project Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3.5">
+      <div className="p-4 sm:p-6 rounded-3xl bg-slate-900 border border-slate-700 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700 pb-3.5">
           <div>
-            <span className="text-[10px] font-mono text-violet-300 font-bold uppercase tracking-wider bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-md">
+            <span className="text-[10px] font-mono text-slate-300 font-bold uppercase tracking-wider bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-md">
               {selectedProject.category} // {selectedProject.tier}
             </span>
             <h2 className="text-lg sm:text-xl font-bold text-white font-mono mt-2">
@@ -170,20 +157,19 @@ export const ProjectsView: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-3.5 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold shadow-sm">
+            <span className="px-3.5 py-1.5 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold">
               +{selectedProject.xpReward} XP REWARD
             </span>
           </div>
         </div>
 
-        {/* Requirements & Specifications */}
         <div className="space-y-2.5">
-          <span className="text-xs font-mono text-violet-300 font-bold">SYSTEM REQUIREMENTS:</span>
+          <span className="text-xs font-mono text-slate-300 font-bold">SYSTEM REQUIREMENTS:</span>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {selectedProject.requirements.map((req, i) => (
               <div
                 key={i}
-                className="p-2.5 rounded-xl bg-slate-950 border border-violet-500/20 text-xs font-mono text-slate-200 flex items-center gap-2.5 shadow-sm"
+                className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-200 flex items-center gap-2.5"
               >
                 <span className="text-cyan-400 font-bold bg-slate-900 px-2 py-0.5 rounded-md border border-slate-800">#{i + 1}</span>
                 <span>{req}</span>
@@ -192,7 +178,6 @@ export const ProjectsView: React.FC = () => {
           </div>
         </div>
 
-        {/* Visual Game Stage */}
         <VisualGameStage
           sceneType="data_matrix"
           visualActions={visualActions}
@@ -202,24 +187,23 @@ export const ProjectsView: React.FC = () => {
           missionTitle={selectedProject.title}
         />
 
-        {/* Test Failure & Retry Alert */}
         {(hasFailedTests || projectError) && (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 border-2 border-rose-500 shadow-[0_0_25px_rgba(244,63,94,0.3)] space-y-3 animate-shake">
+          <div className="p-4 rounded-2xl bg-slate-900 border-2 border-rose-500 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-rose-400 font-mono font-bold text-xs sm:text-sm">
-                <AlertTriangle className="w-4 h-4 text-rose-400 animate-pulse" />
+                <AlertTriangle className="w-4 h-4 text-rose-400" />
                 <span>BUILD TEST SUITE FAILED // CODE REQUIRES REVISION</span>
               </div>
               <button
                 onClick={handleRetryProject}
-                className="px-2.5 py-1 bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-[11px] font-mono rounded-lg border border-rose-500/40 cursor-pointer"
+                className="px-2.5 py-1 bg-rose-900 hover:bg-rose-800 text-rose-200 text-[11px] font-mono rounded-lg border border-rose-500 cursor-pointer"
               >
                 Dismiss
               </button>
             </div>
 
             {projectError && (
-              <p className="text-xs text-rose-200 font-mono bg-slate-950/80 p-2.5 rounded-xl border border-rose-500/30">
+              <p className="text-xs text-rose-200 font-mono bg-slate-950 p-2.5 rounded-xl border border-rose-500/30">
                 {projectError}
               </p>
             )}
@@ -227,14 +211,14 @@ export const ProjectsView: React.FC = () => {
             <div className="flex items-center gap-2.5 pt-1">
               <button
                 onClick={handleRetryProject}
-                className="flex-1 py-2 px-3 bg-gradient-to-r from-rose-600 to-violet-600 hover:from-rose-500 hover:to-violet-500 text-white font-mono font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all"
+                className="flex-1 py-2 px-3 bg-rose-700 hover:bg-rose-600 text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-2 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>RETRY TEST RUN (KEEP EDITS)</span>
               </button>
               <button
                 onClick={handleResetProjectScaffold}
-                className="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-mono text-xs rounded-xl border border-slate-700 flex items-center gap-1.5 cursor-pointer transition-all"
+                className="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-mono text-xs rounded-xl border border-slate-700 flex items-center gap-1.5 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3 text-cyan-400" />
                 <span>Reset Starter Code</span>
@@ -243,7 +227,6 @@ export const ProjectsView: React.FC = () => {
           </div>
         )}
 
-        {/* Project Code Editor */}
         <CodeEditor
           key={`${selectedProject.id}-${projectResetTrigger}`}
           initialCode={selectedProject.starterCode}
@@ -260,9 +243,8 @@ export const ProjectsView: React.FC = () => {
           isFailed={hasFailedTests || !!projectError}
         />
 
-        {/* Automated Test Suite Evaluation */}
         {testResults.length > 0 && (
-          <div className="p-4 rounded-2xl bg-slate-950 border border-violet-500/30 space-y-2.5 shadow-inner">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-700 space-y-2.5">
             <span className="text-xs font-mono text-cyan-300 font-bold flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               AUTOMATED TEST RUNNER:
@@ -271,10 +253,10 @@ export const ProjectsView: React.FC = () => {
               {testResults.map((t, idx) => (
                 <div
                   key={idx}
-                  className={`p-2.5 rounded-xl font-mono text-xs flex items-center justify-between border shadow-sm ${
+                  className={`p-2.5 rounded-xl font-mono text-xs flex items-center justify-between border ${
                     t.passed
-                      ? "bg-emerald-950/70 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
-                      : "bg-rose-950/70 border-rose-500/40 text-rose-300"
+                      ? "bg-slate-900 border-emerald-500/40 text-emerald-300"
+                      : "bg-slate-900 border-rose-500/40 text-rose-300"
                   }`}
                 >
                   <div className="flex items-center gap-2">

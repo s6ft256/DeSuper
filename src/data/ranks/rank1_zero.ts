@@ -12,10 +12,7 @@ export const RANK1_ZERO_MISSIONS: Mission[] = [
     objectives: ["Use print() to output 'SYSTEM ONLINE'", "Verify that the terminal illuminates in response"],
     conceptExplanation: "In Python, the print() function sends textual information to the output console or terminal screen. Text (strings) must always be wrapped in quotes like \"HELLO\" or 'HELLO'.",
     starterCode: `# MISSION OBJECTIVE: Reboot the dormant terminal.
-# Write a print() statement below that outputs: "SYSTEM ONLINE"
-
-print("SYSTEM ONLINE")
-`,
+# Write a print() statement below that outputs: "SYSTEM ONLINE"`,
     validationRules: {
       requiredKeywords: ["print"],
       requiredOutputIncludes: ["SYSTEM ONLINE"],
@@ -23,8 +20,8 @@ print("SYSTEM ONLINE")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Look at the print() function. Text goes between parentheses and quotes." },
       { level: 2, label: "Concept", text: 'In Python, we write print("Your text here") to show messages.' },
-      { level: 3, label: "Example", text: 'print("SYSTEM ONLINE")' },
-      { level: 4, label: "Solution", text: 'Write: print("SYSTEM ONLINE")' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 50,
     coinsReward: 25,
@@ -43,11 +40,7 @@ print("SYSTEM ONLINE")
     conceptExplanation: "Variables are named containers for storing data values. In Python, you assign a value using the '=' operator without needing let or var.",
     starterCode: `# MISSION OBJECTIVE: Register pilot callsign.
 # 1. Create variable: pilot_name = "NEXUS_ONE"
-# 2. Print pilot_name
-
-pilot_name = "NEXUS_ONE"
-print(pilot_name)
-`,
+# 2. Print pilot_name`,
     validationRules: {
       requiredKeywords: ["pilot_name", "print"],
       requiredOutputIncludes: ["NEXUS_ONE"],
@@ -55,8 +48,8 @@ print(pilot_name)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Assign the string to pilot_name and pass pilot_name to print()." },
       { level: 2, label: "Concept", text: 'variable = "value" stores data. print(variable) prints that data.' },
-      { level: 3, label: "Example", text: 'pilot_name = "NEXUS_ONE"\nprint(pilot_name)' },
-      { level: 4, label: "Solution", text: 'Set pilot_name = "NEXUS_ONE" and call print(pilot_name).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 60,
     coinsReward: 30,
@@ -73,13 +66,7 @@ print(pilot_name)
     story: "The vehicle battery cells require balanced charging. Combine the energy from primary and secondary capacitors.",
     objectives: ["Set battery_a = 45", "Set battery_b = 55", "Calculate total_power = battery_a + battery_b", "Print total_power"],
     conceptExplanation: "Integers are whole numbers without decimal points. Python supports standard arithmetic operators: + (addition), - (subtraction), * (multiplication), and / (division).",
-    starterCode: `battery_a = 45
-battery_b = 55
-
-# MISSION OBJECTIVE: Calculate total power and print it
-total_power = battery_a + battery_b
-print(total_power)
-`,
+    starterCode: `# MISSION OBJECTIVE: Calculate total power and print it`,
     validationRules: {
       requiredKeywords: ["battery_a", "battery_b", "total_power", "print"],
       requiredOutputIncludes: ["100"],
@@ -87,8 +74,8 @@ print(total_power)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Add battery_a and battery_b together using '+'." },
       { level: 2, label: "Concept", text: "total_power = battery_a + battery_b stores 100." },
-      { level: 3, label: "Example", text: "total_power = battery_a + battery_b\nprint(total_power)" },
-      { level: 4, label: "Solution", text: "total_power = battery_a + battery_b and print(total_power)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 70,
     coinsReward: 35,
@@ -104,12 +91,7 @@ print(total_power)
     story: "Your propulsion thrusters can multiply engine output across 4 auxiliary cylinders.",
     objectives: ["Set base_thrust = 120", "Multiply base_thrust by 4 to get max_thrust", "Print max_thrust"],
     conceptExplanation: "Use the asterisk (*) operator in Python to multiply numeric values.",
-    starterCode: `base_thrust = 120
-
-# MISSION OBJECTIVE: Calculate max_thrust by multiplying base_thrust by 4
-max_thrust = base_thrust * 4
-print(max_thrust)
-`,
+    starterCode: `# MISSION OBJECTIVE: Calculate max_thrust by multiplying base_thrust by 4`,
     validationRules: {
       requiredKeywords: ["base_thrust", "max_thrust", "print"],
       requiredOutputIncludes: ["480"],
@@ -117,8 +99,8 @@ print(max_thrust)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '*' to multiply by 4." },
       { level: 2, label: "Concept", text: "max_thrust = base_thrust * 4" },
-      { level: 3, label: "Example", text: "max_thrust = base_thrust * 4\nprint(max_thrust)" },
-      { level: 4, label: "Solution", text: "Write max_thrust = base_thrust * 4 and print(max_thrust)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 75,
     coinsReward: 35,
@@ -134,13 +116,7 @@ print(max_thrust)
     story: "Calculate average lap speed over 3 sectors of the Genesis track.",
     objectives: ["Set total_distance = 450", "Set total_time = 3", "Calculate avg_speed = total_distance / total_time", "Print avg_speed"],
     conceptExplanation: "In Python 3, single slash '/' always performs float division, producing a floating-point number.",
-    starterCode: `total_distance = 450
-total_time = 3
-
-# MISSION OBJECTIVE: Compute avg_speed
-avg_speed = total_distance / total_time
-print(avg_speed)
-`,
+    starterCode: `# MISSION OBJECTIVE: Compute avg_speed`,
     validationRules: {
       requiredKeywords: ["total_distance", "total_time", "avg_speed", "print"],
       requiredOutputIncludes: ["150"],
@@ -148,8 +124,8 @@ print(avg_speed)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Divide distance by time using '/'." },
       { level: 2, label: "Concept", text: "avg_speed = total_distance / total_time" },
-      { level: 3, label: "Example", text: "avg_speed = total_distance / total_time\nprint(avg_speed)" },
-      { level: 4, label: "Solution", text: "avg_speed = total_distance / total_time and print(avg_speed)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 80,
     coinsReward: 40,
@@ -165,10 +141,7 @@ print(avg_speed)
     story: "Document your vehicle's laser radar frequency before entering the magnetic tunnels.",
     objectives: ["Add a comment starting with #", "Declare radar_hz = 950", "Print radar_hz"],
     conceptExplanation: "Comments in Python start with the '#' hash symbol. Python ignores everything after '#' on that line.",
-    starterCode: `# Cyber Highway Radar Config
-radar_hz = 950
-print(radar_hz)
-`,
+    starterCode: `# Cyber Highway Radar Config`,
     validationRules: {
       requiredKeywords: ["#", "radar_hz", "print"],
       requiredOutputIncludes: ["950"],
@@ -176,8 +149,8 @@ print(radar_hz)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Comments start with #." },
       { level: 2, label: "Concept", text: "# This is a comment" },
-      { level: 3, label: "Example", text: "# Calibrating radar\nradar_hz = 950\nprint(radar_hz)" },
-      { level: 4, label: "Solution", text: "Keep the comment and print radar_hz." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 85,
     coinsReward: 40,
@@ -193,11 +166,7 @@ print(radar_hz)
     story: "Analyze raw data packets incoming from the highway beacon.",
     objectives: ["Set signal = 'DE_SUPER_BEACON'", "Print type(signal)"],
     conceptExplanation: "The built-in type() function inspects and returns the data type of any Python object (e.g. <class 'str'>, <class 'int'>).",
-    starterCode: `signal = "DE_SUPER_BEACON"
-
-# MISSION OBJECTIVE: Print the type of signal
-print(type(signal))
-`,
+    starterCode: `# MISSION OBJECTIVE: Print the type of signal`,
     validationRules: {
       requiredKeywords: ["type", "signal", "print"],
       requiredOutputIncludes: ["str"],
@@ -205,8 +174,8 @@ print(type(signal))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Pass signal inside type(), and type() inside print()." },
       { level: 2, label: "Concept", text: "print(type(signal))" },
-      { level: 3, label: "Example", text: 'signal = "DE_SUPER_BEACON"\nprint(type(signal))' },
-      { level: 4, label: "Solution", text: "print(type(signal))" },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 90,
     coinsReward: 45,
@@ -222,9 +191,7 @@ print(type(signal))
     story: "Verify that the chassis serial number is stored as an integer.",
     objectives: ["Set chassis_id = 90210", "Print type(chassis_id)"],
     conceptExplanation: "Integers have the type 'int' in Python.",
-    starterCode: `chassis_id = 90210
-print(type(chassis_id))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["chassis_id", "type", "print"],
       requiredOutputIncludes: ["int"],
@@ -232,8 +199,8 @@ print(type(chassis_id))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use print(type(chassis_id))." },
       { level: 2, label: "Concept", text: "Integers return <class 'int'>." },
-      { level: 3, label: "Example", text: "print(type(chassis_id))" },
-      { level: 4, label: "Solution", text: "print(type(chassis_id))" },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 95,
     coinsReward: 45,
@@ -249,9 +216,7 @@ print(type(chassis_id))
     story: "Calibrate GPS latitude on the cyber highway.",
     objectives: ["Set latitude = 37.7749", "Print latitude"],
     conceptExplanation: "Floats represent real numbers written with a decimal point.",
-    starterCode: `latitude = 37.7749
-print(latitude)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["latitude", "print"],
       requiredOutputIncludes: ["37.7749"],
@@ -259,8 +224,8 @@ print(latitude)
     hints: [
       { level: 1, label: "Subtle Clue", text: "latitude is a floating point number." },
       { level: 2, label: "Concept", text: "Floats have decimals." },
-      { level: 3, label: "Example", text: "latitude = 37.7749\nprint(latitude)" },
-      { level: 4, label: "Solution", text: "latitude = 37.7749\nprint(latitude)" },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 100,
     coinsReward: 50,
@@ -276,9 +241,7 @@ print(latitude)
     story: "Engage the cyber vehicle core ignition circuit.",
     objectives: ["Set is_ignition_on = True", "Print is_ignition_on"],
     conceptExplanation: "Booleans represent truth values in Python: True or False (capitalized).",
-    starterCode: `is_ignition_on = True
-print(is_ignition_on)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["is_ignition_on", "True", "print"],
       requiredOutputIncludes: ["True"],
@@ -286,8 +249,8 @@ print(is_ignition_on)
     hints: [
       { level: 1, label: "Subtle Clue", text: "True must have a capital 'T'." },
       { level: 2, label: "Concept", text: "Python booleans are True and False." },
-      { level: 3, label: "Example", text: "is_ignition_on = True\nprint(is_ignition_on)" },
-      { level: 4, label: "Solution", text: "is_ignition_on = True\nprint(is_ignition_on)" },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 105,
     coinsReward: 50,
@@ -303,11 +266,7 @@ print(is_ignition_on)
     story: "Join the sector code and gate number into a single dispatch packet.",
     objectives: ["Set prefix = 'SECTOR_'", "Set number = '01'", "Set packet = prefix + number", "Print packet"],
     conceptExplanation: "The '+' operator between two strings concatenates (glues) them together.",
-    starterCode: `prefix = "SECTOR_"
-number = "01"
-packet = prefix + number
-print(packet)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["prefix", "number", "packet", "print"],
       requiredOutputIncludes: ["SECTOR_01"],
@@ -315,8 +274,8 @@ print(packet)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Join the two string variables with '+'." },
       { level: 2, label: "Concept", text: "packet = prefix + number" },
-      { level: 3, label: "Example", text: "packet = prefix + number\nprint(packet)" },
-      { level: 4, label: "Solution", text: "packet = prefix + number and print(packet)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 110,
     coinsReward: 55,
@@ -332,9 +291,7 @@ print(packet)
     story: "Generate a barrier pulse beacon repeating '=-' 10 times.",
     objectives: ["Set pattern = '=-' * 10", "Print pattern"],
     conceptExplanation: "In Python, multiplying a string by an integer repeats that string N times.",
-    starterCode: `pattern = "=-" * 10
-print(pattern)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["pattern", "print"],
       requiredOutputIncludes: ["=-=-=-=-=-=-=-=-=-=-"],
@@ -342,8 +299,8 @@ print(pattern)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Multiply the string '=-' by 10." },
       { level: 2, label: "Concept", text: "'=-' * 10 creates a repeated pattern." },
-      { level: 3, label: "Example", text: 'pattern = "=-" * 10\nprint(pattern)' },
-      { level: 4, label: "Solution", text: 'pattern = "=-" * 10 and print(pattern).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 115,
     coinsReward: 55,
@@ -359,9 +316,7 @@ print(pattern)
     story: "Measure the character length of the cyber encryption key.",
     objectives: ["Set key = 'CYBER_QUANTUM_KEY_99'", "Print len(key)"],
     conceptExplanation: "The len() function returns the number of characters in a string or items in a collection.",
-    starterCode: `key = "CYBER_QUANTUM_KEY_99"
-print(len(key))
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["key", "len", "print"],
       requiredOutputIncludes: ["21"],
@@ -369,8 +324,8 @@ print(len(key))
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use len(key) inside print()." },
       { level: 2, label: "Concept", text: "len() measures character count." },
-      { level: 3, label: "Example", text: "print(len(key))" },
-      { level: 4, label: "Solution", text: "print(len(key))" },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 120,
     coinsReward: 60,
@@ -386,9 +341,7 @@ print(len(key))
     story: "Calculate turbo wattage scaling 2 to the power of 8.",
     objectives: ["Set watts = 2 ** 8", "Print watts"],
     conceptExplanation: "The '**' operator calculates exponents (powers) in Python: 2 ** 8 = 256.",
-    starterCode: `watts = 2 ** 8
-print(watts)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["watts", "**", "print"],
       requiredOutputIncludes: ["256"],
@@ -396,8 +349,8 @@ print(watts)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '**' for exponents." },
       { level: 2, label: "Concept", text: "2 ** 8 = 256" },
-      { level: 3, label: "Example", text: "watts = 2 ** 8\nprint(watts)" },
-      { level: 4, label: "Solution", text: "watts = 2 ** 8 and print(watts)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 125,
     coinsReward: 60,
@@ -413,9 +366,7 @@ print(watts)
     story: "Calculate whole fuel cell packs when dividing 100 liters into 15L containers.",
     objectives: ["Set packs = 100 // 15", "Print packs"],
     conceptExplanation: "The '//' floor division operator divides and rounds down to the nearest integer.",
-    starterCode: `packs = 100 // 15
-print(packs)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["packs", "//", "print"],
       requiredOutputIncludes: ["6"],
@@ -423,8 +374,8 @@ print(packs)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '//' for integer floor division." },
       { level: 2, label: "Concept", text: "100 // 15 = 6" },
-      { level: 3, label: "Example", text: "packs = 100 // 15\nprint(packs)" },
-      { level: 4, label: "Solution", text: "packs = 100 // 15 and print(packs)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 130,
     coinsReward: 65,
@@ -440,9 +391,7 @@ print(packs)
     story: "Calculate the leftover fuel after packing cells.",
     objectives: ["Set remainder = 100 % 15", "Print remainder"],
     conceptExplanation: "The '%' modulo operator computes the remainder of a division.",
-    starterCode: `remainder = 100 % 15
-print(remainder)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["remainder", "%", "print"],
       requiredOutputIncludes: ["10"],
@@ -450,8 +399,8 @@ print(remainder)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '%' to get the remainder." },
       { level: 2, label: "Concept", text: "100 % 15 is 10." },
-      { level: 3, label: "Example", text: "remainder = 100 % 15\nprint(remainder)" },
-      { level: 4, label: "Solution", text: "remainder = 100 % 15 and print(remainder)." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 135,
     coinsReward: 65,
@@ -467,10 +416,7 @@ print(remainder)
     story: "Convert lap time integer 42 into string format to send telemetry.",
     objectives: ["Set lap_time = 42", "Set msg = 'Lap: ' + str(lap_time)", "Print msg"],
     conceptExplanation: "The str() function converts numbers and other objects to string type.",
-    starterCode: `lap_time = 42
-msg = "Lap: " + str(lap_time)
-print(msg)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["str", "lap_time", "msg", "print"],
       requiredOutputIncludes: ["Lap: 42"],
@@ -478,8 +424,8 @@ print(msg)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Convert lap_time using str()." },
       { level: 2, label: "Concept", text: "str(42) produces '42'." },
-      { level: 3, label: "Example", text: 'msg = "Lap: " + str(lap_time)\nprint(msg)' },
-      { level: 4, label: "Solution", text: 'msg = "Lap: " + str(lap_time) and print(msg).' },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 140,
     coinsReward: 70,
@@ -500,14 +446,7 @@ print(msg)
       "Print 'PILOT: PILOT_ZERO | SPEED: 250 | ACTIVE: True'",
     ],
     conceptExplanation: "Congratulations on mastering the fundamentals of Python! You are ready to enter Rank 2: NOVICE.",
-    starterCode: `racer = "PILOT_ZERO"
-speed = 250
-status = True
-
-# MISSION OBJECTIVE: Combine all 3 into final dispatch string
-report = "PILOT: " + racer + " | SPEED: " + str(speed) + " | ACTIVE: " + str(status)
-print(report)
-`,
+    starterCode: `# MISSION OBJECTIVE: Combine all 3 into final dispatch string`,
     validationRules: {
       requiredKeywords: ["racer", "speed", "status", "print"],
       requiredOutputIncludes: ["PILOT: PILOT_ZERO | SPEED: 250 | ACTIVE: True"],
@@ -515,8 +454,8 @@ print(report)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Format the dispatch report and print it." },
       { level: 2, label: "Concept", text: "Combine strings and str() representations." },
-      { level: 3, label: "Example", text: 'report = "PILOT: " + racer + " | SPEED: " + str(speed) + " | ACTIVE: " + str(status)\nprint(report)' },
-      { level: 4, label: "Solution", text: "Execute the completed report script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 150,
     coinsReward: 75,

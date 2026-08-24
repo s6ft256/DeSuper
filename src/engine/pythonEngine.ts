@@ -1183,7 +1183,6 @@ export class PythonRuntime {
           whatHappened: `A string quotation was opened on line ${lineNum} but never closed before the line ended.`,
           whyItHappened: `In Python, every opening quote (' or ") must have a matching closing quote on the same line.`,
           conceptHint: `Check that all text strings have both opening and closing quotation marks.`,
-          exampleFix: `print("SYSTEM ONLINE")  # Both quotes closed!`,
         };
       }
 
@@ -1197,7 +1196,6 @@ export class PythonRuntime {
           whatHappened: `The header of the compound statement on line ${lineNum} is missing a colon at the end.`,
           whyItHappened: `Python uses colons (:) to signal the start of an indented code block.`,
           conceptHint: `Add a ':' at the end of the line before writing indented code.`,
-          exampleFix: `${trimmed}:`,
         };
       }
 
@@ -1212,7 +1210,6 @@ export class PythonRuntime {
           whatHappened: `An open parenthesis was never closed on line ${lineNum}.`,
           whyItHappened: `Function calls, lists, and expressions require matching closing parentheses.`,
           conceptHint: `Make sure every '(' is balanced with a ')'.`,
-          exampleFix: `print("Hello World")`,
         };
       }
     }
@@ -1232,7 +1229,6 @@ export class PythonRuntime {
         whatHappened: `The program attempted to use '${varName}', but Python does not recognize what it is.`,
         whyItHappened: `Variables or functions must be created and assigned before being used. Check for typos.`,
         conceptHint: `Assign a value to '${varName}' first (e.g. ${varName} = 100) or check the spelling.`,
-        exampleFix: `${varName} = "Cyber Track"\nprint(${varName})`,
       };
     }
 
@@ -1244,7 +1240,6 @@ export class PythonRuntime {
         whatHappened: "The code executed continuously without a termination condition.",
         whyItHappened: "A while loop condition was never set to False, or a recursive function lacked a base case.",
         conceptHint: "Add a condition that terminates the loop or decreases counter (e.g., i += 1).",
-        exampleFix: "count = 0\nwhile count < 5:\n    print(count)\n    count += 1",
       };
     }
 
@@ -1255,7 +1250,6 @@ export class PythonRuntime {
       whatHappened: `An unexpected runtime error occurred during execution: ${rawMsg}`,
       whyItHappened: `The code attempted an operation not supported by current types or values.`,
       conceptHint: `Review variable types and arguments.`,
-      exampleFix: `Ensure correct variable types and values before invoking methods.`,
     };
   }
 

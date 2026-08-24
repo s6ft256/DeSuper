@@ -16,11 +16,7 @@ export const RANK5_DEVELOPER_MISSIONS: Mission[] = [
       "Print inventory",
     ],
     conceptExplanation: ".append(x) adds an item to the end of a list. .pop(index) removes and returns the item at index.",
-    starterCode: `inventory = ["BATTERY_OLD", "SHIELD"]
-inventory.append("NITRO_CANISTER")
-inventory.pop(0)
-print(inventory)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["append", "pop(0)", "print"],
       requiredOutputIncludes: ["['SHIELD', 'NITRO_CANISTER']"],
@@ -28,8 +24,8 @@ print(inventory)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Append the nitro canister and pop index 0." },
       { level: 2, label: "Concept", text: "append adds to end; pop(0) removes first element." },
-      { level: 3, label: "Example", text: 'inventory.append("NITRO_CANISTER")\ninventory.pop(0)\nprint(inventory)' },
-      { level: 4, label: "Solution", text: "Execute list mutation." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 450,
     coinsReward: 225,
@@ -46,10 +42,7 @@ print(inventory)
     story: "Sort lap times in ascending order to find the fastest qualifying runs.",
     objectives: ["Set laps = [48.2, 45.1, 51.0, 43.8]", "Sort laps using laps.sort()", "Print laps"],
     conceptExplanation: "list.sort() sorts the list in-place in ascending order. Use sorted(list) to return a new sorted copy.",
-    starterCode: `laps = [48.2, 45.1, 51.0, 43.8]
-laps.sort()
-print(laps)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["laps.sort()", "print"],
       requiredOutputIncludes: ["[43.8, 45.1, 48.2, 51.0]"],
@@ -57,8 +50,8 @@ print(laps)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use laps.sort()." },
       { level: 2, label: "Concept", text: "laps.sort() arranges floats from lowest to highest." },
-      { level: 3, label: "Example", text: "laps.sort()\nprint(laps)" },
-      { level: 4, label: "Solution", text: "Execute in-place list sorting." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 455,
     coinsReward: 225,
@@ -74,10 +67,7 @@ print(laps)
     story: "Extract the top 3 high scores from a leaderboard list.",
     objectives: ["Set scores = [980, 940, 890, 750, 600]", "Extract top3 = scores[:3]", "Print top3"],
     conceptExplanation: "list[:3] slices the first 3 elements (indices 0, 1, 2).",
-    starterCode: `scores = [980, 940, 890, 750, 600]
-top3 = scores[:3]
-print(top3)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["scores[:3]", "top3", "print"],
       requiredOutputIncludes: ["[980, 940, 890]"],
@@ -85,8 +75,8 @@ print(top3)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Slice scores[:3]." },
       { level: 2, label: "Concept", text: "scores[:3] grabs elements from index 0 to 2." },
-      { level: 3, label: "Example", text: "top3 = scores[:3]\nprint(top3)" },
-      { level: 4, label: "Solution", text: "Execute list slicing." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 460,
     coinsReward: 230,
@@ -106,10 +96,7 @@ print(top3)
       "Print f'GPS: X={x} Y={y} Z={z}'",
     ],
     conceptExplanation: "Tuples are ordered, immutable collections defined with parentheses. Unpacking binds tuple items to variables.",
-    starterCode: `point = (120, 340, 50)
-x, y, z = point
-print(f"GPS: X={x} Y={y} Z={z}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["(120, 340, 50)", "x, y, z = point", "print"],
       requiredOutputIncludes: ["GPS: X=120 Y=340 Z=50"],
@@ -117,8 +104,8 @@ print(f"GPS: X={x} Y={y} Z={z}")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Unpack point directly: x, y, z = point." },
       { level: 2, label: "Concept", text: "Tuple unpacking matches elements position by position." },
-      { level: 3, label: "Example", text: 'x, y, z = point\nprint(f"GPS: X={x} Y={y} Z={z}")' },
-      { level: 4, label: "Solution", text: "Execute tuple unpacking." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 465,
     coinsReward: 230,
@@ -138,9 +125,7 @@ print(f"GPS: X={x} Y={y} Z={z}")
       "Print car['top_speed']",
     ],
     conceptExplanation: "Dictionaries store key-value mappings. Retrieve values using dict[key].",
-    starterCode: `car = {"model": "CYBER_GT", "top_speed": 420, "turbo": True}
-print(car["top_speed"])
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["car[", "\"top_speed\"", "print"],
       requiredOutputIncludes: ["420"],
@@ -148,8 +133,8 @@ print(car["top_speed"])
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Lookup car["top_speed"].' },
       { level: 2, label: "Concept", text: "Dictionaries offer O(1) key lookups." },
-      { level: 3, label: "Example", text: 'print(car["top_speed"])' },
-      { level: 4, label: "Solution", text: "Execute dict lookup." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 470,
     coinsReward: 235,
@@ -170,10 +155,7 @@ print(car["top_speed"])
       "Print shield",
     ],
     conceptExplanation: ".get(key, default) avoids raising a KeyError when a key does not exist.",
-    starterCode: `vehicle = {"pilot": "NEXUS"}
-shield = vehicle.get("shield_level", 100)
-print(shield)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["vehicle.get(", "\"shield_level\", 100", "print"],
       requiredOutputIncludes: ["100"],
@@ -181,8 +163,8 @@ print(shield)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use vehicle.get("shield_level", 100).' },
       { level: 2, label: "Concept", text: "Returns 100 because 'shield_level' is missing." },
-      { level: 3, label: "Example", text: 'shield = vehicle.get("shield_level", 100)\nprint(shield)' },
-      { level: 4, label: "Solution", text: "Execute safe .get() query." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 475,
     coinsReward: 235,
@@ -201,10 +183,7 @@ print(shield)
       "Print f'{k}: {v}'",
     ],
     conceptExplanation: ".items() returns key-value view pairs (key, value) for dictionary iteration.",
-    starterCode: `stats = {"CORE": "ONLINE", "TURBO": "READY"}
-for k, v in stats.items():
-    print(f"{k}: {v}")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["stats.items()", "for k, v", "print"],
       requiredOutputIncludes: ["CORE: ONLINE", "TURBO: READY"],
@@ -212,8 +191,8 @@ for k, v in stats.items():
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use for k, v in stats.items():." },
       { level: 2, label: "Concept", text: ".items() provides both key and value." },
-      { level: 3, label: "Example", text: 'for k, v in stats.items():\n    print(f"{k}: {v}")' },
-      { level: 4, label: "Solution", text: "Execute dict.items() iteration." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 480,
     coinsReward: 240,
@@ -233,10 +212,7 @@ for k, v in stats.items():
       "Print unique",
     ],
     conceptExplanation: "Sets are unordered collections of unique elements that automatically deduplicate items.",
-    starterCode: `raw_signals = ["SIG_A", "SIG_B", "SIG_A", "SIG_C", "SIG_B"]
-unique = sorted(list(set(raw_signals)))
-print(unique)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["set(raw_signals)", "sorted", "print"],
       requiredOutputIncludes: ["['SIG_A', 'SIG_B', 'SIG_C']"],
@@ -244,8 +220,8 @@ print(unique)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Pass raw_signals through set() to deduplicate." },
       { level: 2, label: "Concept", text: "set() removes duplicate strings." },
-      { level: 3, label: "Example", text: "unique = sorted(list(set(raw_signals)))\nprint(unique)" },
-      { level: 4, label: "Solution", text: "Execute set deduplication." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 485,
     coinsReward: 240,
@@ -267,11 +243,7 @@ print(unique)
       "Print common",
     ],
     conceptExplanation: "The '&' operator computes the intersection (common items) between two sets.",
-    starterCode: `player1_sectors = {"SEC_1", "SEC_2", "SEC_3"}
-player2_sectors = {"SEC_2", "SEC_3", "SEC_4"}
-common = sorted(list(player1_sectors & player2_sectors))
-print(common)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["player1_sectors & player2_sectors", "sorted", "print"],
       requiredOutputIncludes: ["['SEC_2', 'SEC_3']"],
@@ -279,8 +251,8 @@ print(common)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use '&' between the two sets." },
       { level: 2, label: "Concept", text: "Intersection finds elements present in both sets." },
-      { level: 3, label: "Example", text: "common = sorted(list(player1_sectors & player2_sectors))\nprint(common)" },
-      { level: 4, label: "Solution", text: "Execute set intersection." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 490,
     coinsReward: 245,
@@ -299,9 +271,7 @@ print(common)
       "Print squares",
     ],
     conceptExplanation: "List comprehensions provide a concise way to create lists using the syntax [expression for item in iterable].",
-    starterCode: `squares = [x * x for x in [1, 2, 3, 4]]
-print(squares)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["[x * x for x in", "print"],
       requiredOutputIncludes: ["[1, 4, 9, 16]"],
@@ -309,8 +279,8 @@ print(squares)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use [x * x for x in [1, 2, 3, 4]]." },
       { level: 2, label: "Concept", text: "Calculates the square of each element." },
-      { level: 3, label: "Example", text: "squares = [x * x for x in [1, 2, 3, 4]]\nprint(squares)" },
-      { level: 4, label: "Solution", text: "Execute list comprehension." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 495,
     coinsReward: 245,
@@ -331,10 +301,7 @@ print(squares)
       "Print high_speeds",
     ],
     conceptExplanation: "Adding 'if condition' at the end of a comprehension filters items.",
-    starterCode: `speeds = [240, 310, 280, 350, 420]
-high_speeds = [s for s in speeds if s > 300]
-print(high_speeds)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["[s for s in speeds if s > 300]", "print"],
       requiredOutputIncludes: ["[310, 350, 420]"],
@@ -342,8 +309,8 @@ print(high_speeds)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Add 'if s > 300' inside the comprehension brackets." },
       { level: 2, label: "Concept", text: "Only items satisfying the condition are included." },
-      { level: 3, label: "Example", text: "high_speeds = [s for s in speeds if s > 300]\nprint(high_speeds)" },
-      { level: 4, label: "Solution", text: "Execute filtered list comprehension." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 500,
     coinsReward: 250,
@@ -363,10 +330,7 @@ print(high_speeds)
       "Print map_dict",
     ],
     conceptExplanation: "Dict comprehensions build dictionaries dynamically with {key_expr: val_expr for item in iterable}.",
-    starterCode: `sectors = ["S1", "S2", "S3"]
-map_dict = {s: (idx + 1) * 10 for idx, s in enumerate(sectors)}
-print(map_dict)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["{s: (idx + 1) * 10 for idx, s in enumerate(sectors)}", "print"],
       requiredOutputIncludes: ["'S1': 10", "'S3': 30"],
@@ -374,8 +338,8 @@ print(map_dict)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use dict comprehension syntax {s: ...}." },
       { level: 2, label: "Concept", text: "Transforms list into dictionary mapping." },
-      { level: 3, label: "Example", text: "map_dict = {s: (idx + 1) * 10 for idx, s in enumerate(sectors)}\nprint(map_dict)" },
-      { level: 4, label: "Solution", text: "Execute dictionary comprehension." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 505,
     coinsReward: 250,
@@ -395,10 +359,7 @@ print(map_dict)
       "Print flat",
     ],
     conceptExplanation: "Nested comprehensions can flatten multi-dimensional lists into 1D sequences.",
-    starterCode: `matrix = [[1, 2], [3, 4], [5, 6]]
-flat = [val for row in matrix for val in row]
-print(flat)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["[val for row in matrix for val in row]", "print"],
       requiredOutputIncludes: ["[1, 2, 3, 4, 5, 6]"],
@@ -406,8 +367,8 @@ print(flat)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Write [val for row in matrix for val in row]." },
       { level: 2, label: "Concept", text: "The outer loop (for row in matrix) comes first." },
-      { level: 3, label: "Example", text: "flat = [val for row in matrix for val in row]\nprint(flat)" },
-      { level: 4, label: "Solution", text: "Execute list flattening comprehension." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 510,
     coinsReward: 255,
@@ -427,12 +388,7 @@ print(flat)
       "Print match.group()",
     ],
     conceptExplanation: "Python's 're' module handles pattern matching. '\\d+' matches one or more consecutive digits.",
-    starterCode: `import re
-
-log = "LOG_ID: UNIT-8899_ACTIVE"
-match = re.search(r"UNIT-\\d+", log)
-print(match.group())
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["import re", "re.search", "match.group()", "print"],
       requiredOutputIncludes: ["UNIT-8899"],
@@ -440,8 +396,8 @@ print(match.group())
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use re.search(r'UNIT-\\d+', log)." },
       { level: 2, label: "Concept", text: "match.group() retrieves the matched string." },
-      { level: 3, label: "Example", text: 'match = re.search(r"UNIT-\\d+", log)\nprint(match.group())' },
-      { level: 4, label: "Solution", text: "Execute regex search extraction." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 515,
     coinsReward: 255,
@@ -462,12 +418,7 @@ print(match.group())
       "Print numbers",
     ],
     conceptExplanation: "re.findall(pattern, text) returns a list of all non-overlapping matches.",
-    starterCode: `import re
-
-text = "V1: 12V, V2: 24V, V3: 48V"
-numbers = re.findall(r"\\d+", text)
-print(numbers)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["import re", "re.findall", "print"],
       requiredOutputIncludes: ["['12', '24', '48']"],
@@ -475,8 +426,8 @@ print(numbers)
     hints: [
       { level: 1, label: "Subtle Clue", text: 'Use re.findall(r"\\d+", text).' },
       { level: 2, label: "Concept", text: "Finds all digits in the string." },
-      { level: 3, label: "Example", text: 'numbers = re.findall(r"\\d+", text)\nprint(numbers)' },
-      { level: 4, label: "Solution", text: "Execute re.findall extraction." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 520,
     coinsReward: 260,
@@ -496,10 +447,7 @@ print(numbers)
       "Print sorted_racers[0]['name']",
     ],
     conceptExplanation: "The 'key' argument accepts a function (like a lambda) that extracts a comparison key from each element.",
-    starterCode: `racers = [{"name": "AURA", "speed": 320}, {"name": "NEXUS", "speed": 410}]
-sorted_racers = sorted(racers, key=lambda r: r["speed"], reverse=True)
-print(sorted_racers[0]["name"])
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["key=lambda", "reverse=True", "print"],
       requiredOutputIncludes: ["NEXUS"],
@@ -507,8 +455,8 @@ print(sorted_racers[0]["name"])
     hints: [
       { level: 1, label: "Subtle Clue", text: "Sort with key=lambda r: r['speed']." },
       { level: 2, label: "Concept", text: "reverse=True sorts descending." },
-      { level: 3, label: "Example", text: 'sorted_racers = sorted(racers, key=lambda r: r["speed"], reverse=True)\nprint(sorted_racers[0]["name"])' },
-      { level: 4, label: "Solution", text: "Execute custom lambda sorting." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 525,
     coinsReward: 260,
@@ -529,11 +477,7 @@ print(sorted_racers[0]["name"])
       "Print merged",
     ],
     conceptExplanation: "The '|' dictionary union operator combines two dictionaries, with right-hand keys taking precedence on conflict.",
-    starterCode: `base = {"rpm": 5000, "nitro": False}
-upgrade = {"nitro": True, "boost_psi": 15}
-merged = base | upgrade
-print(merged)
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["base | upgrade", "print"],
       requiredOutputIncludes: ["'nitro': True", "'boost_psi': 15"],
@@ -541,8 +485,8 @@ print(merged)
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use base | upgrade." },
       { level: 2, label: "Concept", text: "The pipe operator merges dictionaries cleanly." },
-      { level: 3, label: "Example", text: "merged = base | upgrade\nprint(merged)" },
-      { level: 4, label: "Solution", text: "Execute dict merging." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 530,
     coinsReward: 265,
@@ -562,16 +506,7 @@ print(merged)
       "Print 'DATA REGISTRY SYNCHRONIZED: DEVELOPER MASTERY ACHIEVED'",
     ],
     conceptExplanation: "You have mastered Python lists, tuples, dicts, sets, comprehensions, and regex data processing!",
-    starterCode: `fleet = [
-    {"pilot": "nexus", "speed": 420},
-    {"pilot": "aura", "speed": 380},
-    {"pilot": "zenith", "speed": 450}
-]
-
-top_pilots = [p["pilot"].upper() for p in fleet if p["speed"] >= 400]
-print(top_pilots)
-print("DATA REGISTRY SYNCHRONIZED: DEVELOPER MASTERY ACHIEVED")
-`,
+    starterCode: `# Write your code here`,
     validationRules: {
       requiredKeywords: ["for p in fleet if p[\"speed\"] >= 400", "print"],
       requiredOutputIncludes: ["['NEXUS', 'ZENITH']", "DATA REGISTRY SYNCHRONIZED: DEVELOPER MASTERY ACHIEVED"],
@@ -579,8 +514,8 @@ print("DATA REGISTRY SYNCHRONIZED: DEVELOPER MASTERY ACHIEVED")
     hints: [
       { level: 1, label: "Subtle Clue", text: "Use list comprehension to filter speeds >= 400." },
       { level: 2, label: "Concept", text: "Combines dicts, list comprehensions, and upper()." },
-      { level: 3, label: "Example", text: 'top_pilots = [p["pilot"].upper() for p in fleet if p["speed"] >= 400]\nprint(top_pilots)\nprint("DATA REGISTRY SYNCHRONIZED: DEVELOPER MASTERY ACHIEVED")' },
-      { level: 4, label: "Solution", text: "Execute the Developer Capstone script." },
+      { level: 3, label: "Example", text: "Review the concept explanation above and try implementing it step by step." },
+      { level: 4, label: "Solution", text: "Break the problem into smaller steps and test each part in the console." },
     ],
     xpReward: 550,
     coinsReward: 275,

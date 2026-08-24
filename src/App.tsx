@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GameProvider, useGame } from "./context/GameContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { WorldMapView } from "./components/WorldMapView";
 import { ArcadeRacerView } from "./components/ArcadeRacerView";
@@ -11,13 +12,28 @@ import { ProjectsView } from "./components/ProjectsView";
 import { MiniGamesView } from "./components/MiniGamesView";
 import { ProfileView } from "./components/ProfileView";
 import { StartupSplash } from "./components/StartupSplash";
+import { Auth3D } from "./components/Auth3D";
 import { sound } from "./utils/audio";
 import { insertPairedChars } from "./utils/useKeyboardShortcuts";
 
 function MainGameContainer() {
   const { activeTab, setActiveTab } = useGame();
+  const { user, loading } = useAuth();
   const [showSplash, setShowSplash] = useState(true);
   const [shortcutFeedback, setShortcutFeedback] = useState<string | null>(null);
+  const [authDone, setAuthDone] = useState(false);
+
+  useEffect(() => {
+    if (!loading && user && !authDone) {
+      setAuthDone(true);
+      setShowSplash(true);
+    }
+  }, [loading, user, authDone]);
+
+  const handleAuthSuccess = () => {
+    setAuthDone(true);
+    setShowSplash(true);
+  };
 
   // Global Keyboard Event Interceptor (Ctrl+R, Alt+Brackets/Quotes)
   useEffect(() => {
@@ -127,6 +143,18 @@ function MainGameContainer() {
     };
   }, []);
 
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
+        <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Auth3D onAuthSuccess={handleAuthSuccess} />;
+  }
+
   if (showSplash) {
     return <StartupSplash onStart={() => setShowSplash(false)} />;
   }
@@ -138,8 +166,8 @@ function MainGameContainer() {
 
       {/* Global Shortcut HUD Toast */}
       {shortcutFeedback && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-slate-900/95 border border-cyan-500/50 text-cyan-300 font-mono text-xs rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-in fade-in zoom-in-95 pointer-events-none flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-slate-900 border border-slate-700 text-cyan-300 font-mono text-xs rounded-lg pointer-events-none flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-cyan-400" />
           <span>{shortcutFeedback}</span>
         </div>
       )}
@@ -162,8 +190,10 @@ function MainGameContainer() {
 
 export default function App() {
   return (
-    <GameProvider>
-      <MainGameContainer />
-    </GameProvider>
+    <AuthProvider>
+      <GameProvider>
+        <MainGameContainer />
+      </GameProvider>
+    </AuthProvider>
   );
 }

@@ -16,7 +16,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { sound } from "../utils/audio";
-import confetti from "canvas-confetti";
 
 export const MiniGamesView: React.FC = () => {
   const { addXpAndCoins, progressDailyQuest, setActiveTab } = useGame();
@@ -40,14 +39,6 @@ export const MiniGamesView: React.FC = () => {
       setScore((prev) => prev + 1);
       addXpAndCoins(75, 40);
       progressDailyQuest("boss", 1);
-      try {
-        confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ["#06b6d4", "#10b981"],
-        });
-      } catch {}
     } else {
       sound.playError();
     }
@@ -73,36 +64,34 @@ export const MiniGamesView: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-violet-400 font-mono text-xs font-bold">
+          <div className="flex items-center gap-2 text-slate-300 font-mono text-xs font-bold">
             <Gamepad2 className="w-4 h-4 text-cyan-400" />
-            <span className="bg-violet-950/70 border border-violet-500/40 px-2.5 py-0.5 rounded-md">PYTHON ARCADE SYSTEM</span>
+            <span className="bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded-md text-slate-200">PYTHON ARCADE SYSTEM</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5 bg-gradient-to-r from-white via-violet-100 to-cyan-200 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-black text-white font-mono mt-1.5">
             Cyber Mini-Games
           </h1>
         </div>
 
-        <div className="px-3.5 py-1.5 bg-violet-950/80 border border-violet-500/40 rounded-xl font-mono text-xs text-cyan-300 font-bold shadow-[0_0_15px_rgba(139,92,246,0.2)]">
+        <div className="px-3.5 py-1.5 bg-slate-900 border border-slate-700 rounded-xl font-mono text-xs text-amber-300 font-bold">
           Score: {score} Correct
         </div>
       </div>
 
-      {/* Cyber Highway Racer Hero Spotlight */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900 to-violet-950/70 border border-cyan-500/40 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-700 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-[0_0_20px_rgba(6,182,212,0.4)]">
-            <Flame className="w-6 h-6 animate-pulse" />
+          <div className="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-white">
+            <Flame className="w-6 h-6" />
           </div>
           <div>
             <h2 className="text-sm sm:text-base font-extrabold text-white font-mono flex items-center gap-2">
-              CYBER HIGHWAY ARCADE RACER
-              <span className="text-[9px] px-2 py-0.5 rounded-md bg-amber-950 border border-amber-500/50 text-amber-300">LIVE MODE</span>
+              CYBER TRIVIA CHALLENGE
+              <span className="text-[9px] px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-amber-300">LIVE MODE</span>
             </h2>
             <p className="text-xs text-slate-300 font-mono mt-0.5">
-              Pilot your custom cyber car at 400+ KM/H, dodge laser barriers, and gather token crystals!
+              Test your Python knowledge across multiple categories.
             </p>
           </div>
         </div>
@@ -112,14 +101,13 @@ export const MiniGamesView: React.FC = () => {
             sound.playWarp();
             setActiveTab("arcade");
           }}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all cursor-pointer flex items-center gap-2"
+          className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs font-bold uppercase tracking-wider cursor-pointer flex items-center gap-2 border border-slate-700"
         >
-          <span>PLAY ARCADE RACER</span>
+          <span>OPEN MAP</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Mode Selectors */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {categories.map((cat) => {
           const isActive = activeCategory === cat.id;
@@ -133,10 +121,10 @@ export const MiniGamesView: React.FC = () => {
                 setHasAnswered(false);
                 sound.playKeyClick();
               }}
-              className={`p-3.5 rounded-2xl border flex items-center justify-center gap-2 font-mono text-xs font-bold transition-all cursor-pointer ${
+              className={`p-3.5 rounded-2xl border flex items-center justify-center gap-2 font-mono text-xs font-bold cursor-pointer ${
                 isActive
-                  ? "bg-slate-900 border-violet-400 text-cyan-300 shadow-[0_0_18px_rgba(139,92,246,0.35)]"
-                  : "bg-slate-950/80 border-slate-800/80 text-slate-400 hover:text-slate-100 hover:border-slate-700"
+                  ? "bg-slate-900 border-slate-500 text-cyan-300"
+                  : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-100"
               }`}
             >
               <span className={isActive ? "text-cyan-400" : "text-slate-400"}>{cat.icon}</span>
@@ -146,11 +134,10 @@ export const MiniGamesView: React.FC = () => {
         })}
       </div>
 
-      {/* Question Card */}
       {currentQ && (
-        <div className="p-5 sm:p-7 rounded-3xl bg-slate-900/95 border border-slate-800/90 space-y-5 shadow-2xl">
+        <div className="p-5 sm:p-7 rounded-3xl bg-slate-900 border border-slate-700 space-y-5">
           <div className="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-slate-800 pb-3">
-            <span className="text-violet-300 font-bold uppercase bg-violet-950/70 border border-violet-500/30 px-2.5 py-0.5 rounded-md">{currentQ.title}</span>
+            <span className="text-slate-300 font-bold uppercase bg-slate-800 border border-slate-700 px-2.5 py-0.5 rounded-md">{currentQ.title}</span>
             <span className="text-cyan-400 font-semibold">
               Question {currentQuestionIndex + 1} / {categoryQuestions.length}
             </span>
@@ -158,25 +145,23 @@ export const MiniGamesView: React.FC = () => {
 
           <h3 className="text-base font-bold text-white font-mono">{currentQ.question}</h3>
 
-          {/* Code Snippet Box */}
-          <div className="p-4 rounded-2xl bg-slate-950 border border-violet-500/25 font-mono text-xs text-cyan-300 leading-relaxed overflow-x-auto shadow-inner">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-x-auto">
             <pre>{currentQ.codeSnippet}</pre>
           </div>
 
-          {/* Options Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             {currentQ.options.map((opt, idx) => {
               const isChosen = selectedOption === idx;
               const isCorrect = idx === currentQ.correctIndex;
 
-              let btnClass = "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-violet-500/40 hover:bg-slate-900/60";
+              let btnClass = "bg-slate-950 border-slate-800 text-slate-300";
               if (hasAnswered) {
                 if (isCorrect) {
-                  btnClass = "bg-emerald-950/90 border-emerald-400 text-emerald-300 shadow-[0_0_18px_rgba(16,185,129,0.35)]";
+                  btnClass = "bg-slate-900 border-emerald-500 text-emerald-300";
                 } else if (isChosen) {
-                  btnClass = "bg-rose-950/90 border-rose-500 text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.3)]";
+                  btnClass = "bg-slate-900 border-rose-500 text-rose-300";
                 } else {
-                  btnClass = "bg-slate-950/40 border-slate-900 text-slate-600";
+                  btnClass = "bg-slate-950 border-slate-800 text-slate-600";
                 }
               }
 
@@ -185,9 +170,9 @@ export const MiniGamesView: React.FC = () => {
                   key={idx}
                   onClick={() => handleSelectOption(idx)}
                   disabled={hasAnswered}
-                  className={`p-4 rounded-2xl border font-mono text-xs text-left transition-all flex items-start gap-3 cursor-pointer ${btnClass}`}
+                  className={`p-4 rounded-2xl border font-mono text-xs text-left flex items-start gap-3 cursor-pointer ${btnClass}`}
                 >
-                  <span className="w-6 h-6 rounded-lg bg-slate-800/80 text-violet-300 border border-violet-500/20 flex items-center justify-center font-bold text-[11px] shrink-0">
+                  <span className="w-6 h-6 rounded-lg bg-slate-800 text-violet-300 border border-slate-700 flex items-center justify-center font-bold text-[11px] shrink-0">
                     {String.fromCharCode(65 + idx)}
                   </span>
                   <span className="flex-1 pt-0.5">{opt}</span>
@@ -196,9 +181,8 @@ export const MiniGamesView: React.FC = () => {
             })}
           </div>
 
-          {/* Explanation & Next */}
           {hasAnswered && (
-            <div className="p-4.5 rounded-2xl bg-slate-950 border border-violet-500/30 space-y-3 animate-fade-in shadow-inner">
+            <div className="p-4.5 rounded-2xl bg-slate-950 border border-slate-700 space-y-3">
               <div className="text-xs font-mono text-cyan-300 font-bold flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
                 ANALYSIS:
@@ -209,7 +193,7 @@ export const MiniGamesView: React.FC = () => {
 
               <button
                 onClick={handleNextQuestion}
-                className="w-full py-3 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 hover:from-violet-500 hover:via-fuchsia-500 hover:to-cyan-400 text-white font-black font-mono text-xs rounded-xl shadow-[0_0_18px_rgba(168,85,247,0.35)] cursor-pointer transition-all"
+                className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-black font-mono text-xs rounded-xl cursor-pointer border border-slate-700"
               >
                 NEXT CHALLENGE
               </button>
