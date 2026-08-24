@@ -58,6 +58,8 @@ const DEFAULT_PLAYER: PlayerState = {
   },
 };
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "";
+
 async function getAuthHeader(): Promise<string> {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session?.access_token) {
