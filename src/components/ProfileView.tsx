@@ -33,7 +33,7 @@ export const ProfileView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
+    <div className="w-full px-3 sm:px-6 py-4 pb-24 space-y-6">
       <div className="p-5 sm:p-7 rounded-3xl bg-slate-900 border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div

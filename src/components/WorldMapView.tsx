@@ -121,7 +121,7 @@ export const WorldMapView: React.FC = () => {
   };
 
   return (
-    <div id="world-map-view" className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-4 space-y-6">
+    <div id="world-map-view" className="w-full px-3 sm:px-6 py-4 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-700">
         <div className="flex items-center gap-3.5">
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-slate-700 bg-slate-800">

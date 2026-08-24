@@ -1,16 +1,27 @@
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
   margin: 0;
+  padding: 0;
   background-color: #020617;
   color: #e2e8f0;
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+body {
+  overscroll-behavior: none;
 }
 
 ::selection {

@@ -87,7 +87,7 @@ export const Auth3D: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess 
         </Canvas>
       </div>
 
-      <div className="relative z-10 w-full max-w-md p-6">
+      <div className="relative z-10 w-full max-w-md p-4 sm:p-6">
         <div className="p-8 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 shadow-2xl">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Zap className="w-6 h-6 text-cyan-400" />

@@ -619,7 +619,7 @@ export const ArcadeRacerView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
+    <div className="w-full px-3 sm:px-6 py-4 pb-24 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-700">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-white">

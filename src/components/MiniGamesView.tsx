@@ -63,7 +63,7 @@ export const MiniGamesView: React.FC = () => {
   ] as const;
 
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 pb-24 space-y-6">
+    <div className="w-full px-3 sm:px-6 py-4 pb-24 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 text-slate-300 font-mono text-xs font-bold">

@@ -160,7 +160,7 @@ function MainGameContainer() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative">
+    <div className="h-screen w-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative overflow-hidden">
       {/* Top Header & Bottom Navigation */}
       <Navigation />
 
@@ -173,7 +173,7 @@ function MainGameContainer() {
       )}
 
       {/* Main View Router */}
-      <main className="flex-1 w-full overflow-x-hidden pb-16">
+      <main className="flex-1 w-full overflow-y-auto overflow-x-hidden">
         {activeTab === "world" && <WorldMapView />}
         {activeTab === "arcade" && <ArcadeRacerView />}
         {activeTab === "missions" && <MissionsView />}
