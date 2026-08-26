@@ -7,8 +7,6 @@ import os
 import httpx
 import logging
 
-from model_loader import load_model
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("desuper")
 
@@ -31,14 +29,20 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-llm = None
 http_client = httpx.AsyncClient(timeout=30.0, limits=httpx.Limits(max_connections=20))
 
+llm = None
 
-@app.on_event("startup")
-async def startup_event():
-    global llm
-    llm = load_model()
+try:
+    from llama_cpp import Llama
+    MODEL_PATH = os.getenv("MODEL_PATH", "Qwen2.5-Coder-0.5B-Instruct-abliterated-f16.gguf")
+    if os.path.exists(MODEL_PATH):
+        llm = Llama(model_path=MODEL_PATH, n_ctx=2048, n_threads=4, verbose=False)
+        logger.info("AI model loaded")
+except ImportError:
+    logger.warning("llama-cpp-python not installed - AI features disabled")
+except Exception as e:
+    logger.warning(f"Model not loaded: {e}")
 
 
 @app.on_event("shutdown")
@@ -220,7 +224,7 @@ Player's Python code:
 Detected issue/error: {request.error_message or "None / player requesting advice"}
 Hint level requested (1=subtle nudge, 2=concept explanation, 3=analogous example, 4=structural outline): {request.hint_level or 1}
 
-Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic, clear, max 3-4 sentences)."""
+Respond concisely in character as Eli-v0.1."""
 
     if llm:
         try:
@@ -248,7 +252,7 @@ async def ai_chat(request: ChatRequest):
         return {
             "success": False,
             "error": "Model not available",
-            "message": "AI model is loading. Please try again in a moment.",
+            "message": "AI features are currently unavailable. Please try again later.",
         }
 
     system_prompt = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game "DeSuper" by s6ft.
