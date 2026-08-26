@@ -29,7 +29,7 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Qwen2.5-Coder-0.5B-f16.gguf"))
+MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Qwen2.5-Coder-0.5B-Instruct-abliterated-f16.gguf"))
 llm = None
 
 http_client = httpx.AsyncClient(timeout=30.0, limits=httpx.Limits(max_connections=20))
