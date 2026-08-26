@@ -48,17 +48,29 @@ def load_model():
     global llm
     try:
         from llama_cpp import Llama
-        if os.path.exists(MODEL_PATH):
-            llm = Llama(
-                model_path=MODEL_PATH,
-                n_ctx=2048,
-                n_threads=4,
-                verbose=False,
-            )
-            logger.info(f"Loaded model from {MODEL_PATH}")
-            return True
-        else:
-            logger.warning(f"Model file not found: {MODEL_PATH}")
+
+        if not os.path.exists(MODEL_PATH):
+            model_url = os.getenv("MODEL_URL")
+            if model_url:
+                logger.info(f"Downloading model from {model_url}...")
+                os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+                resp = http_client.get(model_url)
+                resp.raise_for_status()
+                with open(MODEL_PATH, "wb") as f:
+                    f.write(resp.content)
+                logger.info(f"Model downloaded to {MODEL_PATH}")
+            else:
+                logger.warning(f"Model file not found: {MODEL_PATH} and MODEL_URL not set")
+                return False
+
+        llm = Llama(
+            model_path=MODEL_PATH,
+            n_ctx=2048,
+            n_threads=4,
+            verbose=False,
+        )
+        logger.info(f"Loaded model from {MODEL_PATH}")
+        return True
     except ImportError:
         logger.warning("llama-cpp-python not installed - AI features disabled")
     except Exception as e:
