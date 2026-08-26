@@ -3,6 +3,7 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
+    { "source": "/favicon.ico", "destination": "/favicon.png" },
     { "source": "/api/:path*", "destination": "https://desuper.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
