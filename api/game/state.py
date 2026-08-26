@@ -5,7 +5,7 @@ import urllib.request
 import urllib.error
 from datetime import datetime
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://izggdjegvyqoddflqfxp.supabase.co")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "https://vhipieatnyexggqllfqe.supabase.co")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 
