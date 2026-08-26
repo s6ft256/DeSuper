@@ -3,6 +3,7 @@ import json
 import os
 import urllib.request
 import urllib.error
+from datetime import datetime
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://izggdjegvyqoddflqfxp.supabase.co")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
