@@ -45,7 +45,7 @@ export const Navigation: React.FC = () => {
     { id: "bosses", label: "Boss Battles", icon: <Swords className="w-4 h-4" /> },
     { id: "projects", label: "Projects", icon: <FolderCode className="w-4 h-4" /> },
     { id: "minigames", label: "Trivia", icon: <Gamepad2 className="w-4 h-4" /> },
-    { id: "chat", label: "AURA-7", icon: <MessageSquare className="w-4 h-4 text-cyan-400" /> },
+    { id: "chat", label: "Eli-v0.1", icon: <MessageSquare className="w-4 h-4 text-cyan-400" /> },
     { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
   ];
 

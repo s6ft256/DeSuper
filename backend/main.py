@@ -191,7 +191,7 @@ async def get_leaderboard(limit: int = 50):
 
 @app.post("/api/ai/companion-hint")
 async def ai_companion_hint(request: AIRequest):
-    prompt = f"""You are AURA-7, the intelligent cyber companion and Python mentor in the game "DeSuper" by s6ft.
+    prompt = f"""You are Eli-v0.1, the intelligent cyber companion and Python mentor in the game "DeSuper" by s6ft.
 The player is currently in mission: "{request.mission_title}" focusing on the Python concept "{request.concept}".
 Player's Python code:
 ```python
@@ -200,7 +200,7 @@ Player's Python code:
 Detected issue/error: {request.error_message or "None / player requesting advice"}
 Hint level requested (1=subtle nudge, 2=concept explanation, 3=analogous example, 4=structural outline): {request.hint_level or 1}
 
-Respond concisely in character as AURA-7 (futuristic, encouraging, cybernetic, clear, max 3-4 sentences). Do NOT give away the exact full solution unless it's Level 4, but guide their thinking with high educational precision."""
+Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic, clear, max 3-4 sentences). Do NOT give away the exact full solution unless it's Level 4, but guide their thinking with high educational precision."""
 
     if llm:
         try:
@@ -234,7 +234,7 @@ async def ai_chat(request: ChatRequest):
                 "message": "The local AI model could not be loaded. Ensure 'Qwen2.5-Coder-0.5B-f16.gguf' is in the project root and llama-cpp-python is installed.",
             }
 
-    system_prompt = """You are AURA-7, an intelligent cyber companion and Python coding mentor in the game "DeSuper" by s6ft.
+    system_prompt = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game "DeSuper" by s6ft.
 You help players learn Python programming through interactive coding missions, debugging, and concept explanations.
 Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep responses under 4 sentences unless asked for detail."""
 
@@ -258,19 +258,19 @@ Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep resp
 def get_local_hint(mission_title: str, concept: str, error: str, level: int = 1) -> str:
     if error and "SyntaxError" in error:
         if level == 1:
-            return "[AURA-7 Alert]: Syntax anomaly detected. Check your punctuation and quotes carefully."
+            return "[Eli-v0.1 Alert]: Syntax anomaly detected. Check your punctuation and quotes carefully."
         if level == 2:
-            return "[AURA-7 Scan]: In Python, strings require matching quotes (\"\" or '') and blocks require colons (:)."
+            return "[Eli-v0.1 Scan]: In Python, strings require matching quotes (\"\" or '') and blocks require colons (:)."
         if level == 3:
-            return '[AURA-7 Example]: print("HELLO SYSTEM") or if condition: [indent] action()'
-        return "[AURA-7 Blueprint]: Ensure all brackets are closed and each statement follows proper Python syntax."
+            return '[Eli-v0.1 Example]: print("HELLO SYSTEM") or if condition: [indent] action()'
+        return "[Eli-v0.1 Blueprint]: Ensure all brackets are closed and each statement follows proper Python syntax."
     if level == 1:
-        return f"[AURA-7]: Focus on the objective of {mission_title}. What data or action is requested?"
+        return f"[Eli-v0.1]: Focus on the objective of {mission_title}. What data or action is requested?"
     if level == 2:
-        return f"[AURA-7 Guide]: Remember how {concept} works in Python. Build step-by-step."
+        return f"[Eli-v0.1 Guide]: Remember how {concept} works in Python. Build step-by-step."
     if level == 3:
-        return "[AURA-7 Simulation]: Test small pieces in the console first to inspect variables."
-    return "[AURA-7 Protocol]: Review the mission requirements and execute the standard Python command structure."
+        return "[Eli-v0.1 Simulation]: Test small pieces in the console first to inspect variables."
+    return "[Eli-v0.1 Protocol]: Review the mission requirements and execute the standard Python command structure."
 
 
 if __name__ == "__main__":

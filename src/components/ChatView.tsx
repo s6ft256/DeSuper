@@ -11,7 +11,7 @@ export const ChatView: React.FC = () => {
     {
       role: "assistant",
       content:
-        "Greetings, Operative. I am AURA-7, your cyber companion and Python mentor. Ask me anything about coding, debug your logic, or request mission guidance. I'm here to help you ascend from Zero to Supreme.",
+        "Greetings, Operative. I am Eli-v0.1, your cyber companion and Python mentor. Ask me anything about coding, debug your logic, or request mission guidance. I'm here to help you ascend from Zero to Supreme.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -81,7 +81,7 @@ export const ChatView: React.FC = () => {
       {
         role: "assistant",
         content:
-          "Memory banks cleared. I am AURA-7, ready to assist. What would you like to learn?",
+          "Memory banks cleared. I am Eli-v0.1, ready to assist. What would you like to learn?",
       },
     ]);
   };
@@ -95,8 +95,8 @@ export const ChatView: React.FC = () => {
             <Bot className="relative w-5 h-5 text-cyan-300" />
           </div>
           <div>
-            <h2 className="text-sm font-bold font-mono text-white tracking-wide">AURA-7</h2>
-            <p className="text-[10px] font-mono text-cyan-400">Local AI Companion</p>
+            <h2 className="text-sm font-bold font-mono text-white tracking-wide">Eli-v0.1</h2>
+            <p className="text-[10px] font-mono text-cyan-400">Eli-v0.1 — Local AI Companion</p>
           </div>
         </div>
         <button
@@ -164,7 +164,7 @@ export const ChatView: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask AURA-7 about Python..."
+              placeholder="Ask Eli-v0.1 about Python..."
               disabled={loading}
               className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-white text-sm font-mono placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20 focus:bg-white/[0.06] transition-all disabled:opacity-50"
             />
