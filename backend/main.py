@@ -1,27 +1,48 @@
 from fastapi import FastAPI, Depends, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional, List
 import os
 import httpx
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("desuper")
 
 app = FastAPI(title="DeSuper Backend", version="1.0.0")
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://izggdjegvyqoddflqfxp.supabase.co")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "sb_publishable_LjFci6VxYxBw8nZECH9kgg_riyAR1QA")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+
+if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+    logger.warning("SUPABASE_URL or SUPABASE_ANON_KEY not set - some features may not work")
+
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Qwen2.5-Coder-0.5B-f16.gguf"))
 llm = None
+
+http_client = httpx.AsyncClient(timeout=30.0, limits=httpx.Limits(max_connections=20))
+
+
+async def shutdown_http_client():
+    await http_client.aclose()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await shutdown_http_client()
+
 
 def load_model():
     global llm
@@ -34,10 +55,16 @@ def load_model():
                 n_threads=4,
                 verbose=False,
             )
+            logger.info(f"Loaded model from {MODEL_PATH}")
             return True
+        else:
+            logger.warning(f"Model file not found: {MODEL_PATH}")
     except ImportError:
-        pass
+        logger.warning("llama-cpp-python not installed - AI features disabled")
+    except Exception as e:
+        logger.error(f"Failed to load model: {e}")
     return False
+
 
 @app.on_event("startup")
 async def startup_event():
@@ -46,11 +73,11 @@ async def startup_event():
 
 class PlayerState(BaseModel):
     user_id: str
-    level: int = 1
-    xp: int = 0
-    coins: int = 100
+    level: int = Field(ge=1, le=100, default=1)
+    xp: int = Field(ge=0, default=0)
+    coins: int = Field(ge=0, default=100)
     rank: str = "ZERO"
-    streak: int = 1
+    streak: int = Field(ge=0, default=1)
     completed_missions: list[str] = []
     unlocked_skills: list[str] = ["py_print"]
     defeated_bosses: list[str] = []
@@ -77,26 +104,26 @@ class LeaderboardEntry(BaseModel):
 
 
 class AIRequest(BaseModel):
-    mission_title: str
-    concept: str
-    player_code: Optional[str] = ""
-    error_message: Optional[str] = ""
-    hint_level: int = 1
+    mission_title: str = Field(max_length=200)
+    concept: str = Field(max_length=100)
+    player_code: Optional[str] = Field(default="", max_length=10000)
+    error_message: Optional[str] = Field(default="", max_length=1000)
+    hint_level: int = Field(ge=1, le=4, default=1)
 
 
 class ChatMessage(BaseModel):
-    role: str
-    content: str
+    role: str = Field(pattern="^(user|assistant|system)$")
+    content: str = Field(max_length=4000)
 
 
 class ChatRequest(BaseModel):
-    messages: List[ChatMessage]
-    max_tokens: Optional[int] = 512
+    messages: List[ChatMessage] = Field(max_length=20)
+    max_tokens: Optional[int] = Field(ge=50, le=2048, default=512)
 
 
 async def verify_supabase_token(authorization: str = Header(...)):
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
+    try:
+        resp = await http_client.get(
             f"{SUPABASE_URL}/auth/v1/user",
             headers={
                 "apikey": SUPABASE_ANON_KEY,
@@ -106,18 +133,26 @@ async def verify_supabase_token(authorization: str = Header(...)):
         if resp.status_code != 200:
             raise HTTPException(status_code=401, detail="Invalid or expired token")
         return resp.json()
+    except httpx.RequestError as e:
+        logger.error(f"Supabase auth request failed: {e}")
+        raise HTTPException(status_code=503, detail="Authentication service unavailable")
 
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "service": "desuper-backend", "timestamp": datetime.utcnow().isoformat()}
+    return {
+        "status": "ok",
+        "service": "desuper-backend",
+        "timestamp": datetime.utcnow().isoformat(),
+        "model_loaded": llm is not None,
+    }
 
 
 @app.get("/api/game/state")
 async def get_game_state(user=Depends(verify_supabase_token)):
     user_id = user["id"]
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
+    try:
+        resp = await http_client.get(
             f"{SUPABASE_URL}/rest/v1/profiles",
             headers={
                 "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -128,6 +163,9 @@ async def get_game_state(user=Depends(verify_supabase_token)):
         if resp.status_code != 200 or not resp.json():
             raise HTTPException(status_code=404, detail="Profile not found")
         return resp.json()[0]
+    except httpx.RequestError as e:
+        logger.error(f"Supabase request failed: {e}")
+        raise HTTPException(status_code=503, detail="Database service unavailable")
 
 
 @app.post("/api/game/state")
@@ -137,8 +175,8 @@ async def save_game_state(state: PlayerState, user=Depends(verify_supabase_token
     payload["id"] = user_id
     payload["updated_at"] = datetime.utcnow().isoformat()
 
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
+    try:
+        resp = await http_client.post(
             f"{SUPABASE_URL}/rest/v1/profiles",
             headers={
                 "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -149,6 +187,9 @@ async def save_game_state(state: PlayerState, user=Depends(verify_supabase_token
             json=payload,
             params={"id": f"eq.{user_id}"},
         )
+    except httpx.RequestError as e:
+        logger.error(f"Supabase save failed: {e}")
+        raise HTTPException(status_code=503, detail="Database service unavailable")
 
     if resp.status_code not in (200, 201):
         raise HTTPException(status_code=500, detail="Failed to save game state")
@@ -158,8 +199,8 @@ async def save_game_state(state: PlayerState, user=Depends(verify_supabase_token
 
 @app.get("/api/game/leaderboard", response_model=list[LeaderboardEntry])
 async def get_leaderboard(limit: int = 50):
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
+    try:
+        resp = await http_client.get(
             f"{SUPABASE_URL}/rest/v1/profiles",
             headers={
                 "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -168,9 +209,13 @@ async def get_leaderboard(limit: int = 50):
             params={
                 "select": "id,display_name,xp,level,rank,updated_at",
                 "order": "xp.desc",
-                "limit": str(limit),
+                "limit": str(min(limit, 100)),
             },
         )
+    except httpx.RequestError as e:
+        logger.error(f"Supabase leaderboard request failed: {e}")
+        raise HTTPException(status_code=503, detail="Database service unavailable")
+
     if resp.status_code != 200:
         raise HTTPException(status_code=500, detail="Failed to fetch leaderboard")
 
@@ -212,8 +257,8 @@ Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic,
             text = output["choices"][0]["message"]["content"].strip()
             if text:
                 return {"success": True, "source": "local-mentor", "hint": text}
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Model inference failed: {e}")
 
     return {
         "success": True,
@@ -225,9 +270,7 @@ Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic,
 @app.post("/api/ai/chat")
 async def ai_chat(request: ChatRequest):
     if not llm:
-        if load_model():
-            pass
-        else:
+        if not load_model():
             return {
                 "success": False,
                 "error": "Model not available",
@@ -245,14 +288,15 @@ Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep resp
     try:
         output = llm.create_chat_completion(
             messages=messages,
-            max_tokens=request.max_tokens or 512,
+            max_tokens=request.max_tokens,
             temperature=0.7,
             top_p=0.9,
         )
         text = output["choices"][0]["message"]["content"].strip()
         return {"success": True, "message": text}
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        logger.error(f"Chat inference failed: {e}")
+        return {"success": False, "error": "Inference failed. Please try again."}
 
 
 def get_local_hint(mission_title: str, concept: str, error: str, level: int = 1) -> str:
