@@ -1,11 +1,13 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
+    { "source": "/api/health", "destination": "/api/health.py" },
+    { "source": "/api/game/state", "destination": "/api/game-state.py" },
+    { "source": "/api/ai/chat", "destination": "/api/ai-chat.py" },
+    { "source": "/api/ai/companion-hint", "destination": "/api/companion-hint.py" },
     { "source": "/favicon.ico", "destination": "/favicon.png" },
-    { "source": "/api/:path*", "destination": "https://desuper.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
