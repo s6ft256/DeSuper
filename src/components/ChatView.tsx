@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Trash2, Sparkles } from "lucide-react";
+import { fetchWithFallback } from "../utils/api";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -34,24 +35,26 @@ export const ChatView: React.FC = () => {
     setLoading(true);
 
     try {
-      const resp = await fetch("/api/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [...newMessages].map((m) => ({ role: m.role, content: m.content })),
-        }),
-      });
+      const { data, error } = await fetchWithFallback(
+        "/api/ai/chat",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [...newMessages].map((m) => ({ role: m.role, content: m.content })),
+          }),
+        },
+        null
+      );
 
-      const data = await resp.json();
-
-      if (data.success && data.message) {
+      if (!error && data?.success && data.message) {
         setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
       } else {
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: data.error || "Connection to the mainframe failed. Please try again.",
+            content: error || data?.error || "Connection to the mainframe failed. Please try again.",
           },
         ]);
       }
@@ -60,7 +63,7 @@ export const ChatView: React.FC = () => {
         ...prev,
         {
           role: "assistant",
-          content: "Neural link disrupted. Ensure the backend is running on port 8000.",
+          content: "Neural link disrupted. Ensure the backend is running.",
         },
       ]);
     } finally {

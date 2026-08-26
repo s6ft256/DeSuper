@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars, Float, MeshDistortMaterial } from "@react-three/drei";
 import { supabase } from "../lib/supabase";
@@ -77,9 +77,34 @@ export const Auth3D: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess 
     sound.playKeyClick();
   };
 
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = canvasContainerRef.current;
+    if (!container) return;
+
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      console.warn("[DeSuper] WebGL context lost - attempting recovery");
+    };
+
+    const handleContextRestored = () => {
+      console.log("[DeSuper] WebGL context restored");
+    };
+
+    const canvas = container.querySelector("canvas");
+    canvas?.addEventListener("webglcontextlost", handleContextLost);
+    canvas?.addEventListener("webglcontextrestored", handleContextRestored);
+
+    return () => {
+      canvas?.removeEventListener("webglcontextlost", handleContextLost);
+      canvas?.removeEventListener("webglcontextrestored", handleContextRestored);
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0">
+      <div ref={canvasContainerRef} className="absolute inset-0">
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
           <Suspense fallback={null}>
             <Scene />

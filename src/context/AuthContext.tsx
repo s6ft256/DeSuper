@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { PlayerState } from "../types";
+import { fetchWithFallback } from "../utils/api";
 
 interface AuthContextType {
   user: { id: string; email?: string } | null;
@@ -144,11 +145,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return;
     try {
       const authHeader = await getAuthHeader();
-      const resp = await fetch(`/api/game/state`, {
-        headers: { Authorization: authHeader },
-      });
-      if (resp.ok) {
-        const data = await resp.json();
+      const { data, error } = await fetchWithFallback(
+        `/api/game/state`,
+        { headers: { Authorization: authHeader } },
+        null
+      );
+      if (!error && data) {
         const mapped = mapBackendToPlayer(data);
         setPlayer(mapped);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
@@ -164,41 +166,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return;
     try {
       const authHeader = await getAuthHeader();
-      const resp = await fetch(`/api/game/state`, {
-        method: "POST",
-        headers: {
-          Authorization: authHeader,
-          "Content-Type": "application/json",
+      const { error } = await fetchWithFallback(
+        `/api/game/state`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: authHeader,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+            level: player.level,
+            xp: player.xp,
+            coins: player.coins,
+            rank: player.rank,
+            streak: player.streak,
+            completed_missions: player.completedMissions,
+            unlocked_skills: player.unlockedSkills,
+            defeated_bosses: player.defeatedBosses,
+            completed_projects: player.completedProjects,
+            stats: player.stats,
+            sound_enabled: player.soundEnabled,
+            haptics_enabled: player.hapticsEnabled,
+            last_played_date: player.lastPlayedDate,
+            display_name: player.customization.name,
+            avatar: player.customization.avatar,
+            suit_color: player.customization.suitColor,
+            helmet_style: player.customization.helmetStyle,
+            companion_skin: player.customization.companionSkin,
+            theme_accent: player.customization.themeAccent,
+            badge_title: player.customization.badgeTitle,
+          }),
         },
-        body: JSON.stringify({
-          user_id: user.id,
-          level: player.level,
-          xp: player.xp,
-          coins: player.coins,
-          rank: player.rank,
-          streak: player.streak,
-          completed_missions: player.completedMissions,
-          unlocked_skills: player.unlockedSkills,
-          defeated_bosses: player.defeatedBosses,
-          completed_projects: player.completedProjects,
-          stats: player.stats,
-          sound_enabled: player.soundEnabled,
-          haptics_enabled: player.hapticsEnabled,
-          last_played_date: player.lastPlayedDate,
-          display_name: player.customization.name,
-          avatar: player.customization.avatar,
-          suit_color: player.customization.suitColor,
-          helmet_style: player.customization.helmetStyle,
-          companion_skin: player.customization.companionSkin,
-          theme_accent: player.customization.themeAccent,
-          badge_title: player.customization.badgeTitle,
-        }),
-      });
-      if (!resp.ok) {
-        console.error("Backend sync failed:", resp.status);
+        null
+      );
+      if (error) {
+        console.warn("Backend sync deferred:", error);
       }
     } catch (err) {
-      console.error("Backend sync error:", err);
+      console.warn("Backend sync error:", err);
     }
   };
 
