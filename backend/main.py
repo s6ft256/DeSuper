@@ -7,6 +7,8 @@ import os
 import httpx
 import logging
 
+from model_loader import load_model
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("desuper")
 
@@ -17,7 +19,7 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
 if not SUPABASE_URL or not SUPABASE_ANON_KEY:
-    logger.warning("SUPABASE_URL or SUPABASE_ANON_KEY not set - some features may not work")
+    logger.warning("SUPABASE_URL or SUPABASE_ANON_KEY not set")
 
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
 
@@ -29,58 +31,19 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Qwen2.5-Coder-0.5B-Instruct-abliterated-f16.gguf"))
 llm = None
-
 http_client = httpx.AsyncClient(timeout=30.0, limits=httpx.Limits(max_connections=20))
-
-
-async def shutdown_http_client():
-    await http_client.aclose()
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    await shutdown_http_client()
-
-
-def load_model():
-    global llm
-    try:
-        from llama_cpp import Llama
-
-        if not os.path.exists(MODEL_PATH):
-            model_url = os.getenv("MODEL_URL")
-            if model_url:
-                logger.info(f"Downloading model from {model_url}...")
-                os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
-                resp = http_client.get(model_url)
-                resp.raise_for_status()
-                with open(MODEL_PATH, "wb") as f:
-                    f.write(resp.content)
-                logger.info(f"Model downloaded to {MODEL_PATH}")
-            else:
-                logger.warning(f"Model file not found: {MODEL_PATH} and MODEL_URL not set")
-                return False
-
-        llm = Llama(
-            model_path=MODEL_PATH,
-            n_ctx=2048,
-            n_threads=4,
-            verbose=False,
-        )
-        logger.info(f"Loaded model from {MODEL_PATH}")
-        return True
-    except ImportError:
-        logger.warning("llama-cpp-python not installed - AI features disabled")
-    except Exception as e:
-        logger.error(f"Failed to load model: {e}")
-    return False
 
 
 @app.on_event("startup")
 async def startup_event():
-    load_model()
+    global llm
+    llm = load_model()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await http_client.aclose()
 
 
 class PlayerState(BaseModel):
@@ -257,7 +220,7 @@ Player's Python code:
 Detected issue/error: {request.error_message or "None / player requesting advice"}
 Hint level requested (1=subtle nudge, 2=concept explanation, 3=analogous example, 4=structural outline): {request.hint_level or 1}
 
-Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic, clear, max 3-4 sentences). Do NOT give away the exact full solution unless it's Level 4, but guide their thinking with high educational precision."""
+Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic, clear, max 3-4 sentences)."""
 
     if llm:
         try:
@@ -282,12 +245,11 @@ Respond concisely in character as Eli-v0.1 (futuristic, encouraging, cybernetic,
 @app.post("/api/ai/chat")
 async def ai_chat(request: ChatRequest):
     if not llm:
-        if not load_model():
-            return {
-                "success": False,
-                "error": "Model not available",
-                "message": "The local AI model could not be loaded. Ensure 'Qwen2.5-Coder-0.5B-f16.gguf' is in the project root and llama-cpp-python is installed.",
-            }
+        return {
+            "success": False,
+            "error": "Model not available",
+            "message": "AI model is loading. Please try again in a moment.",
+        }
 
     system_prompt = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game "DeSuper" by s6ft.
 You help players learn Python programming through interactive coding missions, debugging, and concept explanations.
