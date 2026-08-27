@@ -39,34 +39,81 @@ def parse_skills_markdown(content):
     for line in content.split('\n'):
         line = line.strip()
         
+        # Detect category headers (## Category Name)
         if line.startswith('## '):
             current_category = line[3:].strip().lower().replace(' ', '_')
             continue
         
+        # Skip empty lines and headers
+        if not line or line.startswith('#'):
+            continue
+        
+        # Parse skill entries - multiple formats supported
+        # Format 1: - **Skill Name** (Level): Description
+        # Format 2: - Skill Name: Description
+        # Format 3: - **Skill Name**: Description
+        # Format 4: * Skill Name (Level) - Description
+        
+        skill_name = None
+        level_text = None
+        description = None
+        
+        # Try format: - **Skill Name** (Level): Description
         if line.startswith('- **') or line.startswith('* **'):
-            match = re.match(
-                r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\):\s*(.*)',
-                line
-            )
+            match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\):\s*(.*)', line)
             if match:
                 skill_name = match.group(1).strip()
                 level_text = match.group(2).strip().lower()
                 description = match.group(3).strip()
-                
-                level_map = {
-                    'beginner': 1, 'basic': 2, 'novice': 3,
-                    'intermediate': 4, 'medium': 5, 'competent': 6,
-                    'advanced': 7, 'expert': 8, 'master': 9, 'guru': 10
-                }
-                proficiency = level_map.get(level_text, 5)
-                
-                skills.append({
-                    'skill_name': skill_name,
-                    'skill_category': current_category,
-                    'proficiency_level': proficiency,
-                    'description': description,
-                    'source': 'import'
-                })
+            else:
+                # Try format: - **Skill Name**: Description
+                match = re.match(r'[-*]\s*\*\*(.+?)\*\*:\s*(.*)', line)
+                if match:
+                    skill_name = match.group(1).strip()
+                    description = match.group(2).strip()
+                    level_text = 'intermediate'
+                else:
+                    # Try format: - **Skill Name** (Level)
+                    match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\)', line)
+                    if match:
+                        skill_name = match.group(1).strip()
+                        level_text = match.group(2).strip().lower()
+                        description = ''
+        else:
+            # Try format: - Skill Name: Description
+            match = re.match(r'[-*]\s*(.+?):\s*(.*)', line)
+            if match:
+                skill_name = match.group(1).strip()
+                description = match.group(2).strip()
+                level_text = 'intermediate'
+            else:
+                # Try format: - Skill Name (Level)
+                match = re.match(r'[-*]\s*(.+?)\s*\((.+?)\)', line)
+                if match:
+                    skill_name = match.group(1).strip()
+                    level_text = match.group(2).strip().lower()
+                    description = ''
+                elif line.startswith('- ') or line.startswith('* '):
+                    # Simple format: - Skill Name
+                    skill_name = line[2:].strip()
+                    level_text = 'intermediate'
+                    description = ''
+        
+        if skill_name:
+            level_map = {
+                'beginner': 1, 'basic': 2, 'novice': 3,
+                'intermediate': 4, 'medium': 5, 'competent': 6,
+                'advanced': 7, 'expert': 8, 'master': 9, 'guru': 10
+            }
+            proficiency = level_map.get(level_text, 5)
+            
+            skills.append({
+                'skill_name': skill_name,
+                'skill_category': current_category,
+                'proficiency_level': proficiency,
+                'description': description or '',
+                'source': 'import'
+            })
     
     return skills
 
