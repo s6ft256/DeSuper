@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Bot, User, X, Minimize2, Maximize2, ChevronDown, Cpu, Grip } from "lucide-react";
+import { Send, Bot, User, X, Minimize2, Maximize2, ChevronDown, Cpu, Grip, Mic, MicOff } from "lucide-react";
 import { fetchWithFallback } from "../utils/api";
 
 interface ChatMessage {
@@ -17,6 +17,13 @@ const MODELS = [
 interface FloatingChatProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
 }
 
 export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) => {
@@ -37,6 +44,9 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
   const [position, setPosition] = useState({ x: 80, y: 60 });
   const [size, setSize] = useState({ width: 380, height: 520 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,6 +66,47 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event: any) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setInput(transcript);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
+  const toggleListening = useCallback(() => {
+    if (!recognitionRef.current) return;
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
+  }, [isListening]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest(".no-drag")) return;
@@ -305,13 +356,26 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
                 </div>
               </div>
               <div className="flex gap-2">
+                {speechSupported && (
+                  <button
+                    onClick={toggleListening}
+                    className={`p-2 rounded-lg border transition-all cursor-pointer no-drag ${
+                      isListening
+                        ? "bg-rose-500/20 border-rose-500/50 text-rose-300 animate-pulse"
+                        : "bg-slate-800/50 border-slate-700/50 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/30"
+                    }`}
+                    title={isListening ? "Stop recording" : "Voice input"}
+                  >
+                    {isListening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+                  </button>
+                )}
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask Eli-v0.1..."
+                  placeholder={isListening ? "Listening..." : "Ask Eli-v0.1..."}
                   disabled={loading}
                   className="flex-1 px-3 py-2 bg-white/[0.04] border border-white/15 rounded-lg text-white text-xs font-mono placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20 transition-all disabled:opacity-50 no-drag"
                 />
