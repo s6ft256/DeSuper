@@ -24,6 +24,7 @@ export type ViewTab =
   | "missions"
   | "skills"
   | "minigames"
+  | "arcade"
   | "chat"
   | "profile";
 
@@ -273,4 +274,8 @@ export interface PlayerState {
   ownedItems: string[];
   battlePassXp: number;
   battlePassTier: number;
+  activeXpBoost: boolean;
+  hintsRemaining: number;
+  streakFreezeActive: boolean;
+  claimedBattlePassTiers: number[];
 }

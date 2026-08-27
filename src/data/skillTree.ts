@@ -3,6 +3,18 @@ import { SkillNode } from "../types";
 export const SKILL_TREE: SkillNode[] = [
   // 1. PYTHON CORE (ZERO & NOVICE)
   {
+    id: "py_zero_mastery",
+    branch: "PYTHON CORE",
+    title: "Zero Rank Mastery",
+    concept: "Python Fundamentals",
+    description: "Complete mastery of Python basics: print, variables, strings, and type casting.",
+    tier: 2,
+    prerequisites: ["py_typecast"],
+    iconName: "Award",
+    unlocked: false,
+    masteryPercent: 0,
+  },
+  {
     id: "py_print",
     branch: "PYTHON CORE",
     title: "Terminal Output (print)",
@@ -71,6 +83,18 @@ export const SKILL_TREE: SkillNode[] = [
     tier: 2,
     prerequisites: ["py_strings"],
     iconName: "ArrowRightLeft",
+    unlocked: false,
+    masteryPercent: 0,
+  },
+  {
+    id: "py_novice_mastery",
+    branch: "PYTHON CORE",
+    title: "Novice Rank Mastery",
+    concept: "String Operations & Formatting",
+    description: "Complete mastery of string operations, slicing, formatting, and type casting.",
+    tier: 2,
+    prerequisites: ["py_typecast"],
+    iconName: "Award",
     unlocked: false,
     masteryPercent: 0,
   },
@@ -289,7 +313,45 @@ export const SKILL_TREE: SkillNode[] = [
     masteryPercent: 0,
   },
 
-  // 7. DATA SCIENCE, ML & SUPREME (SUPREME)
+  // 7. ADVANCED PYTHON (GRANDMASTER)
+  {
+    id: "py_decorators",
+    branch: "ADVANCED",
+    title: "Decorators & Wrappers",
+    concept: "@decorator",
+    description: "Modify function behavior with @decorator syntax and wrapper functions.",
+    tier: 9,
+    prerequisites: ["py_collections"],
+    iconName: "Sparkles",
+    unlocked: false,
+    masteryPercent: 0,
+  },
+  {
+    id: "py_context_managers",
+    branch: "ADVANCED",
+    title: "Context Managers (with)",
+    concept: "with statement",
+    description: "Manage resources automatically using context managers and the with statement.",
+    tier: 9,
+    prerequisites: ["py_decorators"],
+    iconName: "FileCode",
+    unlocked: false,
+    masteryPercent: 0,
+  },
+  {
+    id: "py_metaclasses",
+    branch: "ADVANCED",
+    title: "Metaclasses & Metaprogramming",
+    concept: "type() metaclass",
+    description: "Control class creation with metaclasses for advanced system architecture.",
+    tier: 9,
+    prerequisites: ["py_context_managers"],
+    iconName: "Cpu",
+    unlocked: false,
+    masteryPercent: 0,
+  },
+
+  // 8. DATA SCIENCE, ML & SUPREME (SUPREME)
   {
     id: "py_numpy",
     branch: "DATA SCIENCE",
@@ -297,7 +359,7 @@ export const SKILL_TREE: SkillNode[] = [
     concept: "numpy (np.array, np.dot)",
     description: "High-performance multi-dimensional array vectorization and dot products.",
     tier: 9,
-    prerequisites: ["py_collections"],
+    prerequisites: ["py_metaclasses"],
     iconName: "Cpu",
     unlocked: false,
     masteryPercent: 0,

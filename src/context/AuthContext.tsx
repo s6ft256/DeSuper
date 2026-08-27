@@ -32,6 +32,7 @@ const DEFAULT_PLAYER: PlayerState = {
   level: 1,
   xp: 0,
   coins: 100,
+  gems: 10,
   rank: "ZERO",
   streak: 1,
   lastPlayedDate: new Date().toISOString().split("T")[0],
@@ -66,6 +67,13 @@ const DEFAULT_PLAYER: PlayerState = {
     hintsUsed: 0,
     totalLinesWritten: 0,
   },
+  ownedItems: [],
+  battlePassXp: 0,
+  battlePassTier: 0,
+  activeXpBoost: false,
+  hintsRemaining: 0,
+  streakFreezeActive: false,
+  claimedBattlePassTiers: [],
 };
 
 async function getAuthHeader(): Promise<string> {
@@ -146,6 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     level: data.level || 1,
     xp: data.xp || 0,
     coins: data.coins || 100,
+    gems: data.gems || 10,
     rank: (data.rank || "ZERO") as PlayerState["rank"],
     streak: data.streak || 1,
     lastPlayedDate: data.last_played_date || new Date().toISOString().split("T")[0],
@@ -153,7 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     unlockedSkills: data.unlocked_skills || ["py_print"],
     defeatedBosses: data.defeated_bosses || [],
     completedProjects: data.completed_projects || [],
-    achievements: [],
+    achievements: data.achievements || [],
     customization: {
       name: data.display_name || "CyberOperative",
       avatar: data.avatar || "cyber_ninja",
@@ -166,6 +175,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     soundEnabled: data.sound_enabled ?? true,
     hapticsEnabled: data.haptics_enabled ?? true,
     stats: (data.stats as PlayerState["stats"]) || DEFAULT_PLAYER.stats,
+    ownedItems: data.owned_items || [],
+    battlePassXp: data.battle_pass_xp || 0,
+    battlePassTier: data.battle_pass_tier || 0,
+    activeXpBoost: data.active_xp_boost || false,
+    hintsRemaining: data.hints_remaining || 0,
+    streakFreezeActive: data.streak_freeze_active || false,
+    claimedBattlePassTiers: data.claimed_battle_pass_tiers || [],
   });
 
   const loadPlayerFromBackend = async () => {
@@ -206,6 +222,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             level: player.level,
             xp: player.xp,
             coins: player.coins,
+            gems: player.gems,
             rank: player.rank,
             streak: player.streak,
             completed_missions: player.completedMissions,
@@ -223,6 +240,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             companion_skin: player.customization.companionSkin,
             theme_accent: player.customization.themeAccent,
             badge_title: player.customization.badgeTitle,
+            owned_items: player.ownedItems,
+            battle_pass_xp: player.battlePassXp,
+            battle_pass_tier: player.battlePassTier,
+            active_xp_boost: player.activeXpBoost,
+            hints_remaining: player.hintsRemaining,
+            streak_freeze_active: player.streakFreezeActive,
+            claimed_battle_pass_tiers: player.claimedBattlePassTiers,
           }),
         },
         null

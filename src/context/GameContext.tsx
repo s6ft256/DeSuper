@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo, useCall
 import { PlayerState, RankId, ViewTab, DailyQuest, MapCoordinate } from "../types";
 import { RANKS, MISSIONS } from "../data/missions";
 import { INITIAL_DAILY_QUESTS } from "../data/miniGames";
+import { storyChapters } from "../data/storyline";
 import {
   WORLD_MAP_COORDINATES,
   getCoordinateForLevel,
@@ -39,6 +40,8 @@ interface GameContextType {
   getMissionStatus: (missionId: string) => "locked" | "available" | "completed";
   addGems: (amount: number) => void;
   ownedItems: string[];
+  claimBattlePassTier: (tier: number) => void;
+  isChapterUnlocked: (chapterId: string) => boolean;
 }
 
 const STORAGE_KEY = "desuper_game_save_v1";
@@ -88,6 +91,10 @@ const DEFAULT_PLAYER: PlayerState = {
   ownedItems: [],
   battlePassXp: 0,
   battlePassTier: 0,
+  activeXpBoost: false,
+  hintsRemaining: 0,
+  streakFreezeActive: false,
+  claimedBattlePassTiers: [],
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -134,7 +141,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [dailyQuests, setDailyQuests] = useState<DailyQuest[]>(INITIAL_DAILY_QUESTS);
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
-  const [ownedItems, setOwnedItems] = useState<string[]>([]);
 
   // Current Level state integer for map path navigation
   const [currentLevel, setCurrentLevel] = useState<number>(() => {
@@ -165,11 +171,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = yesterday.toISOString().split("T")[0];
 
+      const newStreak = lastPlayed === yesterdayStr ? player.streak + 1 : 1;
+
       setPlayer((prev) => ({
         ...prev,
-        streak: lastPlayed === yesterdayStr ? prev.streak + 1 : 1,
+        streak: newStreak,
         lastPlayedDate: today,
       }));
+
+      // Check for streak milestone reward
+      const milestoneReward = getStreakMilestoneReward(newStreak);
+      if (milestoneReward) {
+        addXpAndCoins(milestoneReward.xp, milestoneReward.coins);
+        localStorage.setItem(STREAK_REWARD_KEY, newStreak.toString());
+      }
     }
   }, []);
 
@@ -225,12 +240,22 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   // Get mission status for prerequisites
   const getMissionStatus = useCallback((missionId: string): 'locked' | 'available' | 'completed' => {
+    const mission = MISSIONS.find((m) => m.id === missionId);
+    if (!mission) return 'locked';
+
     const missionIndex = MISSIONS.findIndex((m) => m.id === missionId);
     if (missionIndex === -1) return 'locked';
 
     // Check if completed
     if (player.completedMissions.includes(missionId)) {
       return 'completed';
+    }
+
+    // Check if player's rank meets the mission's rank requirement
+    const requiredRankIndex = RANKS.findIndex((r) => r.id === mission.rank);
+    const playerRankIndex = RANKS.findIndex((r) => r.id === player.rank);
+    if (playerRankIndex < requiredRankIndex) {
+      return 'locked';
     }
 
     // First mission is always available
@@ -245,11 +270,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
 
     return 'locked';
-  }, [player.completedMissions]);
+  }, [player.completedMissions, player.rank]);
 
   const addXpAndCoins = (xpAmount: number, coinsAmount: number, gemsAmount: number = 0) => {
     setPlayer((prev) => {
-      const newXp = prev.xp + xpAmount;
+      // Apply XP boost if active
+      const xpMultiplier = prev.activeXpBoost ? 2 : 1;
+      const finalXp = xpAmount * xpMultiplier;
+      
+      const newXp = prev.xp + finalXp;
       const newCoins = prev.coins + coinsAmount;
       const newGems = prev.gems + gemsAmount;
       const newRank = calculateRank(newXp);
@@ -328,12 +357,39 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       return false;
     }
 
-    setPlayer((prev) => ({
-      ...prev,
-      coins: currency === "coins" ? prev.coins - price : prev.coins,
-      gems: currency === "gems" ? prev.gems - price : prev.gems,
-      ownedItems: [...prev.ownedItems, itemId],
-    }));
+    setPlayer((prev) => {
+      const updated = {
+        ...prev,
+        coins: currency === "coins" ? prev.coins - price : prev.coins,
+        gems: currency === "gems" ? prev.gems - price : prev.gems,
+        ownedItems: [...prev.ownedItems, itemId],
+      };
+
+      // Apply shop item effects
+      switch (itemId) {
+        case "xp_boost_1hr":
+          updated.activeXpBoost = true;
+          // Auto-expire after 1 hour
+          setTimeout(() => {
+            setPlayer((p) => ({ ...p, activeXpBoost: false }));
+          }, 3600000);
+          break;
+        case "hint_pack":
+          updated.hintsRemaining = prev.hintsRemaining + 5;
+          break;
+        case "streak_freeze":
+          updated.streakFreezeActive = true;
+          break;
+        case "neon_theme":
+          updated.customization.themeAccent = "neon";
+          break;
+        case "gold_badge":
+          updated.customization.badgeTitle = "GOLD OPERATIVE";
+          break;
+      }
+
+      return updated;
+    });
 
     return true;
   }, [player.coins, player.gems]);
@@ -493,6 +549,33 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   };
 
+  const claimBattlePassTier = (tier: number) => {
+    setPlayer((prev) => {
+      if (prev.claimedBattlePassTiers.includes(tier)) return prev;
+      return {
+        ...prev,
+        claimedBattlePassTiers: [...prev.claimedBattlePassTiers, tier],
+      };
+    });
+  };
+
+  // Check if a story chapter is unlocked based on player progress
+  const isChapterUnlocked = (chapterId: string): boolean => {
+    const chapter = storyChapters.find((ch) => ch.id === chapterId);
+    if (!chapter) return false;
+
+    switch (chapter.unlockRequirement.type) {
+      case "level":
+        return player.level >= (chapter.unlockRequirement.value as number);
+      case "missions_completed":
+        return player.completedMissions.length >= (chapter.unlockRequirement.value as number);
+      case "boss_defeated":
+        return player.defeatedBosses.includes(chapter.unlockRequirement.value as string);
+      default:
+        return false;
+    }
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -523,7 +606,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         purchaseItem,
         getMissionStatus,
         addGems,
-        ownedItems,
+        ownedItems: player.ownedItems,
+        claimBattlePassTier,
+        isChapterUnlocked,
       }}
     >
       {children}

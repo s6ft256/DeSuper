@@ -67,11 +67,10 @@ interface ShopModalProps {
 }
 
 export function ShopModal({ isOpen, onClose }: ShopModalProps) {
-  const { player, purchaseItem } = useGame();
+  const { player, purchaseItem, ownedItems } = useGame();
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
   const [confirmPurchase, setConfirmPurchase] = useState<ShopItem | null>(null);
-  const [ownedItems, setOwnedItems] = useState<string[]>([]);
 
   if (!isOpen) return null;
 
@@ -98,14 +97,13 @@ export function ShopModal({ isOpen, onClose }: ShopModalProps) {
   const handleConfirmPurchase = () => {
     if (!confirmPurchase) return;
 
-    const success = purchaseItem(confirmPurchase.id, confirmPurchase.price);
+    const success = purchaseItem(confirmPurchase.id, confirmPurchase.price, confirmPurchase.currency);
     
     if (success) {
       sound.playSuccess();
-      setOwnedItems((prev) => [...prev, confirmPurchase.id]);
       setPurchaseMessage(`Purchased ${confirmPurchase.name}!`);
     } else {
-      setPurchaseMessage('Not enough coins!');
+      setPurchaseMessage(`Not enough ${confirmPurchase.currency}!`);
     }
     
     setConfirmPurchase(null);

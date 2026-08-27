@@ -4,6 +4,7 @@ import { EmptyFriends, ErrorState } from "./ui/EmptyState";
 import { SkeletonList } from "./ui/Skeleton";
 import { LoadingButton, Badge, ProgressBar } from "./ui";
 import { useToast } from "./ui/Toast";
+import { useGame } from "../context/GameContext";
 
 interface FriendsModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ const mockRequests: FriendRequest[] = [
 ];
 
 export const FriendsModal: React.FC<FriendsModalProps> = ({ isOpen, onClose }) => {
+  const { player } = useGame();
   const { success, info, error } = useToast();
   const [activeTab, setActiveTab] = useState<"friends" | "requests" | "add">("friends");
   const [friends, setFriends] = useState<Friend[]>(mockFriends);
@@ -49,6 +51,9 @@ export const FriendsModal: React.FC<FriendsModalProps> = ({ isOpen, onClose }) =
   const [isLoading, setIsLoading] = useState(false);
   const [addFriendCode, setAddFriendCode] = useState("");
   const [searchResults, setSearchResults] = useState<Friend[]>([]);
+
+  // Generate a consistent friend code based on player name
+  const myFriendCode = `DS-${player.name.substring(0, 4).toUpperCase()}${player.level.toString().padStart(2, "0")}`;
 
   const handleAddFriend = () => {
     if (!addFriendCode.trim()) {
@@ -276,10 +281,10 @@ export const FriendsModal: React.FC<FriendsModalProps> = ({ isOpen, onClose }) =
             {/* Friend Code Display */}
             <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 text-center">
               <p className="text-xs text-slate-400 mb-2">Your Friend Code</p>
-              <p className="text-2xl font-mono font-bold text-cyan-300">DS-{Math.random().toString(36).substring(2, 8).toUpperCase()}</p>
+              <p className="text-2xl font-mono font-bold text-cyan-300">{myFriendCode}</p>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText("DS-XXXXXX");
+                  navigator.clipboard.writeText(myFriendCode);
                   success("Friend code copied!");
                 }}
                 className="mt-2 text-xs text-slate-400 hover:text-white cursor-pointer"

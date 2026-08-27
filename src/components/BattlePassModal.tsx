@@ -43,10 +43,9 @@ const generateBattlePassTiers = (): BattlePassTier[] => {
 const battlePassTiers = generateBattlePassTiers();
 
 export const BattlePassModal: React.FC<BattlePassModalProps> = ({ isOpen, onClose }) => {
-  const { player, addXpAndCoins } = useGame();
+  const { player, addXpAndCoins, claimBattlePassTier } = useGame();
   const { success, info } = useToast();
   const [hasPremium, setHasPremium] = useState(false);
-  const [claimedTiers, setClaimedTiers] = useState<number[]>([]);
 
   const currentTier = battlePassTiers.find((t) => player.xp < t.xpRequired) || battlePassTiers[battlePassTiers.length - 1];
   const currentTierIndex = battlePassTiers.indexOf(currentTier);
@@ -58,7 +57,7 @@ export const BattlePassModal: React.FC<BattlePassModalProps> = ({ isOpen, onClos
       info("Reach the required XP to claim this reward!");
       return;
     }
-    if (claimedTiers.includes(tier.level)) {
+    if (player.claimedBattlePassTiers.includes(tier.level)) {
       info("Already claimed!");
       return;
     }
@@ -74,7 +73,7 @@ export const BattlePassModal: React.FC<BattlePassModalProps> = ({ isOpen, onClos
       addXpAndCoins(reward.amount, 0);
     }
 
-    setClaimedTiers((prev) => [...prev, tier.level]);
+    claimBattlePassTier(tier.level);
     success(`Claimed: ${reward.name}!`);
   };
 
@@ -133,7 +132,7 @@ export const BattlePassModal: React.FC<BattlePassModalProps> = ({ isOpen, onClos
         <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-2">
           {battlePassTiers.slice(0, 10).map((tier) => {
             const isUnlocked = player.xp >= tier.xpRequired;
-            const isClaimed = claimedTiers.includes(tier.level);
+            const isClaimed = player.claimedBattlePassTiers.includes(tier.level);
 
             return (
               <div

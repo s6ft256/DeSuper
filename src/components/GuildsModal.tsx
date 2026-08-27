@@ -3,6 +3,7 @@ import { AccessibleModal } from "./ui/AccessibleModal";
 import { EmptyState } from "./ui/EmptyState";
 import { LoadingButton, Badge, ProgressBar } from "./ui";
 import { useToast } from "./ui/Toast";
+import { useGame } from "../context/GameContext";
 
 interface GuildsModalProps {
   isOpen: boolean;
@@ -56,6 +57,7 @@ const rankColors: Record<string, string> = {
 };
 
 export const GuildsModal: React.FC<GuildsModalProps> = ({ isOpen, onClose }) => {
+  const { player, addXpAndCoins } = useGame();
   const { success, info, error } = useToast();
   const [activeTab, setActiveTab] = useState<"browse" | "my-guild" | "create">("browse");
   const [guilds] = useState<Guild[]>(mockGuilds);
@@ -64,6 +66,8 @@ export const GuildsModal: React.FC<GuildsModalProps> = ({ isOpen, onClose }) => 
   const [createGuildName, setCreateGuildName] = useState("");
   const [createGuildTag, setCreateGuildTag] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+
+  const GUILD_CREATION_COST = 500;
 
   const handleJoinGuild = (guild: Guild) => {
     if (!guild.isRecruiting) {
@@ -82,8 +86,13 @@ export const GuildsModal: React.FC<GuildsModalProps> = ({ isOpen, onClose }) => 
       info("Guild tag must be 4 characters or less");
       return;
     }
+    if (player.coins < GUILD_CREATION_COST) {
+      error(`Not enough coins! Guild creation costs ${GUILD_CREATION_COST} coins.`);
+      return;
+    }
     setIsCreating(true);
     setTimeout(() => {
+      addXpAndCoins(0, -GUILD_CREATION_COST);
       success(`Guild ${createGuildName} created!`);
       setIsCreating(false);
       setCreateGuildName("");
