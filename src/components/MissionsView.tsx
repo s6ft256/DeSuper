@@ -133,64 +133,6 @@ export const MissionsView: React.FC = () => {
     return result;
   };
 
-  const handleRunCode = (code: string): ExecutionResult => {
-    setLastExecutedCode(code);
-    const newAttemptCount = attemptCount + 1;
-    setAttemptCount(newAttemptCount);
-
-    const result = PythonRuntime.execute(code);
-    setVisualActions(result.visualActions);
-
-    if (result.success) {
-      const validation = runDetailedValidation(activeMission, result, code);
-      if (validation.passed) {
-        setFailureDiagnostic(null);
-        completeMission(
-          activeMission.id,
-          activeMission.xpReward,
-          activeMission.coinsReward,
-          activeMission.skillIdToUnlock
-        );
-
-        if (activeMission.skillIdToUnlock) {
-          unlockSkill(activeMission.skillIdToUnlock);
-        }
-
-        setVictoryDetails({
-          missionTitle: activeMission.title,
-          xp: activeMission.xpReward,
-          coins: activeMission.coinsReward,
-        });
-        setShowVictoryModal(true);
-        sound.playSuccess();
-      } else {
-        sound.playError();
-        setFailureDiagnostic({
-          reasons: validation.reasons,
-          checks: validation.checks,
-          attemptCount: newAttemptCount,
-        });
-      }
-    } else {
-      sound.playError();
-      const reasons = [result.error?.whatHappened || "Syntax or runtime error in Python script"];
-      setFailureDiagnostic({
-        reasons,
-        checks: [
-          {
-            label: "Python syntax & runtime check",
-            passed: false,
-            tip: result.error?.whyItHappened || "Check indentation, colons (:), and string quotation marks.",
-          },
-        ],
-        error: result.error,
-        attemptCount: newAttemptCount,
-      });
-    }
-
-    return result;
-  };
-
   const runDetailedValidation = (
     mission: (typeof MISSIONS)[0],
     result: ExecutionResult,
