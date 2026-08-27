@@ -73,6 +73,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleEmailConfirmation = async () => {
+      if (window.location.hash.includes("access_token") || window.location.hash.includes("type=signup")) {
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = params.get("access_token");
+        const refreshToken = params.get("refresh_token");
+        
+        if (accessToken) {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken || "",
+          });
+          if (!error) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+        }
+      }
+    };
+    
+    handleEmailConfirmation();
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email ?? undefined });

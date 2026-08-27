@@ -4,7 +4,7 @@ import { OrbitControls, Stars, Float, MeshDistortMaterial } from "@react-three/d
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 import { sound } from "../utils/audio";
-import { Mail, Lock, User, Eye, EyeOff, Zap } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff, Zap, CheckCircle, AlertCircle } from "lucide-react";
 
 function Scene() {
   return (
@@ -46,6 +46,7 @@ export const Auth3D: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const { signIn, signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,12 +59,13 @@ export const Auth3D: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess 
       if (isSignUp) {
         const { error } = await signUp(email, password, displayName);
         if (error) throw error;
+        setEmailSent(true);
       } else {
         const { error } = await signIn(email, password);
         if (error) throw error;
+        sound.playLevelUp();
+        onAuthSuccess();
       }
-      sound.playLevelUp();
-      onAuthSuccess();
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -182,6 +184,27 @@ export const Auth3D: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess 
             {error && (
               <div className="p-3 rounded-xl bg-rose-500/[0.08] border border-rose-400/20 text-rose-300 text-xs font-mono backdrop-blur-sm">
                 {error}
+              </div>
+            )}
+
+            {emailSent && (
+              <div className="p-4 rounded-xl bg-emerald-500/[0.08] border border-emerald-400/20 backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                  <span className="text-emerald-300 text-xs font-mono font-bold">CONFIRMATION EMAIL SENT</span>
+                </div>
+                <p className="text-emerald-200/70 text-[11px] font-mono leading-relaxed">
+                  Check your inbox at <span className="text-emerald-300">{email}</span> and click the verification link to activate your account.
+                </p>
+                <div className="mt-3 pt-3 border-t border-emerald-400/10">
+                  <button
+                    onClick={() => { setEmailSent(false); setError(null); }}
+                    className="text-[11px] font-mono text-emerald-400/80 hover:text-emerald-300 transition-colors flex items-center gap-1.5"
+                  >
+                    <AlertCircle className="w-3 h-3" />
+                    Didn't receive it? Try again
+                  </button>
+                </div>
               </div>
             )}
 
