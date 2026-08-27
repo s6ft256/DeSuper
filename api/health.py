@@ -18,6 +18,7 @@ class handler(BaseHTTPRequestHandler):
         
         # Check Supabase connection
         supabase_status = "unknown"
+        tables = {}
         try:
             req = urllib.request.Request(
                 f"{SUPABASE_URL}/rest/v1/",
@@ -28,6 +29,18 @@ class handler(BaseHTTPRequestHandler):
             )
             with urllib.request.urlopen(req, timeout=5) as resp:
                 supabase_status = "connected" if resp.status == 200 else f"error_{resp.status}"
+            
+            # Check ai_skills table
+            req = urllib.request.Request(
+                f"{SUPABASE_URL}/rest/v1/ai_skills?select=*&limit=5",
+                headers={
+                    "apikey": SUPABASE_SERVICE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                skills_data = json.loads(resp.read().decode())
+                tables['ai_skills'] = f"{len(skills_data)} records"
         except Exception as e:
             supabase_status = f"error: {str(e)[:50]}"
         
@@ -41,7 +54,8 @@ class handler(BaseHTTPRequestHandler):
                 "url_configured": bool(SUPABASE_URL),
                 "anon_key_configured": bool(SUPABASE_ANON_KEY),
                 "service_key_configured": bool(SUPABASE_SERVICE_KEY),
-                "status": supabase_status
+                "status": supabase_status,
+                "tables": tables
             }
         }
         

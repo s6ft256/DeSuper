@@ -145,6 +145,29 @@ def supabase_request(method, path, data=None, service_key=True):
         raise Exception(f"Supabase error {e.code}: {error_body}")
 
 class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        """Get user's skills"""
+        auth_header = self.headers.get('Authorization', '')
+        if not auth_header.startswith('Bearer '):
+            self.send_json(401, {"error": "Unauthorized"})
+            return
+        
+        token = auth_header[7:]
+        user_id = get_user_id(token)
+        if not user_id:
+            self.send_json(401, {"error": "Invalid token"})
+            return
+        
+        try:
+            skills = supabase_request(
+                "GET",
+                f"/rest/v1/ai_skills?user_id=eq.{user_id}&select=*&order=proficiency_level.desc",
+                service_key=True
+            )
+            self.send_json(200, {"success": True, "skills": skills or []})
+        except Exception as e:
+            self.send_json(500, {"success": False, "error": str(e)})
+
     def do_POST(self):
         content_length = int(self.headers.get('Content-Length', 0))
         body = self.rfile.read(content_length)
@@ -211,7 +234,7 @@ class handler(BaseHTTPRequestHandler):
                         results.append({**skill, "status": "updated"})
                         imported += 1
                     else:
-                        supabase_request(
+                        result = supabase_request(
                             "POST",
                             "/rest/v1/ai_skills",
                             {
@@ -224,8 +247,12 @@ class handler(BaseHTTPRequestHandler):
                                 "source_file": file_name
                             }
                         )
-                        results.append({**skill, "status": "new"})
-                        imported += 1
+                        if result:
+                            results.append({**skill, "status": "new"})
+                            imported += 1
+                        else:
+                            results.append({**skill, "status": "error", "error": "Insert returned None"})
+                            skipped += 1
                 except Exception as e:
                     results.append({**skill, "status": "error", "error": str(e)})
                     skipped += 1
