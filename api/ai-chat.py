@@ -1,6 +1,14 @@
 from http.server import BaseHTTPRequestHandler
 import json
 import os
+import urllib.request
+import urllib.error
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+OPENROUTER_BASE = "https://openrouter.ai/api/v1"
+
+SYSTEM_PROMPT = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game DeSuper by s6ft. You help players learn Python programming through interactive coding missions, debugging, and concept explanations. Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep responses under 4 sentences unless asked for detail."""
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -14,23 +22,39 @@ class handler(BaseHTTPRequestHandler):
             self.send_json(400, {"success": False, "error": "Invalid request"})
             return
         
-        system_prompt = {
-            "role": "system",
-            "content": "You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game DeSuper by s6ft. You help players learn Python programming through interactive coding missions, debugging, and concept explanations. Be concise, encouraging, and educational. Use a futuristic cyber tone."
-        }
+        if not OPENROUTER_API_KEY:
+            self.send_json(200, {
+                "success": False,
+                "error": "AI not configured",
+                "message": "AI features are currently unavailable. Please try again later."
+            })
+            return
         
-        all_messages = [system_prompt] + messages
+        all_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
         
         try:
-            llm = self._load_model()
-            if llm:
-                output = llm.create_chat_completion(
-                    messages=all_messages,
-                    max_tokens=512,
-                    temperature=0.7,
-                    top_p=0.9,
-                )
-                text = output["choices"][0]["message"]["content"].strip()
+            payload = json.dumps({
+                "model": OPENROUTER_MODEL,
+                "messages": all_messages,
+                "max_tokens": 512,
+                "temperature": 0.7,
+                "top_p": 0.9
+            }).encode()
+            
+            req = urllib.request.Request(
+                f"{OPENROUTER_BASE}/chat/completions",
+                data=payload,
+                headers={
+                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://de-super.vercel.app",
+                    "X-Title": "DeSuper"
+                }
+            )
+            
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                result = json.loads(resp.read().decode())
+                text = result["choices"][0]["message"]["content"].strip()
                 self.send_json(200, {"success": True, "message": text})
                 return
         except Exception as e:
@@ -38,19 +62,9 @@ class handler(BaseHTTPRequestHandler):
         
         self.send_json(200, {
             "success": False,
-            "error": "AI model not available",
-            "message": "The AI model is not currently deployed. Please use the standalone eli_ai.py script for AI features."
+            "error": "AI service error",
+            "message": "The AI model is temporarily unavailable. Please try again."
         })
-
-    def _load_model(self):
-        try:
-            from llama_cpp import Llama
-            model_path = os.getenv("MODEL_PATH", "Qwen2.5-Coder-0.5B-Instruct-abliterated-f16.gguf")
-            if os.path.exists(model_path):
-                return Llama(model_path=model_path, n_ctx=2048, n_threads=4, verbose=False)
-        except ImportError:
-            pass
-        return None
 
     def send_json(self, status, data):
         self.send_response(status)

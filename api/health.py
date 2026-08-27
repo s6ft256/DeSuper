@@ -1,6 +1,9 @@
 from http.server import BaseHTTPRequestHandler
 import json
+import os
 from datetime import datetime
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -13,7 +16,8 @@ class handler(BaseHTTPRequestHandler):
             "status": "ok",
             "service": "desuper-hybrid",
             "timestamp": datetime.utcnow().isoformat(),
-            "model_loaded": False
+            "model_loaded": bool(OPENROUTER_API_KEY),
+            "model_source": "openrouter" if OPENROUTER_API_KEY else "none"
         }
         
         self.wfile.write(json.dumps(response).encode())
