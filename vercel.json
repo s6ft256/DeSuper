@@ -4,6 +4,8 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.png" },
+    { "source": "/api/ai/chat", "destination": "/api/ai-chat" },
+    { "source": "/api/ai/companion-hint", "destination": "/api/companion-hint" },
     { "source": "/((?!api/.*).*)", "destination": "/index.html" }
   ]
 }
