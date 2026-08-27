@@ -4,10 +4,10 @@ import os
 import urllib.request
 from datetime import datetime
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
-SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", os.getenv("VITE_OPENROUTER_API_KEY", ""))
+SUPABASE_URL = os.getenv("SUPABASE_URL", os.getenv("VITE_SUPABASE_URL", ""))
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", os.getenv("VITE_SUPABASE_ANON_KEY", ""))
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", os.getenv("VITE_SUPABASE_SERVICE_ROLE_KEY", ""))
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):

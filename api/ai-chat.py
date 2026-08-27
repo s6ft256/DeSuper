@@ -4,12 +4,12 @@ import os
 import urllib.request
 import urllib.error
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", os.getenv("VITE_OPENROUTER_API_KEY", ""))
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", os.getenv("VITE_OPENROUTER_MODEL", "openrouter/free"))
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+SUPABASE_URL = os.getenv("SUPABASE_URL", os.getenv("VITE_SUPABASE_URL", ""))
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", os.getenv("VITE_SUPABASE_SERVICE_ROLE_KEY", ""))
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", os.getenv("VITE_SUPABASE_ANON_KEY", ""))
 
 BASE_SYSTEM_PROMPT = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game DeSuper by s6ft. You help players learn Python programming through interactive coding missions, debugging, and concept explanations. Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep responses under 4 sentences unless asked for detail."""
 
