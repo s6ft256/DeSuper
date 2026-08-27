@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { RANKS } from "../data/missions";
 
-export const Navigation: React.FC = () => {
+export const Navigation: React.FC<{ onToggleChat: () => void }> = ({ onToggleChat }) => {
   const { player, activeTab, setActiveTab, toggleSound } = useGame();
   const { user, signOut } = useAuth();
 
@@ -45,7 +45,6 @@ export const Navigation: React.FC = () => {
     { id: "bosses", label: "Boss Battles", icon: <Swords className="w-4 h-4" /> },
     { id: "projects", label: "Projects", icon: <FolderCode className="w-4 h-4" /> },
     { id: "minigames", label: "Trivia", icon: <Gamepad2 className="w-4 h-4" /> },
-    { id: "chat", label: "Eli-v0.1", icon: <MessageSquare className="w-4 h-4 text-cyan-400" /> },
     { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
   ];
 
@@ -114,6 +113,14 @@ export const Navigation: React.FC = () => {
             ) : (
               <VolumeX className="w-4 h-4 text-slate-500" />
             )}
+          </button>
+
+          <button
+            onClick={onToggleChat}
+            title="Chat with Eli-v0.1"
+            className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-cyan-300 cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4 text-cyan-400" />
           </button>
 
           {user && (

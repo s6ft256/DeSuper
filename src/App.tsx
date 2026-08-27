@@ -14,6 +14,7 @@ import { ChatView } from "./components/ChatView";
 import { ProfileView } from "./components/ProfileView";
 import { StartupSplash } from "./components/StartupSplash";
 import { Auth3D } from "./components/Auth3D";
+import { FloatingChat } from "./components/FloatingChat";
 import { sound } from "./utils/audio";
 import { insertPairedChars } from "./utils/useKeyboardShortcuts";
 
@@ -23,6 +24,7 @@ function MainGameContainer() {
   const [showSplash, setShowSplash] = useState(true);
   const [shortcutFeedback, setShortcutFeedback] = useState<string | null>(null);
   const [authDone, setAuthDone] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     if (!loading && user && !authDone) {
@@ -163,7 +165,10 @@ function MainGameContainer() {
   return (
     <div className="h-screen w-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative overflow-hidden">
       {/* Top Header & Bottom Navigation */}
-      <Navigation />
+      <Navigation onToggleChat={() => setShowChat(!showChat)} />
+
+      {/* Floating Eli-v0.1 Chat */}
+      <FloatingChat isOpen={showChat} onClose={() => setShowChat(false)} />
 
       {/* Global Shortcut HUD Toast */}
       {shortcutFeedback && (
