@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Bot, User, X, Minimize2, Maximize2, ChevronDown, Cpu, Grip, Mic, MicOff } from "lucide-react";
+import { Send, Bot, User, X, Minimize2, Maximize2, ChevronDown, Cpu, Grip, Mic, MicOff, Settings, Upload, FileText, Check, AlertCircle, Loader2 } from "lucide-react";
 import { fetchWithFallback } from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../lib/supabase";
@@ -50,7 +50,13 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [userSkills, setUserSkills] = useState<Array<{ skill_name: string; proficiency_level: number; skill_category: string }>>([]);
+  const [showSettings, setShowSettings] = useState(false);
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importLoading, setImportLoading] = useState(false);
+  const [importResult, setImportResult] = useState<{ imported: number; skipped: number } | null>(null);
+  const [importError, setImportError] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -252,6 +258,59 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
     }
   };
 
+  const handleImportSkills = async () => {
+    if (!importFile) return;
+    setImportLoading(true);
+    setImportError(null);
+    setImportResult(null);
+
+    try {
+      const content = await importFile.text();
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.access_token) {
+        throw new Error('Not authenticated');
+      }
+
+      const response = await fetch('/api/skills/import', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          file_name: importFile.name,
+          content: content
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setImportResult(data.result);
+        // Refresh skills list
+        const { data: skillsData } = await supabase
+          .from('ai_skills')
+          .select('skill_name, proficiency_level, skill_category')
+          .eq('user_id', user?.id)
+          .order('proficiency_level', { ascending: false })
+          .limit(20);
+        if (skillsData) {
+          setUserSkills(skillsData);
+        }
+        setImportFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } else {
+        setImportError(data.error || 'Import failed');
+      }
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : 'Failed to import file');
+    } finally {
+      setImportLoading(false);
+    }
+  };
+
   const formatContent = (content: string) => {
     const parts = content.split(/(```[\s\S]*?```)/g);
     return parts.map((part, i) => {
@@ -311,6 +370,15 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
           </div>
           <div className="flex items-center gap-1 no-drag">
             <button
+              onClick={() => setShowSettings(!showSettings)}
+              title="Settings"
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                showSettings ? "bg-cyan-500/20 text-cyan-300" : "hover:bg-slate-800/50 text-slate-400 hover:text-cyan-300"
+              }`}
+            >
+              <Settings className="w-3.5 h-3.5" />
+            </button>
+            <button
               onClick={() => setIsMinimized(!isMinimized)}
               className="p-1.5 rounded-lg hover:bg-slate-800/50 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
             >
@@ -327,6 +395,106 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
 
         {!isMinimized && (
           <>
+            {showSettings && (
+              <div className="absolute inset-0 z-10 bg-slate-950/95 backdrop-blur-sm p-4 overflow-y-auto">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-bold font-mono text-white">AI Settings</h3>
+                    <button
+                      onClick={() => setShowSettings(false)}
+                      className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700 space-y-3">
+                    <h4 className="text-xs font-bold font-mono text-white flex items-center gap-2">
+                      <Upload className="w-3 h-3 text-cyan-400" />
+                      Import Skills
+                    </h4>
+                    <p className="text-[10px] text-slate-400">Upload a skills.md file to teach the AI about your skills.</p>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".md"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file?.name.endsWith('.md')) {
+                          setImportFile(file);
+                          setImportError(null);
+                        }
+                      }}
+                      className="hidden"
+                      id="skills-import-input"
+                    />
+                    <label
+                      htmlFor="skills-import-input"
+                      className="block w-full py-3 border-2 border-dashed border-slate-700 rounded-lg text-center cursor-pointer hover:border-cyan-500/50 transition-colors"
+                    >
+                      {importFile ? (
+                        <span className="text-xs font-mono text-emerald-300 flex items-center justify-center gap-2">
+                          <FileText className="w-3 h-3" />
+                          {importFile.name}
+                        </span>
+                      ) : (
+                        <span className="text-xs font-mono text-slate-400">
+                          Click to select skills.md
+                        </span>
+                      )}
+                    </label>
+
+                    <button
+                      onClick={handleImportSkills}
+                      disabled={!importFile || importLoading}
+                      className="w-full py-2 bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-300 font-mono text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-cyan-500/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {importLoading ? (
+                        <>
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                          <span>Saving...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-3 h-3" />
+                          <span>Save Skills</span>
+                        </>
+                      )}
+                    </button>
+
+                    {importResult && (
+                      <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono">
+                        <Check className="w-3 h-3" />
+                        <span>{importResult.imported} skills saved</span>
+                      </div>
+                    )}
+
+                    {importError && (
+                      <div className="flex items-center gap-2 text-rose-400 text-xs font-mono">
+                        <AlertCircle className="w-3 h-3" />
+                        <span>{importError}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {userSkills.length > 0 && (
+                    <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700 space-y-2">
+                      <h4 className="text-xs font-bold font-mono text-white">Saved Skills ({userSkills.length})</h4>
+                      <div className="max-h-32 overflow-y-auto space-y-1">
+                        {userSkills.map((skill, i) => (
+                          <div key={i} className="flex items-center justify-between text-[10px] font-mono py-1 border-b border-slate-800 last:border-0">
+                            <span className="text-slate-300">{skill.skill_name}</span>
+                            <span className="text-cyan-400">Lv.{skill.proficiency_level}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex gap-2 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
