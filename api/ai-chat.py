@@ -18,6 +18,7 @@ class handler(BaseHTTPRequestHandler):
         try:
             data = json.loads(body.decode())
             messages = data.get("messages", [])[-10:]
+            model = data.get("model", OPENROUTER_MODEL)
         except (json.JSONDecodeError, KeyError):
             self.send_json(400, {"success": False, "error": "Invalid request"})
             return
@@ -34,7 +35,7 @@ class handler(BaseHTTPRequestHandler):
         
         try:
             payload = json.dumps({
-                "model": OPENROUTER_MODEL,
+                "model": model,
                 "messages": all_messages,
                 "max_tokens": 512,
                 "temperature": 0.7,
