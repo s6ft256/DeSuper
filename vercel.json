@@ -6,6 +6,7 @@
     { "source": "/favicon.ico", "destination": "/favicon.png" },
     { "source": "/api/ai/chat", "destination": "/api/ai-chat" },
     { "source": "/api/ai/companion-hint", "destination": "/api/companion-hint" },
+    { "source": "/api/skills/import", "destination": "/api/skills-import" },
     { "source": "/((?!api/.*).*)", "destination": "/index.html" }
   ]
 }

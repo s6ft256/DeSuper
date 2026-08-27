@@ -247,3 +247,206 @@ $$ language plpgsql security definer;
 create trigger on_profile_leaderboard_sync
   after update on public.profiles
   for each row execute procedure public.handle_profile_leaderboard_sync();
+
+-- ============================================
+-- AI MEMORY & SKILL RETENTION TABLES
+-- ============================================
+
+-- ============================================
+-- 6. AI PROFILES (per user)
+-- ============================================
+create table if not exists public.ai_profiles (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null unique,
+  ai_name text default 'Eli-v0.1',
+  ai_personality text default 'cyber_mentor',
+  system_prompt text,
+  memory_consent boolean default false,
+  total_interactions int default 0,
+  last_interaction_at timestamp with time zone,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 7. AI SKILLS (acquired competencies)
+-- ============================================
+create table if not exists public.ai_skills (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  skill_name text not null,
+  skill_category text default 'general',
+  proficiency_level int default 1 check (proficiency_level between 1 and 10),
+  description text,
+  source text default 'conversation',
+  source_file text,
+  metadata jsonb default '{}'::jsonb,
+  acquired_at timestamp with time zone default timezone('utc'::text, now()),
+  last_used_at timestamp with time zone,
+  use_count int default 0,
+  unique(user_id, skill_name)
+);
+
+-- ============================================
+-- 8. AI LONG-TERM MEMORY
+-- ============================================
+create table if not exists public.ai_long_term_memory (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  memory_type text not null,
+  content text not null,
+  relevance_score float default 0.5 check (relevance_score between 0 and 1),
+  source_interaction_id uuid,
+  tags text[] default '{}',
+  is_active boolean default true,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 9. AI MEMORY LOGS (working memory)
+-- ============================================
+create table if not exists public.ai_memory_logs (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  session_id text,
+  role text not null,
+  content text not null,
+  tokens_used int,
+  metadata jsonb default '{}'::jsonb,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 10. AI SKILL IMPORTS (tracking)
+-- ============================================
+create table if not exists public.ai_skill_imports (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  file_name text not null,
+  file_size int,
+  parse_status text default 'pending',
+  skills_imported int default 0,
+  skills_skipped int default 0,
+  error_message text,
+  raw_content text,
+  processed_at timestamp with time zone,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 11. AI CONVERSATION SESSIONS
+-- ============================================
+create table if not exists public.ai_sessions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  session_id text not null unique,
+  title text,
+  summary text,
+  message_count int default 0,
+  started_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  ended_at timestamp with time zone,
+  metadata jsonb default '{}'::jsonb
+);
+
+-- ============================================
+-- AI INDEXES
+-- ============================================
+create index if not exists idx_ai_skills_user_id on public.ai_skills(user_id);
+create index if not exists idx_ai_skills_category on public.ai_skills(skill_category);
+create index if not exists idx_ai_long_term_memory_user_id on public.ai_long_term_memory(user_id);
+create index if not exists idx_ai_long_term_memory_type on public.ai_long_term_memory(memory_type);
+create index if not exists idx_ai_memory_logs_user_id on public.ai_memory_logs(user_id);
+create index if not exists idx_ai_memory_logs_session on public.ai_memory_logs(session_id);
+create index if not exists idx_ai_sessions_user_id on public.ai_sessions(user_id);
+create index if not exists idx_ai_skill_imports_user_id on public.ai_skill_imports(user_id);
+
+-- ============================================
+-- AI ROW LEVEL SECURITY
+-- ============================================
+alter table public.ai_profiles enable row level security;
+alter table public.ai_skills enable row level security;
+alter table public.ai_long_term_memory enable row level security;
+alter table public.ai_memory_logs enable row level security;
+alter table public.ai_skill_imports enable row level security;
+alter table public.ai_sessions enable row level security;
+
+-- AI Profiles policies
+create policy "Users can manage own AI profile"
+  on public.ai_profiles for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- AI Skills policies
+create policy "Users can manage own skills"
+  on public.ai_skills for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Long-term memory policies
+create policy "Users can manage own memory"
+  on public.ai_long_term_memory for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Memory logs policies
+create policy "Users can manage own memory logs"
+  on public.ai_memory_logs for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Skill imports policies
+create policy "Users can manage own imports"
+  on public.ai_skill_imports for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Sessions policies
+create policy "Users can manage own sessions"
+  on public.ai_sessions for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- ============================================
+-- AI FUNCTIONS & TRIGGERS
+-- ============================================
+
+-- Auto-update updated_at for AI tables
+create trigger on_ai_profiles_updated
+  before update on public.ai_profiles
+  for each row execute procedure public.handle_updated_at();
+
+create trigger on_ai_long_term_memory_updated
+  before update on public.ai_long_term_memory
+  for each row execute procedure public.handle_updated_at();
+
+-- Auto-create AI profile on user creation
+create or replace function public.handle_new_ai_profile()
+returns trigger as $$
+begin
+  insert into public.ai_profiles (user_id) values (new.id);
+  return new;
+end;
+$$ language plpgsql security definer;
+
+drop trigger if exists on_auth_user_ai_profile on auth.users;
+create trigger on_auth_user_ai_profile
+  after insert on auth.users
+  for each row execute procedure public.handle_new_ai_profile();
+
+-- Update interaction count
+create or replace function public.handle_ai_interaction()
+returns trigger as $$
+begin
+  update public.ai_profiles
+  set 
+    total_interactions = total_interactions + 1,
+    last_interaction_at = timezone('utc'::text, now())
+  where user_id = new.user_id;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_ai_memory_log_created
+  after insert on public.ai_memory_logs
+  for each row execute procedure public.handle_ai_interaction();
