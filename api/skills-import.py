@@ -12,17 +12,24 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 
 def get_user_id(token):
     try:
+        # Ensure token is in Bearer format
+        if token.startswith("Bearer "):
+            auth_value = token
+        else:
+            auth_value = f"Bearer {token}"
+        
         req = urllib.request.Request(
             f"{SUPABASE_URL}/auth/v1/user",
             headers={
                 "apikey": SUPABASE_ANON_KEY,
-                "Authorization": token
+                "Authorization": auth_value
             }
         )
         with urllib.request.urlopen(req, timeout=10) as resp:
             user_data = json.loads(resp.read().decode())
             return user_data.get("id")
-    except Exception:
+    except Exception as e:
+        print(f"Auth error: {e}")
         return None
 
 def parse_skills_markdown(content):
