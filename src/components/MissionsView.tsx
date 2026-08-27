@@ -5,6 +5,7 @@ import { RankId, ExecutionResult, VisualAction } from "../types";
 import { PythonRuntime } from "../engine/pythonEngine";
 import { VisualGameStage } from "./VisualGameStage";
 import { CodeEditor } from "./CodeEditor";
+import { getChapterForMission, getEliVoiceLine } from "../data/storyline";
 import {
   CheckCircle2,
   Lock,
@@ -20,8 +21,10 @@ import {
   RefreshCw,
   HelpCircle,
   XCircle,
+  MessageCircle,
 } from "lucide-react";
 import { sound } from "../utils/audio";
+import { GameAnalytics } from "../lib/analytics";
 
 interface FailureDiagnostic {
   reasons: string[];
@@ -60,6 +63,10 @@ export const MissionsView: React.FC = () => {
   const currentMissionIndex = allMissions.findIndex((m) => m.id === selectedMissionId);
   const activeMission = currentMissionIndex >= 0 ? allMissions[currentMissionIndex] : allMissions[0];
   
+  // Get storyline chapter for current mission
+  const currentChapter = getChapterForMission(activeMission.id);
+  const eliVoiceLine = getEliVoiceLine();
+  
   const nextMission = allMissions[completedCount] || null;
   const isNextUnlocked = nextMission && nextMission.id === activeMission.id;
 
@@ -75,12 +82,12 @@ export const MissionsView: React.FC = () => {
     }
   };
 
-  const handleRunCode = (code: string): ExecutionResult => {
+  const handleRunCode = async (code: string): Promise<ExecutionResult> => {
     setLastExecutedCode(code);
     const newAttemptCount = attemptCount + 1;
     setAttemptCount(newAttemptCount);
 
-    const result = PythonRuntime.execute(code);
+    const result = await PythonRuntime.execute(code);
     setVisualActions(result.visualActions);
 
     if (result.success) {
@@ -98,6 +105,14 @@ export const MissionsView: React.FC = () => {
           unlockSkill(activeMission.skillIdToUnlock);
         }
 
+        // Track mission completion analytics
+        GameAnalytics.missionCompleted(
+          activeMission.id,
+          activeMission.xpReward,
+          newAttemptCount,
+          result.executionTimeMs
+        );
+
         setVictoryDetails({
           missionTitle: activeMission.title,
           xp: activeMission.xpReward,
@@ -107,6 +122,7 @@ export const MissionsView: React.FC = () => {
         sound.playSuccess();
       } else {
         sound.playError();
+        GameAnalytics.missionFailed(activeMission.id, "validation_failed");
         setFailureDiagnostic({
           reasons: validation.reasons,
           checks: validation.checks,
@@ -115,6 +131,7 @@ export const MissionsView: React.FC = () => {
       }
     } else {
       sound.playError();
+      GameAnalytics.missionFailed(activeMission.id, result.error?.type || "runtime_error");
       const reasons = [result.error?.whatHappened || "Syntax or runtime error in Python script"];
       setFailureDiagnostic({
         reasons,
@@ -343,7 +360,30 @@ export const MissionsView: React.FC = () => {
               )}
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">{activeMission.story}</p>
+             <p className="text-xs text-slate-300 leading-relaxed">{activeMission.story}</p>
+
+             {/* Storyline Chapter Indicator */}
+             {currentChapter && (
+               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                 <span className="text-sm">📖</span>
+                 <div className="flex-1">
+                   <p className="text-[10px] font-mono text-purple-300 font-bold">
+                     CHAPTER {currentChapter.number}: {currentChapter.title}
+                   </p>
+                   <p className="text-[9px] font-mono text-purple-400/70">
+                     {currentChapter.sectorName}
+                   </p>
+                 </div>
+               </div>
+             )}
+
+             {/* Eli's Voice Line */}
+             <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+               <div className="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                 <span className="text-xs">🤖</span>
+               </div>
+               <p className="text-xs text-cyan-300 italic">"{eliVoiceLine}"</p>
+             </div>
 
             <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
               <div className="flex items-center gap-1.5 font-bold font-mono text-slate-300 mb-1">

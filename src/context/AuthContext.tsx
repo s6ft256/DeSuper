@@ -12,6 +12,15 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   syncPlayerToSupabase: () => Promise<void>;
   loadPlayerFromSupabase: () => Promise<void>;
+  updateProfile: (updates: Partial<{
+    display_name: string;
+    avatar: string;
+    suit_color: string;
+    helmet_style: string;
+    companion_skin: string;
+    theme_accent: string;
+    badge_title: string;
+  }>) => Promise<{ success: boolean; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -245,9 +254,58 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadLocalPlayer();
   };
 
+  const updateProfile = async (updates: Partial<{
+    display_name: string;
+    avatar: string;
+    suit_color: string;
+    helmet_style: string;
+    companion_skin: string;
+    theme_accent: string;
+    badge_title: string;
+  }>) => {
+    if (!user) return { success: false, error: "Not authenticated" };
+    
+    try {
+      const authHeader = await getAuthHeader();
+      const { data, error } = await fetchWithFallback(
+        `/api/profile`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: authHeader,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updates),
+        },
+        null
+      );
+      
+      if (error) {
+        return { success: false, error: error };
+      }
+      
+      // Update local player state
+      setPlayer((prev) => {
+        const updated = { ...prev };
+        if (updates.display_name) updated.customization.name = updates.display_name;
+        if (updates.avatar) updated.customization.avatar = updates.avatar;
+        if (updates.suit_color) updated.customization.suitColor = updates.suit_color;
+        if (updates.helmet_style) updated.customization.helmetStyle = updates.helmet_style;
+        if (updates.companion_skin) updated.customization.companionSkin = updates.companion_skin;
+        if (updates.theme_accent) updated.customization.themeAccent = updates.theme_accent;
+        if (updates.badge_title) updated.customization.badgeTitle = updates.badge_title;
+        return updated;
+      });
+      
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: String(err) };
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, player, loading, signIn, signUp, signOut, syncPlayerToSupabase, loadPlayerFromSupabase: loadPlayerFromBackend }}
+      value={{ user, player, loading, signIn, signUp, signOut, syncPlayerToSupabase, loadPlayerFromSupabase: loadPlayerFromBackend, updateProfile }}
     >
       {children}
     </AuthContext.Provider>

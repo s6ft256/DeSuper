@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGame } from "../context/GameContext";
 import { MINI_GAME_QUESTIONS } from "../data/miniGames";
 import { MiniGameQuestion } from "../types";
+import { EmptyState } from "./ui/EmptyState";
 import {
   Gamepad2,
   Bug,
@@ -134,7 +135,7 @@ export const MiniGamesView: React.FC = () => {
         })}
       </div>
 
-      {currentQ && (
+      {currentQ ? (
         <div className="p-5 sm:p-7 rounded-3xl bg-slate-900 border border-slate-700 space-y-5">
           <div className="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-slate-800 pb-3">
             <span className="text-slate-300 font-bold uppercase bg-slate-800 border border-slate-700 px-2.5 py-0.5 rounded-md">{currentQ.title}</span>
@@ -200,6 +201,12 @@ export const MiniGamesView: React.FC = () => {
             </div>
           )}
         </div>
+      ) : (
+        <EmptyState
+          icon="🎮"
+          title="No Questions Available"
+          description="This category doesn't have any questions yet. Check back later or try another category!"
+        />
       )}
     </div>
   );

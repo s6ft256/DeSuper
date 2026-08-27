@@ -768,10 +768,10 @@ const statistics = {
 };
 
 export class PythonRuntime {
-  public static execute(
+  public static async execute(
     code: string,
     customContext: Record<string, any> = {}
-  ): ExecutionResult {
+  ): Promise<ExecutionResult> {
     const startTime = performance.now();
     const output: string[] = [];
     const visualActions: VisualAction[] = [];
@@ -1137,7 +1137,41 @@ export class PythonRuntime {
         return { __vars };`
       );
 
-      const result = runner(...scopeValues);
+      // Execute with timeout protection (5 seconds max)
+      const TIMEOUT_MS = 5000;
+      let result;
+      
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('TIMEOUT'));
+        }, TIMEOUT_MS);
+      });
+      
+      try {
+        result = await Promise.race([
+          Promise.resolve(runner(...scopeValues)),
+          timeoutPromise,
+        ]);
+      } catch (timeoutErr: any) {
+        if (timeoutErr.message === 'TIMEOUT') {
+          return {
+            success: false,
+            output,
+            error: {
+              type: 'TimeoutError',
+              line: 0,
+              message: 'Execution timed out (5 second limit)',
+              whatHappened: 'Your code took too long to execute and was stopped.',
+              whyItHappened: 'This usually happens with infinite loops (e.g., while True without a break).',
+              conceptHint: 'Check your loop conditions to ensure they will eventually stop.',
+            },
+            variables,
+            visualActions: [{ type: 'error_glitch', message: 'Execution timeout' }],
+            executionTimeMs: TIMEOUT_MS,
+          };
+        }
+        throw timeoutErr;
+      }
 
       if (result && result.__vars) {
         Object.assign(variables, result.__vars);

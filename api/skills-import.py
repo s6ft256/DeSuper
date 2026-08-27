@@ -35,67 +35,128 @@ def get_user_id(token):
 def parse_skills_markdown(content):
     skills = []
     current_category = 'general'
+    category_proficiency = 5
+    seen_skills = set()  # Track duplicates
     
     for line in content.split('\n'):
-        line = line.strip()
+        stripped = line.strip()
+        indent = len(line) - len(line.lstrip())
         
         # Detect category headers (## Category Name)
-        if line.startswith('## '):
-            current_category = line[3:].strip().lower().replace(' ', '_')
+        if stripped.startswith('## '):
+            category_name = stripped[3:].strip().lower()
+            current_category = category_name.replace(' ', '_')
+            
+            # Assign proficiency based on category depth/position
+            if 'full_stack' in category_name or 'frontend' in category_name:
+                category_proficiency = 7
+            elif 'backend' in category_name or 'database' in category_name:
+                category_proficiency = 6
+            elif 'devops' in category_name or 'cloud' in category_name:
+                category_proficiency = 5
+            elif 'machine_learning' in category_name or 'ml' in category_name:
+                category_proficiency = 6
+            elif 'artificial_intelligence' in category_name or 'ai' in category_name:
+                category_proficiency = 7
+            elif 'software_engineering' in category_name:
+                category_proficiency = 6
+            else:
+                category_proficiency = 5
             continue
         
         # Skip empty lines and headers
-        if not line or line.startswith('#'):
+        if not stripped or stripped.startswith('#') or stripped.startswith('---'):
+            continue
+        
+        # Skip YAML frontmatter
+        if stripped.startswith('name:') or stripped.startswith('title:') or stripped.startswith('description:'):
+            continue
+        if stripped.startswith('keywords:') or stripped.startswith('tags:') or stripped.startswith('date:'):
+            continue
+        if stripped.startswith('- ') and ':' in stripped and stripped.index(':') < 20:
+            # Could be a YAML list item, skip if it looks like metadata
+            if any(stripped.lower().startswith(f'- {key}') for key in ['full stack', 'software engineering', 'machine learning', 'artificial intelligence', 'deep learning', 'llms', 'generative ai', 'devops', 'cloud computing', 'python', 'javascript', 'typescript', 'react', 'pytorch', 'tensorflow', 'system design', 'mlops']):
+                continue
+        
+        # Skip lines that are just sub-category headers (ending with ":" and no other content)
+        # These are like "- **Frameworks & Libraries**:"
+        if stripped.startswith('- **') and stripped.endswith(':'):
+            continue
+        if stripped.startswith('- ') and stripped.endswith(':') and not ',' in stripped:
             continue
         
         # Parse skill entries - multiple formats supported
-        # Format 1: - **Skill Name** (Level): Description
-        # Format 2: - Skill Name: Description
-        # Format 3: - **Skill Name**: Description
-        # Format 4: * Skill Name (Level) - Description
-        
         skill_name = None
         level_text = None
         description = None
         
+        # Sub-items (indented with 2+ spaces) are sub-skills
+        is_subskill = indent >= 2
+        
         # Try format: - **Skill Name** (Level): Description
-        if line.startswith('- **') or line.startswith('* **'):
-            match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\):\s*(.*)', line)
+        if stripped.startswith('- **') or stripped.startswith('* **'):
+            match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\):\s*(.*)', stripped)
             if match:
                 skill_name = match.group(1).strip()
                 level_text = match.group(2).strip().lower()
                 description = match.group(3).strip()
             else:
                 # Try format: - **Skill Name**: Description
-                match = re.match(r'[-*]\s*\*\*(.+?)\*\*:\s*(.*)', line)
+                match = re.match(r'[-*]\s*\*\*(.+?)\*\*:\s*(.*)', stripped)
                 if match:
                     skill_name = match.group(1).strip()
                     description = match.group(2).strip()
                     level_text = 'intermediate'
                 else:
                     # Try format: - **Skill Name** (Level)
-                    match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\)', line)
+                    match = re.match(r'[-*]\s*\*\*(.+?)\*\*\s*\((.+?)\)', stripped)
                     if match:
                         skill_name = match.group(1).strip()
                         level_text = match.group(2).strip().lower()
                         description = ''
+                    else:
+                        # Try format: - **Skill Name**
+                        match = re.match(r'[-*]\s*\*\*(.+?)\*\*', stripped)
+                        if match:
+                            skill_name = match.group(1).strip()
+                            level_text = 'intermediate'
+                            description = ''
         else:
             # Try format: - Skill Name: Description
-            match = re.match(r'[-*]\s*(.+?):\s*(.*)', line)
+            match = re.match(r'[-*]\s*(.+?):\s*(.*)', stripped)
             if match:
                 skill_name = match.group(1).strip()
                 description = match.group(2).strip()
                 level_text = 'intermediate'
             else:
-                # Try format: - Skill Name (Level)
-                match = re.match(r'[-*]\s*(.+?)\s*\((.+?)\)', line)
+                # Try format: - Skill Name (Level) - but only if content looks like a level
+                match = re.match(r'[-*]\s*(.+?)\s*\((.+?)\)\s*$', stripped)
                 if match:
-                    skill_name = match.group(1).strip()
-                    level_text = match.group(2).strip().lower()
-                    description = ''
-                elif line.startswith('- ') or line.startswith('* '):
+                    potential_name = match.group(1).strip()
+                    potential_level = match.group(2).strip().lower()
+                    # Check if the parenthetical is a level indicator or description
+                    level_map = {
+                        'beginner': 1, 'basic': 2, 'novice': 3,
+                        'intermediate': 4, 'medium': 5, 'competent': 6,
+                        'advanced': 7, 'expert': 8, 'master': 9, 'guru': 10
+                    }
+                    if potential_level in level_map:
+                        skill_name = potential_name
+                        level_text = potential_level
+                        description = ''
+                    elif ',' in potential_level and len(potential_level) > 20:
+                        # It's a description like "SSR, SSG, RSC" - treat whole line as skill name
+                        skill_name = stripped[2:].strip()
+                        level_text = 'intermediate'
+                        description = ''
+                    else:
+                        # It's a short description in parentheses
+                        skill_name = potential_name
+                        level_text = 'intermediate'
+                        description = potential_level
+                elif stripped.startswith('- ') or stripped.startswith('* '):
                     # Simple format: - Skill Name
-                    skill_name = line[2:].strip()
+                    skill_name = stripped[2:].strip()
                     level_text = 'intermediate'
                     description = ''
         
@@ -105,14 +166,109 @@ def parse_skills_markdown(content):
                 'intermediate': 4, 'medium': 5, 'competent': 6,
                 'advanced': 7, 'expert': 8, 'master': 9, 'guru': 10
             }
-            proficiency = level_map.get(level_text, 5)
+            proficiency = level_map.get(level_text, category_proficiency)
+            
+            # Handle skill names with "/" separator (e.g., "React.js / Next.js")
+            # Split into separate skills
+            if ' / ' in skill_name:
+                parts = [p.strip() for p in skill_name.split(' / ') if p.strip()]
+                for part in parts:
+                    # Clean up each part
+                    name_clean_match = re.match(r'(.+?)\s*\((.+?)\)\s*$', part)
+                    if name_clean_match:
+                        potential_name = name_clean_match.group(1).strip()
+                        potential_desc = name_clean_match.group(2).strip()
+                        if potential_desc.lower() not in level_map:
+                            part = potential_name
+                            if not description:
+                                description = potential_desc
+                    
+                    # Skip duplicates
+                    skill_key = f"{part.lower()}_{current_category}"
+                    if skill_key in seen_skills:
+                        continue
+                    seen_skills.add(skill_key)
+                    
+                    skills.append({
+                        'skill_name': part,
+                        'skill_category': current_category,
+                        'proficiency_level': proficiency,
+                        'description': description or '',
+                        'source': 'import',
+                        'is_subskill': is_subskill
+                    })
+                continue
+            
+            # Clean up skill name - remove trailing parentheses content if it's not a level
+            # e.g., "JavaScript (ES6+)" -> "JavaScript", with "ES6+" as description
+            name_clean_match = re.match(r'(.+?)\s*\((.+?)\)\s*$', skill_name)
+            if name_clean_match:
+                potential_name = name_clean_match.group(1).strip()
+                potential_desc = name_clean_match.group(2).strip()
+                # Only clean if the parenthetical is not a level indicator
+                if potential_desc.lower() not in level_map:
+                    skill_name = potential_name
+                    if not description:
+                        description = potential_desc
+            
+            # Handle comma-separated items in description (e.g., "HTML5, CSS3, JavaScript")
+            # If description contains commas and items are short, split into sub-skills
+            # Use heuristic: if average item length < 15 chars, it's likely a list
+            # Skip if any item has unbalanced parentheses (likely a phrase, not a list)
+            if description and ',' in description and len(description) < 100:
+                items = [item.strip() for item in description.split(',') if item.strip()]
+                avg_len = sum(len(item) for item in items) / len(items) if items else 0
+                # Check if all items have balanced parentheses (like "JavaScript (ES6+)")
+                all_balanced = all(item.count('(') == item.count(')') for item in items)
+                if len(items) > 1 and avg_len < 15 and all_balanced:
+                    # Add each item as a separate skill
+                    for item in items:
+                        # Clean up items like "React.js / Next.js (SSR, SSG, RSC)"
+                        sub_items = re.split(r'\s*/\s*', item)
+                        for sub_item in sub_items:
+                            sub_item = sub_item.strip()
+                            if not sub_item:
+                                continue
+                            # Extract level from parentheses if present
+                            sub_level = level_text
+                            sub_desc = ''
+                            paren_match = re.match(r'(.+?)\s*\((.+?)\)\s*$', sub_item)
+                            if paren_match:
+                                potential_name = paren_match.group(1).strip()
+                                potential_desc = paren_match.group(2).strip()
+                                if potential_desc.lower() not in level_map:
+                                    sub_item = potential_name
+                                    sub_desc = potential_desc
+                            
+                            # Skip duplicates
+                            skill_key = f"{sub_item.lower()}_{current_category}"
+                            if skill_key in seen_skills:
+                                continue
+                            seen_skills.add(skill_key)
+                            
+                            skills.append({
+                                'skill_name': sub_item,
+                                'skill_category': current_category,
+                                'proficiency_level': level_map.get(sub_level, category_proficiency),
+                                'description': sub_desc,
+                                'source': 'import',
+                                'is_subskill': is_subskill
+                            })
+                    continue
+            
+            # Skip duplicates
+            skill_key = f"{skill_name.lower()}_{current_category}"
+            if skill_key in seen_skills:
+                continue
+            seen_skills.add(skill_key)
             
             skills.append({
                 'skill_name': skill_name,
                 'skill_category': current_category,
                 'proficiency_level': proficiency,
                 'description': description or '',
-                'source': 'import'
+                'source': 'import',
+                'is_subskill': is_subskill
             })
     
     return skills

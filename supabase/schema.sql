@@ -295,6 +295,7 @@ create table if not exists public.ai_skills (
   description text,
   source text default 'conversation',
   source_file text,
+  is_subskill boolean default false,
   metadata jsonb default '{}'::jsonb,
   acquired_at timestamp with time zone default timezone('utc'::text, now()),
   last_used_at timestamp with time zone,
@@ -471,3 +472,110 @@ $$ language plpgsql security definer;
 create trigger on_ai_memory_log_created
   after insert on public.ai_memory_logs
   for each row execute procedure public.handle_ai_interaction();
+
+-- ============================================
+-- 12. SUBSCRIPTIONS TABLE
+-- ============================================
+create table if not exists public.subscriptions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  plan_id text not null,
+  payment_method text not null default 'paypal',
+  payment_id text,
+  status text not null default 'active',
+  amount decimal(10,2) not null,
+  currency text default 'USD',
+  interval text default 'month',
+  current_period_start timestamp with time zone,
+  current_period_end timestamp with time zone,
+  cancel_at_period_end boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 13. TRANSACTIONS TABLE
+-- ============================================
+create table if not exists public.transactions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  subscription_id uuid references public.subscriptions on delete set null,
+  payment_method text not null,
+  payment_id text not null unique,
+  amount decimal(10,2) not null,
+  currency text default 'USD',
+  status text not null,
+  metadata jsonb default '{}'::jsonb,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- 14. WEBHOOK EVENTS TABLE (Idempotency)
+-- ============================================
+create table if not exists public.webhook_events (
+  id uuid default gen_random_uuid() primary key,
+  event_id text not null unique,
+  event_type text not null,
+  data jsonb not null,
+  processed_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ============================================
+-- PAYMENT INDEXES
+-- ============================================
+create index if not exists idx_subscriptions_user_id on public.subscriptions(user_id);
+create index if not exists idx_subscriptions_status on public.subscriptions(status);
+create index if not exists idx_transactions_user_id on public.transactions(user_id);
+create index if not exists idx_transactions_payment_id on public.transactions(payment_id);
+create index if not exists idx_webhook_events_event_id on public.webhook_events(event_id);
+
+-- ============================================
+-- PAYMENT ROW LEVEL SECURITY
+-- ============================================
+alter table public.subscriptions enable row level security;
+alter table public.transactions enable row level security;
+alter table public.webhook_events enable row level security;
+
+-- Subscriptions policies
+drop policy if exists "Users can view own subscriptions" on public.subscriptions;
+create policy "Users can view own subscriptions"
+  on public.subscriptions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own subscriptions" on public.subscriptions;
+create policy "Users can insert own subscriptions"
+  on public.subscriptions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own subscriptions" on public.subscriptions;
+create policy "Users can update own subscriptions"
+  on public.subscriptions for update
+  using (auth.uid() = user_id);
+
+-- Transactions policies
+drop policy if exists "Users can view own transactions" on public.transactions;
+create policy "Users can view own transactions"
+  on public.transactions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own transactions" on public.transactions;
+create policy "Users can insert own transactions"
+  on public.transactions for insert
+  with check (auth.uid() = user_id);
+
+-- Webhook events policies (service-only access)
+drop policy if exists "Service can manage webhook events" on public.webhook_events;
+create policy "Service can manage webhook events"
+  on public.webhook_events for all
+  using (true);
+
+-- ============================================
+-- PAYMENT TRIGGERS
+-- ============================================
+create trigger on_subscriptions_updated
+  before update on public.subscriptions
+  for each row execute procedure public.handle_updated_at();
+
+create trigger on_transactions_updated
+  before update on public.transactions
+  for each row execute procedure public.handle_updated_at();

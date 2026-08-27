@@ -168,4 +168,242 @@ export const PROJECTS: ProjectTemplate[] = [
     xpReward: 1000,
     coinsReward: 500,
   },
+  {
+    id: "proj_password_gen",
+    title: "Quantum Password Generator",
+    tier: "Beginner",
+    category: "Security & Randomization",
+    description: "Build a secure password generator that creates random passwords with customizable length and character sets using Python's random and string modules.",
+    starterCode: `# PROJECT: Quantum Password Generator
+# Implement generate_password(length, use_special=True)
+# Use random.choices() to select characters
+# Test with length=12:`,
+    requirements: [
+      "Implement generate_password(length, use_special=True)",
+      "Include uppercase, lowercase, digits, and optional special chars",
+      "Use random.choices() for selection",
+      "Return a string of the specified length",
+    ],
+    testSuites: [
+      { name: "Password Length Test", expectedOutputPattern: "GENERATED PASSWORD:" },
+      { name: "Password Strength Test", expectedOutputPattern: "STRENGTH: STRONG" },
+    ],
+    xpReward: 250,
+    coinsReward: 120,
+  },
+  {
+    id: "proj_todo_list",
+    title: "Cyber Task Manager",
+    tier: "Beginner",
+    category: "Data Structures",
+    description: "Create a command-line task manager that allows adding, completing, and listing tasks with priority levels and due dates.",
+    starterCode: `# PROJECT: Cyber Task Manager
+# Implement TaskManager class with:
+# - add_task(name, priority)
+# - complete_task(name)
+# - get_pending_tasks()
+# Test the functionality:`,
+    requirements: [
+      "Define TaskManager class",
+      "Implement add_task(name, priority) storing tasks in a list",
+      "Implement complete_task(name) marking tasks done",
+      "Implement get_pending_tasks() returning incomplete tasks",
+    ],
+    testSuites: [
+      { name: "Add Task Test", expectedOutputPattern: "TASK ADDED: Hack the mainframe" },
+      { name: "Complete Task Test", expectedOutputPattern: "PENDING TASKS: 2" },
+    ],
+    xpReward: 280,
+    coinsReward: 140,
+  },
+  {
+    id: "proj_hangman",
+    title: "Neural Hangman Game",
+    tier: "Intermediate",
+    category: "Game Development",
+    description: "Build the classic Hangman game with a cyberpunk twist. Guess the hidden word before the hangman is complete!",
+    starterCode: `# PROJECT: Neural Hangman
+# Implement play_hangman(word, max_guesses=6)
+# Track guessed letters and remaining attempts
+# Test with word="PYTHON":`,
+    requirements: [
+      "Implement play_hangman(word, max_guesses=6)",
+      "Display current state of guessed word",
+      "Track remaining guesses",
+      "Return True if won, False if lost",
+    ],
+    testSuites: [
+      { name: "Correct Guess Test", expectedOutputPattern: "WORD: P_T_ON" },
+      { name: "Win Test", expectedOutputPattern: "VICTORY!" },
+    ],
+    xpReward: 400,
+    coinsReward: 200,
+  },
+  {
+    id: "proj_file_organizer",
+    title: "Cyber File System Organizer",
+    tier: "Intermediate",
+    category: "File I/O & Automation",
+    description: "Create a script that organizes files in a directory by their extension, moving them into appropriate folders automatically.",
+    starterCode: `# PROJECT: File System Organizer
+# Implement organize_files(file_list)
+# Group files by extension into categories
+# Test with mixed file types:`,
+    requirements: [
+      "Implement organize_files(file_list)",
+      "Categorize files by extension (images, docs, code, etc.)",
+      "Return a dictionary of categories with file lists",
+      "Handle unknown extensions as 'other'",
+    ],
+    testSuites: [
+      { name: "Image Files Test", expectedOutputPattern: "IMAGES: ['photo.jpg', 'logo.png']" },
+      { name: "Code Files Test", expectedOutputPattern: "CODE: ['app.py', 'index.html']" },
+    ],
+    xpReward: 420,
+    coinsReward: 210,
+  },
+  {
+    id: "proj_api_simulator",
+    title: "DeSuper API Simulator",
+    tier: "Advanced",
+    category: "Web Development & APIs",
+    description: "Build a simple REST API simulator that handles GET, POST, PUT, and DELETE operations on a resource collection.",
+    starterCode: `# PROJECT: DeSuper API Simulator
+# Implement SimpleAPI class with:
+# - get(resource_id)
+# - create(data)
+# - update(resource_id, data)
+# - delete(resource_id)
+# Test CRUD operations:`,
+    requirements: [
+      "Define SimpleAPI class with internal data store",
+      "Implement get(resource_id) returning resource or None",
+      "Implement create(data) adding new resource with auto-ID",
+      "Implement update and delete methods",
+    ],
+    testSuites: [
+      { name: "Create Test", expectedOutputPattern: "CREATED: {'id': 1" },
+      { name: "Get Test", expectedOutputPattern: "RETRIEVED: {'id': 1" },
+    ],
+    xpReward: 650,
+    coinsReward: 320,
+  },
+  {
+    id: "proj_sorting_visualizer",
+    title: "Algorithm Sorting Visualizer",
+    tier: "Advanced",
+    category: "Algorithms & Visualization",
+    description: "Implement multiple sorting algorithms (Bubble Sort, Quick Sort, Merge Sort) and compare their performance on different input sizes.",
+    starterCode: `# PROJECT: Sorting Algorithm Visualizer
+# Implement bubble_sort(arr) and quick_sort(arr)
+# Compare execution times
+# Test with [64, 34, 25, 12, 22, 11, 90]:`,
+    requirements: [
+      "Implement bubble_sort(arr) returning sorted array",
+      "Implement quick_sort(arr) using recursion",
+      "Add timing comparison between algorithms",
+      "Return results with execution times",
+    ],
+    testSuites: [
+      { name: "Bubble Sort Test", expectedOutputPattern: "BUBBLE SORT: [11, 12, 22, 25, 34, 64, 90]" },
+      { name: "Quick Sort Test", expectedOutputPattern: "QUICK SORT: [11, 12, 22, 25, 34, 64, 90]" },
+    ],
+    xpReward: 680,
+    coinsReward: 340,
+  },
+  {
+    id: "proj_chatbot",
+    title: "Eli-v0.1 Chatbot Prototype",
+    tier: "Intermediate",
+    category: "Natural Language Processing",
+    description: "Build a simple rule-based chatbot that responds to user inputs with predefined patterns and responses, similar to Eli-v0.1.",
+    starterCode: `# PROJECT: Eli-v0.1 Chatbot Prototype
+# Implement ChatBot class with:
+# - respond(user_input) matching patterns
+# - add_pattern(pattern, response)
+# Test with various inputs:`,
+    requirements: [
+      "Define ChatBot class with pattern-response pairs",
+      "Implement respond(user_input) finding best match",
+      "Add default response for unknown inputs",
+      "Support pattern matching with keywords",
+    ],
+    testSuites: [
+      { name: "Greeting Test", expectedOutputPattern: "Eli: Hey there!" },
+      { name: "Code Help Test", expectedOutputPattern: "Eli: Let me help you with that code!" },
+    ],
+    xpReward: 480,
+    coinsReward: 240,
+  },
+  {
+    id: "proj_weather_app",
+    title: "Cyber Weather Dashboard",
+    tier: "Advanced",
+    category: "Data Processing & APIs",
+    description: "Create a weather data processor that analyzes temperature data, calculates statistics, and generates a formatted weather report.",
+    starterCode: `# PROJECT: Cyber Weather Dashboard
+# Implement analyze_weather(temperatures)
+# Calculate min, max, average, and trend
+# Test with weekly data:`,
+    requirements: [
+      "Implement analyze_weather(temperatures)",
+      "Calculate min, max, and average temperature",
+      "Determine trend (warming, cooling, stable)",
+      "Return formatted weather report",
+    ],
+    testSuites: [
+      { name: "Stats Test", expectedOutputPattern: "AVG TEMP: 23.5C" },
+      { name: "Trend Test", expectedOutputPattern: "TREND: WARMING" },
+    ],
+    xpReward: 580,
+    coinsReward: 290,
+  },
+  {
+    id: "proj_blockchain",
+    title: "DeSuper Blockchain Ledger",
+    tier: "Supreme",
+    category: "Cryptography & Data Structures",
+    description: "Implement a simple blockchain with blocks, hashing, and chain validation to understand the fundamentals of distributed ledger technology.",
+    starterCode: `# PROJECT: DeSuper Blockchain Ledger
+# Implement Block and Blockchain classes
+# Each block contains: index, data, previous_hash, hash
+# Test chain integrity:`,
+    requirements: [
+      "Define Block class with index, data, previous_hash, hash",
+      "Implement calculate_hash() using SHA-256",
+      "Define Blockchain class with add_block(data) method",
+      "Implement is_valid() verifying chain integrity",
+    ],
+    testSuites: [
+      { name: "Genesis Block Test", expectedOutputPattern: "BLOCK 0 HASH:" },
+      { name: "Chain Valid Test", expectedOutputPattern: "CHAIN VALID: True" },
+    ],
+    xpReward: 950,
+    coinsReward: 480,
+  },
+  {
+    id: "proj_tic_tac_toe",
+    title: "Neural Tic-Tac-Toe AI",
+    tier: "Intermediate",
+    category: "Game Development & AI",
+    description: "Build a Tic-Tac-Toe game with an AI opponent using the minimax algorithm for perfect play.",
+    starterCode: `# PROJECT: Neural Tic-Tac-Toe AI
+# Implement TicTacToe class with:
+# - make_move(position)
+# - get_ai_move() using minimax
+# - check_winner()
+# Test gameplay:`,
+    requirements: [
+      "Define TicTacToe class with 3x3 board",
+      "Implement make_move(position) for player and AI",
+      "Implement get_ai_move() using minimax algorithm",
+      "Implement check_winner() detecting wins/draws",
+    ],
+    testSuites: [
+      { name: "Player Move Test", expectedOutputPattern: "BOARD UPDATED" },
+      { name: "AI Move Test", expectedOutputPattern: "AI PLAYS POSITION:" },
+    ],
+    xpReward: 520,
+    coinsReward: 260,
+  },
 ];

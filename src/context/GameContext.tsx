@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { PlayerState, RankId, ViewTab, DailyQuest, MapCoordinate } from "../types";
 import { RANKS, MISSIONS } from "../data/missions";
 import { INITIAL_DAILY_QUESTS } from "../data/miniGames";
@@ -20,7 +20,7 @@ interface GameContextType {
   setCurrentLevel: React.Dispatch<React.SetStateAction<number>>;
   mapCoordinates: MapCoordinate[];
   dailyQuests: DailyQuest[];
-  addXpAndCoins: (xp: number, coins: number) => void;
+  addXpAndCoins: (xp: number, coins: number, gems?: number) => void;
   completeMission: (missionId: string, xp: number, coins: number, unlockSkillId?: string) => void;
   defeatBoss: (bossId: string, xp: number, coins: number, badge: string) => void;
   completeProject: (projectId: string, xp: number, coins: number) => void;
@@ -31,15 +31,26 @@ interface GameContextType {
   incrementStat: (statKey: keyof PlayerState["stats"], amount?: number) => void;
   progressDailyQuest: (category: DailyQuest["category"], amount?: number) => void;
   resetGameProgress: () => void;
+  claimDailyReward: () => { xp: number; coins: number; streak: number } | null;
+  claimStreakReward: () => { xp: number; coins: number } | null;
+  isOnline: boolean;
+  lastSyncTime: Date | null;
+  purchaseItem: (itemId: string, price: number, currency?: "coins" | "gems") => boolean;
+  getMissionStatus: (missionId: string) => "locked" | "available" | "completed";
+  addGems: (amount: number) => void;
+  ownedItems: string[];
 }
 
 const STORAGE_KEY = "desuper_game_save_v1";
+const DAILY_REWARD_KEY = "desuper_daily_reward_date";
+const STREAK_REWARD_KEY = "desuper_streak_last_claimed";
 
 const DEFAULT_PLAYER: PlayerState = {
   name: "CyberOperative",
   level: 1,
   xp: 0,
   coins: 100,
+  gems: 10,
   rank: "ZERO",
   streak: 1,
   lastPlayedDate: new Date().toISOString().split("T")[0],
@@ -74,9 +85,36 @@ const DEFAULT_PLAYER: PlayerState = {
     hintsUsed: 0,
     totalLinesWritten: 0,
   },
+  ownedItems: [],
+  battlePassXp: 0,
+  battlePassTier: 0,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
+
+// Daily reward calculation based on streak
+const calculateDailyReward = (streak: number): { xp: number; coins: number } => {
+  const baseXp = 50;
+  const baseCoins = 25;
+  const multiplier = Math.min(streak, 7); // Cap at 7x multiplier
+  return {
+    xp: baseXp * multiplier,
+    coins: baseCoins * multiplier,
+  };
+};
+
+// Streak milestone rewards
+const getStreakMilestoneReward = (streak: number): { xp: number; coins: number } | null => {
+  const milestones: Record<number, { xp: number; coins: number }> = {
+    3: { xp: 100, coins: 50 },
+    7: { xp: 300, coins: 150 },
+    14: { xp: 500, coins: 300 },
+    30: { xp: 1000, coins: 500 },
+    60: { xp: 2000, coins: 1000 },
+    100: { xp: 5000, coins: 2500 },
+  };
+  return milestones[streak] || null;
+};
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [player, setPlayer] = useState<PlayerState>(() => {
@@ -94,11 +132,46 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState<ViewTab>("missions");
   const [selectedMissionId, setSelectedMissionId] = useState<string>("m1");
   const [dailyQuests, setDailyQuests] = useState<DailyQuest[]>(INITIAL_DAILY_QUESTS);
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
+  const [ownedItems, setOwnedItems] = useState<string[]>([]);
 
   // Current Level state integer for map path navigation
   const [currentLevel, setCurrentLevel] = useState<number>(() => {
     return Math.max(1, Math.min(27, player.level || 1));
   });
+
+  // Online/offline detection
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  // Check and update daily streak on load
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    const lastPlayed = player.lastPlayedDate;
+
+    if (lastPlayed !== today) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+      setPlayer((prev) => ({
+        ...prev,
+        streak: lastPlayed === yesterdayStr ? prev.streak + 1 : 1,
+        lastPlayedDate: today,
+      }));
+    }
+  }, []);
 
   // Sync currentLevel when selectedMissionId changes
   useEffect(() => {
@@ -131,12 +204,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   // Sync to Supabase when player changes (debounced)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isOnline) return;
     const timeout = setTimeout(() => {
       syncPlayerToSupabase();
+      setLastSyncTime(new Date());
     }, 1000);
     return () => clearTimeout(timeout);
-  }, [player, user, syncPlayerToSupabase]);
+  }, [player, user, syncPlayerToSupabase, isOnline]);
 
   // Compute Rank based on XP
   const calculateRank = (currentXp: number): RankId => {
@@ -149,10 +223,35 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     return currentRank;
   };
 
-  const addXpAndCoins = (xpAmount: number, coinsAmount: number) => {
+  // Get mission status for prerequisites
+  const getMissionStatus = useCallback((missionId: string): 'locked' | 'available' | 'completed' => {
+    const missionIndex = MISSIONS.findIndex((m) => m.id === missionId);
+    if (missionIndex === -1) return 'locked';
+
+    // Check if completed
+    if (player.completedMissions.includes(missionId)) {
+      return 'completed';
+    }
+
+    // First mission is always available
+    if (missionIndex === 0) {
+      return 'available';
+    }
+
+    // Check if previous mission is completed
+    const previousMission = MISSIONS[missionIndex - 1];
+    if (previousMission && player.completedMissions.includes(previousMission.id)) {
+      return 'available';
+    }
+
+    return 'locked';
+  }, [player.completedMissions]);
+
+  const addXpAndCoins = (xpAmount: number, coinsAmount: number, gemsAmount: number = 0) => {
     setPlayer((prev) => {
       const newXp = prev.xp + xpAmount;
       const newCoins = prev.coins + coinsAmount;
+      const newGems = prev.gems + gemsAmount;
       const newRank = calculateRank(newXp);
       const newLevel = Math.floor(newXp / 250) + 1;
 
@@ -174,11 +273,78 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         ...prev,
         xp: newXp,
         coins: newCoins,
+        gems: newGems,
         level: newLevel,
         rank: newRank,
+        battlePassXp: prev.battlePassXp + xpAmount,
       };
     });
   };
+
+  // Claim daily login reward
+  const claimDailyReward = useCallback((): { xp: number; coins: number; streak: number } | null => {
+    const today = new Date().toISOString().split("T")[0];
+    const lastClaimed = localStorage.getItem(DAILY_REWARD_KEY);
+
+    if (lastClaimed === today) {
+      return null; // Already claimed today
+    }
+
+    const reward = calculateDailyReward(player.streak);
+    
+    addXpAndCoins(reward.xp, reward.coins);
+    localStorage.setItem(DAILY_REWARD_KEY, today);
+
+    return {
+      ...reward,
+      streak: player.streak,
+    };
+  }, [player.streak]);
+
+  // Claim streak milestone reward
+  const claimStreakReward = useCallback((): { xp: number; coins: number } | null => {
+    const lastClaimed = parseInt(localStorage.getItem(STREAK_REWARD_KEY) || "0");
+    const currentStreak = player.streak;
+
+    if (currentStreak <= lastClaimed) {
+      return null; // No new milestone reached
+    }
+
+    const milestoneReward = getStreakMilestoneReward(currentStreak);
+    if (!milestoneReward) {
+      return null;
+    }
+
+    addXpAndCoins(milestoneReward.xp, milestoneReward.coins);
+    localStorage.setItem(STREAK_REWARD_KEY, currentStreak.toString());
+
+    return milestoneReward;
+  }, [player.streak]);
+
+  // Purchase item from shop
+  const purchaseItem = useCallback((itemId: string, price: number, currency: "coins" | "gems" = "coins"): boolean => {
+    const balance = currency === "coins" ? player.coins : player.gems;
+    if (balance < price) {
+      return false;
+    }
+
+    setPlayer((prev) => ({
+      ...prev,
+      coins: currency === "coins" ? prev.coins - price : prev.coins,
+      gems: currency === "gems" ? prev.gems - price : prev.gems,
+      ownedItems: [...prev.ownedItems, itemId],
+    }));
+
+    return true;
+  }, [player.coins, player.gems]);
+
+  // Add gems (for purchases, rewards, etc.)
+  const addGems = useCallback((amount: number) => {
+    setPlayer((prev) => ({
+      ...prev,
+      gems: prev.gems + amount,
+    }));
+  }, []);
 
   const completeMission = (
     missionId: string,
@@ -322,6 +488,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setCurrentLevel(1);
     try {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(DAILY_REWARD_KEY);
+      localStorage.removeItem(STREAK_REWARD_KEY);
     } catch {}
   };
 
@@ -348,6 +516,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         incrementStat,
         progressDailyQuest,
         resetGameProgress,
+        claimDailyReward,
+        claimStreakReward,
+        isOnline,
+        lastSyncTime,
+        purchaseItem,
+        getMissionStatus,
+        addGems,
+        ownedItems,
       }}
     >
       {children}

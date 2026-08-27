@@ -6,10 +6,14 @@ interface ImportResult {
   imported: number;
   skipped: number;
   skills: Array<{
-    name: string;
-    category: string;
-    level: number;
-    status: 'new' | 'updated' | 'exists';
+    skill_name?: string;
+    name?: string;
+    skill_category?: string;
+    category?: string;
+    proficiency_level?: number;
+    level?: number;
+    status: 'new' | 'updated' | 'exists' | 'error';
+    error?: string;
   }>;
 }
 
@@ -174,18 +178,28 @@ export const ImportSkills: React.FC<ImportSkillsProps> = ({ onImportComplete }) 
             </div>
           )}
           <div className="max-h-40 overflow-y-auto space-y-1">
-            {result.skills.map((skill, i) => (
-              <div key={i} className="flex items-center justify-between text-xs font-mono py-1 border-b border-slate-800 last:border-0">
-                <span className="text-slate-300">{skill.name}</span>
-                <span className={`px-1.5 py-0.5 rounded text-[9px] ${
-                  skill.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
-                  skill.status === 'updated' ? 'bg-cyan-500/20 text-cyan-400' :
-                  'bg-slate-700 text-slate-400'
-                }`}>
-                  {skill.status}
-                </span>
-              </div>
-            ))}
+            {result.skills.map((skill, i) => {
+              const name = skill.skill_name || skill.name || 'Unknown';
+              const category = skill.skill_category || skill.category || '';
+              const level = skill.proficiency_level || skill.level || 0;
+              return (
+                <div key={i} className="flex items-center justify-between text-xs font-mono py-1 border-b border-slate-800 last:border-0">
+                  <span className="text-slate-300">{name}</span>
+                  <div className="flex items-center gap-2">
+                    {category && <span className="text-slate-500 text-[9px]">{category}</span>}
+                    {level > 0 && <span className="text-cyan-500 text-[9px]">Lvl {level}</span>}
+                    <span className={`px-1.5 py-0.5 rounded text-[9px] ${
+                      skill.status === 'new' ? 'bg-emerald-500/20 text-emerald-400' :
+                      skill.status === 'updated' ? 'bg-cyan-500/20 text-cyan-400' :
+                      skill.status === 'error' ? 'bg-rose-500/20 text-rose-400' :
+                      'bg-slate-700 text-slate-400'
+                    }`}>
+                      {skill.status}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

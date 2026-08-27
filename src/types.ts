@@ -245,6 +245,7 @@ export interface PlayerState {
   level: number;
   xp: number;
   coins: number;
+  gems: number;
   rank: RankId;
   streak: number;
   lastPlayedDate: string;
@@ -269,4 +270,7 @@ export interface PlayerState {
     hintsUsed: number;
     totalLinesWritten: number;
   };
+  ownedItems: string[];
+  battlePassXp: number;
+  battlePassTier: number;
 }

@@ -13,6 +13,24 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", os.getenv("VITE_SUPABASE_ANON
 
 BASE_SYSTEM_PROMPT = """You are Eli-v0.1, an intelligent cyber companion and Python coding mentor in the game DeSuper by s6ft. You help players learn Python programming through interactive coding missions, debugging, and concept explanations. Be concise, encouraging, and educational. Use a futuristic cyber tone. Keep responses under 4 sentences unless asked for detail."""
 
+def fetch_user_skills(user_id):
+    if not user_id or not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
+        return []
+    try:
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/ai_skills?user_id=eq.{user_id}&select=skill_name,skill_category,proficiency_level,description&order=proficiency_level.desc&limit=50",
+            headers={
+                "apikey": SUPABASE_SERVICE_KEY,
+                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode())
+            return data if data else []
+    except Exception as e:
+        print(f"Error fetching skills: {e}")
+        return []
+
 def fetch_user_profile(auth_token):
     if not auth_token or not SUPABASE_URL or not SUPABASE_ANON_KEY:
         return None
@@ -39,7 +57,13 @@ def fetch_user_profile(auth_token):
         )
         with urllib.request.urlopen(req, timeout=10) as resp:
             data = json.loads(resp.read().decode())
-            return data[0] if data else None
+            profile = data[0] if data else None
+            
+            # Fetch skills from ai_skills table
+            if profile and user_id:
+                profile['skills'] = fetch_user_skills(user_id)
+            
+            return profile
     except Exception:
         return None
 
@@ -74,15 +98,19 @@ def build_system_prompt(user_profile, user_data):
         if stats:
             prompt += f"Stats: {json.dumps(stats)}\n"
         
-        # Include imported skills
+        # Include imported skills from ai_skills table
         imported_skills = profile.get('skills', [])
         if imported_skills:
-            prompt += "\n--- USER SKILLS ---\n"
+            prompt += "\n--- USER SKILLS & COMPETENCIES ---\n"
             for skill in imported_skills:
-                name = skill.get('name', 'Unknown')
-                level = skill.get('level', 5)
-                category = skill.get('category', 'general')
-                prompt += f"- {name} (Level {level}/10, {category})\n"
+                name = skill.get('skill_name', 'Unknown')
+                level = skill.get('proficiency_level', 5)
+                category = skill.get('skill_category', 'general')
+                description = skill.get('description', '')
+                if description:
+                    prompt += f"- {name} (Level {level}/10, {category}): {description}\n"
+                else:
+                    prompt += f"- {name} (Level {level}/10, {category})\n"
             prompt += "--- END SKILLS ---\n"
         
         prompt += "--- END PROFILE ---\n"

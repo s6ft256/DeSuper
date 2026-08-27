@@ -7,6 +7,10 @@
     { "source": "/api/ai/chat", "destination": "/api/ai-chat" },
     { "source": "/api/ai/companion-hint", "destination": "/api/companion-hint" },
     { "source": "/api/skills/import", "destination": "/api/skills-import" },
+    { "source": "/api/profile", "destination": "/api/profile" },
+    { "source": "/api/payments/paypal/create-order", "destination": "/api/payments/paypal/create-order" },
+    { "source": "/api/payments/paypal/capture-order", "destination": "/api/payments/paypal/capture-order" },
+    { "source": "/api/payments/paypal/webhook", "destination": "/api/payments/paypal/webhook" },
     { "source": "/((?!api/.*).*)", "destination": "/index.html" }
   ]
 }

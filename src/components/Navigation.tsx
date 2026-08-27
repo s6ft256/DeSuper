@@ -13,10 +13,40 @@ import {
   Coins,
   MessageSquare,
   Settings,
+  Trophy,
+  ShoppingBag,
+  Award,
+  Star,
+  Users,
+  Gem,
+  Bell,
+  Shield,
 } from "lucide-react";
 import { RANKS } from "../data/missions";
 
-export const Navigation: React.FC<{ onToggleChat: () => void; onToggleSettings?: () => void }> = ({ onToggleChat, onToggleSettings }) => {
+interface NavigationProps {
+  onToggleChat: () => void;
+  onToggleSettings?: () => void;
+  onToggleAchievements?: () => void;
+  onToggleLeaderboard?: () => void;
+  onToggleShop?: () => void;
+  onToggleBattlePass?: () => void;
+  onToggleFriends?: () => void;
+  onToggleNotifications?: () => void;
+  onToggleGuilds?: () => void;
+}
+
+export const Navigation: React.FC<NavigationProps> = ({
+  onToggleChat,
+  onToggleSettings,
+  onToggleAchievements,
+  onToggleLeaderboard,
+  onToggleShop,
+  onToggleBattlePass,
+  onToggleFriends,
+  onToggleNotifications,
+  onToggleGuilds,
+}) => {
   const { player, activeTab, setActiveTab, toggleSound } = useGame();
   const { user, signOut } = useAuth();
 
@@ -59,8 +89,8 @@ export const Navigation: React.FC<{ onToggleChat: () => void; onToggleSettings?:
           </div>
         </div>
 
-        <div className="flex items-center gap-3 sm:gap-6">
-          <div className="flex flex-col items-end min-w-[110px] sm:min-w-[160px]">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="hidden sm:flex flex-col items-end min-w-[140px]">
             <div className="flex items-center gap-1.5 text-xs font-mono">
               <span
                 className="font-bold text-[11px] px-2 py-0.5 rounded-md border border-slate-700 text-slate-200"
@@ -87,10 +117,89 @@ export const Navigation: React.FC<{ onToggleChat: () => void; onToggleSettings?:
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded-lg text-amber-300 text-xs font-mono font-bold">
+          <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-900 border border-slate-700 rounded-lg text-amber-300 text-xs font-mono font-bold">
             <Coins className="w-3.5 h-3.5 text-amber-400" />
             <span>{player.coins}</span>
           </div>
+
+          {"gems" in player && (
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-900 border border-slate-700 rounded-lg text-purple-300 text-xs font-mono font-bold">
+              <Gem className="w-3.5 h-3.5 text-purple-400" />
+              <span>{(player as any).gems}</span>
+            </div>
+          )}
+
+          {onToggleBattlePass && (
+            <button
+              onClick={onToggleBattlePass}
+              title="Battle Pass"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-purple-300 cursor-pointer relative"
+            >
+              <Star className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse" />
+            </button>
+          )}
+
+          {onToggleFriends && (
+            <button
+              onClick={onToggleFriends}
+              title="Friends"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-green-300 cursor-pointer"
+            >
+              <Users className="w-4 h-4" />
+            </button>
+          )}
+
+          {onToggleNotifications && (
+            <button
+              onClick={onToggleNotifications}
+              title="Notifications"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-300 cursor-pointer relative"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse" />
+            </button>
+          )}
+
+          {onToggleGuilds && (
+            <button
+              onClick={onToggleGuilds}
+              title="Guilds"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-yellow-300 cursor-pointer"
+            >
+              <Shield className="w-4 h-4" />
+            </button>
+          )}
+
+          {onToggleShop && (
+            <button
+              onClick={onToggleShop}
+              title="Shop"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-300 cursor-pointer"
+            >
+              <ShoppingBag className="w-4 h-4" />
+            </button>
+          )}
+
+          {onToggleAchievements && (
+            <button
+              onClick={onToggleAchievements}
+              title="Achievements"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-300 cursor-pointer"
+            >
+              <Award className="w-4 h-4" />
+            </button>
+          )}
+
+          {onToggleLeaderboard && (
+            <button
+              onClick={onToggleLeaderboard}
+              title="Leaderboard"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-amber-300 cursor-pointer"
+            >
+              <Trophy className="w-4 h-4" />
+            </button>
+          )}
 
           <button
             onClick={toggleSound}

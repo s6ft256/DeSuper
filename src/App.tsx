@@ -10,28 +10,87 @@ import { StartupSplash } from "./components/StartupSplash";
 import { Auth3D } from "./components/Auth3D";
 import { FloatingChat } from "./components/FloatingChat";
 import { ImportSkills } from "./components/settings/ImportSkills";
+import { Tutorial } from "./components/Tutorial";
+import { AchievementsModal } from "./components/AchievementsModal";
+import { LeaderboardModal } from "./components/LeaderboardModal";
+import { ShopModal } from "./components/ShopModal";
+import { DailyRewardModal } from "./components/DailyRewardModal";
+import { BattlePassModal } from "./components/BattlePassModal";
+import { FriendsModal } from "./components/FriendsModal";
+import { GuildsModal } from "./components/GuildsModal";
+import { NotificationsModal } from "./components/NotificationsModal";
+import { SeasonalEventBanner } from "./components/SeasonalEventBanner";
+import { ToastProvider, ToastContainer } from "./components/ui/Toast";
+import { initAnalytics, GameAnalytics } from "./lib/analytics";
 import { sound } from "./utils/audio";
 import { insertPairedChars } from "./utils/useKeyboardShortcuts";
 
+// Initialize analytics on app load
+initAnalytics();
+
 function MainGameContainer() {
-  const { activeTab, setActiveTab } = useGame();
+  const { activeTab, setActiveTab, isOnline, claimDailyReward } = useGame();
   const { user, loading } = useAuth();
   const [showSplash, setShowSplash] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
   const [shortcutFeedback, setShortcutFeedback] = useState<string | null>(null);
   const [authDone, setAuthDone] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showShop, setShowShop] = useState(false);
+  const [showDailyReward, setShowDailyReward] = useState(false);
+  const [showBattlePass, setShowBattlePass] = useState(false);
+  const [showFriends, setShowFriends] = useState(false);
+  const [showGuilds, setShowGuilds] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [dailyReward, setDailyReward] = useState<{ xp: number; coins: number; streak: number } | null>(null);
+
+  // Track session start
+  useEffect(() => {
+    GameAnalytics.sessionStart();
+    return () => {
+      GameAnalytics.sessionEnd(Date.now());
+    };
+  }, []);
 
   useEffect(() => {
     if (!loading && user && !authDone) {
       setAuthDone(true);
       setShowSplash(true);
+      // Show tutorial for new users (check localStorage)
+      const hasSeenTutorial = localStorage.getItem('desuper_tutorial_complete');
+      if (!hasSeenTutorial) {
+        setShowTutorial(true);
+      }
     }
   }, [loading, user, authDone]);
+
+  // Check for daily reward on load
+  useEffect(() => {
+    if (user && !showSplash && !showTutorial) {
+      const reward = claimDailyReward();
+      if (reward) {
+        setDailyReward(reward);
+        setShowDailyReward(true);
+      }
+    }
+  }, [user, showSplash, showTutorial]);
 
   const handleAuthSuccess = () => {
     setAuthDone(true);
     setShowSplash(true);
+  };
+
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
+    localStorage.setItem('desuper_tutorial_complete', 'true');
+  };
+
+  const handleTutorialSkip = () => {
+    setShowTutorial(false);
+    localStorage.setItem('desuper_tutorial_complete', 'true');
   };
 
   // Global Keyboard Event Interceptor (Ctrl+R, Alt+Brackets/Quotes)
@@ -154,6 +213,10 @@ function MainGameContainer() {
     return <Auth3D onAuthSuccess={handleAuthSuccess} />;
   }
 
+  if (showTutorial) {
+    return <Tutorial onComplete={handleTutorialComplete} onSkip={handleTutorialSkip} />;
+  }
+
   if (showSplash) {
     return <StartupSplash onStart={() => setShowSplash(false)} />;
   }
@@ -161,7 +224,17 @@ function MainGameContainer() {
   return (
     <div className="h-screen w-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative overflow-hidden">
       {/* Top Header & Bottom Navigation */}
-      <Navigation onToggleChat={() => setShowChat(!showChat)} onToggleSettings={() => setShowSettings(!showSettings)} />
+      <Navigation
+        onToggleChat={() => setShowChat(!showChat)}
+        onToggleSettings={() => setShowSettings(!showSettings)}
+        onToggleAchievements={() => setShowAchievements(true)}
+        onToggleLeaderboard={() => setShowLeaderboard(true)}
+        onToggleShop={() => setShowShop(true)}
+        onToggleBattlePass={() => setShowBattlePass(true)}
+        onToggleFriends={() => setShowFriends(true)}
+        onToggleNotifications={() => setShowNotifications(true)}
+        onToggleGuilds={() => setShowGuilds(true)}
+      />
 
       {/* Floating Eli-v0.1 Chat */}
       <FloatingChat isOpen={showChat} onClose={() => setShowChat(false)} />
@@ -191,6 +264,48 @@ function MainGameContainer() {
         </div>
       )}
 
+      {/* Achievements Modal */}
+      <AchievementsModal isOpen={showAchievements} onClose={() => setShowAchievements(false)} />
+
+      {/* Leaderboard Modal */}
+      <LeaderboardModal isOpen={showLeaderboard} onClose={() => setShowLeaderboard(false)} />
+
+      {/* Shop Modal */}
+      <ShopModal isOpen={showShop} onClose={() => setShowShop(false)} />
+
+      {/* Daily Reward Modal */}
+      <DailyRewardModal
+        isOpen={showDailyReward}
+        onClose={() => setShowDailyReward(false)}
+        reward={dailyReward}
+      />
+
+      {/* Battle Pass Modal */}
+      <BattlePassModal isOpen={showBattlePass} onClose={() => setShowBattlePass(false)} />
+
+      {/* Friends Modal */}
+      <FriendsModal isOpen={showFriends} onClose={() => setShowFriends(false)} />
+
+      {/* Guilds Modal */}
+      <GuildsModal isOpen={showGuilds} onClose={() => setShowGuilds(false)} />
+
+      {/* Notifications Modal */}
+      <NotificationsModal isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
+
+      {/* Seasonal Event Banner */}
+      <SeasonalEventBanner />
+
+      {/* Toast Notifications */}
+      <ToastContainer />
+
+      {/* Offline Indicator */}
+      {!isOnline && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs rounded-lg flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+          Offline Mode - Progress saved locally
+        </div>
+      )}
+
       {/* Global Shortcut HUD Toast */}
       {shortcutFeedback && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-slate-900 border border-slate-700 text-cyan-300 font-mono text-xs rounded-lg pointer-events-none flex items-center gap-2">
@@ -212,10 +327,12 @@ function MainGameContainer() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <GameProvider>
-        <MainGameContainer />
-      </GameProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <GameProvider>
+          <MainGameContainer />
+        </GameProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }

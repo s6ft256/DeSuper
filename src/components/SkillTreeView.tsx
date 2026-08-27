@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGame } from "../context/GameContext";
 import { SKILL_TREE } from "../data/skillTree";
 import { SkillNode } from "../types";
+import { EmptyState } from "./ui/EmptyState";
 import {
   GitFork,
   CheckCircle2,
@@ -223,7 +224,11 @@ export const SkillTreeView: React.FC = () => {
               )}
             </>
           ) : (
-            <p className="text-xs text-slate-500 italic">Select a node from the constellation...</p>
+            <EmptyState
+              icon="🌳"
+              title="No Skill Node Selected"
+              description="Click on a node in the constellation to view its details and unlock requirements."
+            />
           )}
         </div>
       </div>
