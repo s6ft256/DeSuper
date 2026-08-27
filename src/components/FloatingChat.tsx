@@ -49,6 +49,7 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [userSkills, setUserSkills] = useState<Array<{ skill_name: string; proficiency_level: number; skill_category: string }>>([]);
   const recognitionRef = useRef<any>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,28 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      if (!user || !isOpen) return;
+      try {
+        const { data, error } = await supabase
+          .from('ai_skills')
+          .select('skill_name, proficiency_level, skill_category')
+          .eq('user_id', user.id)
+          .order('proficiency_level', { ascending: false })
+          .limit(20);
+        
+        if (!error && data) {
+          setUserSkills(data);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch skills:', err);
+      }
+    };
+    
+    fetchSkills();
+  }, [user, isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -192,6 +215,11 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
               defeated_bosses: player.defeatedBosses,
               completed_projects: player.completedProjects,
               stats: player.stats,
+              skills: userSkills.map(s => ({
+                name: s.skill_name,
+                level: s.proficiency_level,
+                category: s.skill_category
+              })),
             } : null,
           }),
         },

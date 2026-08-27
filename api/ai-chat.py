@@ -74,6 +74,17 @@ def build_system_prompt(user_profile, user_data):
         if stats:
             prompt += f"Stats: {json.dumps(stats)}\n"
         
+        # Include imported skills
+        imported_skills = profile.get('skills', [])
+        if imported_skills:
+            prompt += "\n--- USER SKILLS ---\n"
+            for skill in imported_skills:
+                name = skill.get('name', 'Unknown')
+                level = skill.get('level', 5)
+                category = skill.get('category', 'general')
+                prompt += f"- {name} (Level {level}/10, {category})\n"
+            prompt += "--- END SKILLS ---\n"
+        
         prompt += "--- END PROFILE ---\n"
         prompt += "Use this player data to personalize your responses and give relevant advice."
     return prompt

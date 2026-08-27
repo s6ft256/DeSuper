@@ -9,6 +9,7 @@ import { ProfileView } from "./components/ProfileView";
 import { StartupSplash } from "./components/StartupSplash";
 import { Auth3D } from "./components/Auth3D";
 import { FloatingChat } from "./components/FloatingChat";
+import { ImportSkills } from "./components/settings/ImportSkills";
 import { sound } from "./utils/audio";
 import { insertPairedChars } from "./utils/useKeyboardShortcuts";
 
@@ -168,7 +169,7 @@ function MainGameContainer() {
       {/* Settings Panel */}
       {showSettings && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80" onClick={() => setShowSettings(false)}>
-          <div className="w-full max-w-lg bg-slate-900 border border-slate-700 rounded-2xl p-6 space-y-4" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full max-w-lg bg-slate-900 border border-slate-700 rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold font-mono text-white">Settings</h2>
               <button onClick={() => setShowSettings(false)} className="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white cursor-pointer">
@@ -178,13 +179,7 @@ function MainGameContainer() {
             
             <div className="space-y-3">
               <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700">
-                <h3 className="text-sm font-bold font-mono text-white mb-2">Import Skills</h3>
-                <p className="text-xs text-slate-400 mb-3">Upload a skills.md file to add your skills to the AI's knowledge.</p>
-                <input
-                  type="file"
-                  accept=".md"
-                  className="w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-mono file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30 file:cursor-pointer"
-                />
+                <ImportSkills />
               </div>
               
               <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700">
