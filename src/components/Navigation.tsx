@@ -3,26 +3,20 @@ import { useGame } from "../context/GameContext";
 import { useAuth } from "../context/AuthContext";
 import { ViewTab } from "../types";
 import {
-  Map,
   Compass,
-  Code,
   GitFork,
-  Swords,
-  FolderCode,
   Gamepad2,
   User,
   Volume2,
   VolumeX,
   LogOut,
-  Zap,
   Coins,
-  Sparkles,
-  Flame,
   MessageSquare,
+  Settings,
 } from "lucide-react";
 import { RANKS } from "../data/missions";
 
-export const Navigation: React.FC<{ onToggleChat: () => void }> = ({ onToggleChat }) => {
+export const Navigation: React.FC<{ onToggleChat: () => void; onToggleSettings?: () => void }> = ({ onToggleChat, onToggleSettings }) => {
   const { player, activeTab, setActiveTab, toggleSound } = useGame();
   const { user, signOut } = useAuth();
 
@@ -37,13 +31,8 @@ export const Navigation: React.FC<{ onToggleChat: () => void }> = ({ onToggleCha
   );
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
-    { id: "world", label: "World Map", icon: <Map className="w-4 h-4" /> },
-    { id: "arcade", label: "Racing", icon: <Flame className="w-4 h-4 text-amber-400" /> },
     { id: "missions", label: "Missions", icon: <Compass className="w-4 h-4" /> },
-    { id: "playground", label: "Sandbox", icon: <Code className="w-4 h-4" /> },
     { id: "skills", label: "Skill Tree", icon: <GitFork className="w-4 h-4" /> },
-    { id: "bosses", label: "Boss Battles", icon: <Swords className="w-4 h-4" /> },
-    { id: "projects", label: "Projects", icon: <FolderCode className="w-4 h-4" /> },
     { id: "minigames", label: "Trivia", icon: <Gamepad2 className="w-4 h-4" /> },
     { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
   ];
@@ -122,6 +111,16 @@ export const Navigation: React.FC<{ onToggleChat: () => void }> = ({ onToggleCha
           >
             <MessageSquare className="w-4 h-4 text-cyan-400" />
           </button>
+
+          {onToggleSettings && (
+            <button
+              onClick={onToggleSettings}
+              title="Settings"
+              className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-cyan-300 cursor-pointer"
+            >
+              <Settings className="w-4 h-4" />
+            </button>
+          )}
 
           {user && (
             <button

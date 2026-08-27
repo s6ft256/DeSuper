@@ -40,7 +40,6 @@ export const MissionsView: React.FC = () => {
     unlockSkill,
   } = useGame();
 
-  const [selectedRank, setSelectedRank] = useState<RankId>(player.rank);
   const [currentHintLevel, setCurrentHintLevel] = useState<number>(1);
   const [visualActions, setVisualActions] = useState<VisualAction[]>([]);
   const [lastExecutedCode, setLastExecutedCode] = useState<string>("");
@@ -55,7 +54,84 @@ export const MissionsView: React.FC = () => {
   const [failureDiagnostic, setFailureDiagnostic] = useState<FailureDiagnostic | null>(null);
   const [editorCodeResetTrigger, setEditorCodeResetTrigger] = useState<number>(0);
 
-  const activeMission = MISSIONS.find((m) => m.id === selectedMissionId) || MISSIONS[0];
+  const allMissions = MISSIONS;
+  const completedCount = player.completedMissions.length;
+  
+  const currentMissionIndex = allMissions.findIndex((m) => m.id === selectedMissionId);
+  const activeMission = currentMissionIndex >= 0 ? allMissions[currentMissionIndex] : allMissions[0];
+  
+  const nextMission = allMissions[completedCount] || null;
+  const isNextUnlocked = nextMission && nextMission.id === activeMission.id;
+
+  const handleSelectMission = (missionId: string) => {
+    const missionIndex = allMissions.findIndex((m) => m.id === missionId);
+    if (missionIndex <= completedCount) {
+      setSelectedMissionId(missionId);
+      setCurrentHintLevel(1);
+      setVisualActions([]);
+      setFailureDiagnostic(null);
+      setAttemptCount(0);
+      sound.playKeyClick();
+    }
+  };
+
+  const handleRunCode = (code: string): ExecutionResult => {
+    setLastExecutedCode(code);
+    const newAttemptCount = attemptCount + 1;
+    setAttemptCount(newAttemptCount);
+
+    const result = PythonRuntime.execute(code);
+    setVisualActions(result.visualActions);
+
+    if (result.success) {
+      const validation = runDetailedValidation(activeMission, result, code);
+      if (validation.passed) {
+        setFailureDiagnostic(null);
+        completeMission(
+          activeMission.id,
+          activeMission.xpReward,
+          activeMission.coinsReward,
+          activeMission.skillIdToUnlock
+        );
+
+        if (activeMission.skillIdToUnlock) {
+          unlockSkill(activeMission.skillIdToUnlock);
+        }
+
+        setVictoryDetails({
+          missionTitle: activeMission.title,
+          xp: activeMission.xpReward,
+          coins: activeMission.coinsReward,
+        });
+        setShowVictoryModal(true);
+        sound.playSuccess();
+      } else {
+        sound.playError();
+        setFailureDiagnostic({
+          reasons: validation.reasons,
+          checks: validation.checks,
+          attemptCount: newAttemptCount,
+        });
+      }
+    } else {
+      sound.playError();
+      const reasons = [result.error?.whatHappened || "Syntax or runtime error in Python script"];
+      setFailureDiagnostic({
+        reasons,
+        checks: [
+          {
+            label: "Python syntax & runtime check",
+            passed: false,
+            tip: result.error?.whyItHappened || "Check indentation, colons (:), and string quotation marks.",
+          },
+        ],
+        error: result.error,
+        attemptCount: newAttemptCount,
+      });
+    }
+
+    return result;
+  };
 
   const handleRunCode = (code: string): ExecutionResult => {
     setLastExecutedCode(code);
@@ -193,11 +269,9 @@ export const MissionsView: React.FC = () => {
     setShowVictoryModal(false);
     setFailureDiagnostic(null);
     setAttemptCount(0);
-    const currentIndex = MISSIONS.findIndex((m) => m.id === activeMission.id);
-    if (currentIndex < MISSIONS.length - 1) {
-      const nextMission = MISSIONS[currentIndex + 1];
+    const nextMission = allMissions[completedCount];
+    if (nextMission) {
       setSelectedMissionId(nextMission.id);
-      setSelectedRank(nextMission.rank);
       setCurrentHintLevel(1);
       setVisualActions([]);
     }
@@ -205,40 +279,22 @@ export const MissionsView: React.FC = () => {
 
   return (
     <div className="w-full px-3 sm:px-6 py-4 pb-24 space-y-6">
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-        {RANKS.map((r) => {
-          const isSelected = selectedRank === r.id;
-          const isRankUnlocked = player.xp >= r.minXp;
-          const completedCount = MISSIONS.filter(
-            (m) => m.rank === r.id && player.completedMissions.includes(m.id)
-          ).length;
-          const totalInRank = MISSIONS.filter((m) => m.rank === r.id).length;
-
-          return (
-            <button
-              key={r.id}
-              onClick={() => setSelectedRank(r.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs whitespace-nowrap border cursor-pointer ${
-                isSelected
-                  ? "bg-slate-900 border-slate-500 text-cyan-300 font-bold"
-                  : isRankUnlocked
-                  ? "bg-slate-950 border-slate-700 text-slate-300"
-                  : "bg-slate-950 border-slate-800 text-slate-600"
-              }`}
-            >
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: isRankUnlocked ? r.color : "#475569" }}
-              />
-              <span>
-                {r.numericRank}. {r.title}
-              </span>
-              <span className="text-[10px] text-slate-500">
-                ({completedCount}/{totalInRank})
-              </span>
-            </button>
-          );
-        })}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold font-mono text-white">MISSION PROGRESS</span>
+          <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono">
+            {completedCount}/{allMissions.length}
+          </span>
+        </div>
+        <div className="flex-1 mx-4 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500"
+            style={{ width: `${(completedCount / allMissions.length) * 100}%` }}
+          />
+        </div>
+        <span className="text-[10px] font-mono text-slate-400">
+          {Math.round((completedCount / allMissions.length) * 100)}%
+        </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -246,57 +302,68 @@ export const MissionsView: React.FC = () => {
           <div className="flex items-center justify-between font-mono text-xs text-slate-400 px-1">
             <span className="font-bold text-slate-300 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              AVAILABLE MISSIONS
-            </span>
-            <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 text-[10px]">
-              {selectedRank} TIER
+              MISSION SEQUENCE
             </span>
           </div>
 
-          <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
-            {MISSIONS.filter((m) => m.rank === selectedRank).map((m) => {
+          <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+            {allMissions.map((m, index) => {
               const isCurrent = m.id === activeMission.id;
               const isCompleted = player.completedMissions.includes(m.id);
+              const isUnlocked = index <= completedCount;
+              const isNext = index === completedCount;
 
               return (
                 <div
                   key={m.id}
-                  onClick={() => {
-                    setSelectedMissionId(m.id);
-                    setCurrentHintLevel(1);
-                    setVisualActions([]);
-                    setFailureDiagnostic(null);
-                    setAttemptCount(0);
-                    sound.playKeyClick();
-                  }}
-                  className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between ${
+                  onClick={() => isUnlocked && handleSelectMission(m.id)}
+                  className={`p-3 rounded-xl border flex items-center justify-between transition-all ${
                     isCurrent
-                      ? "bg-slate-900 border-slate-500"
-                      : "bg-slate-950 border-slate-800 hover:border-slate-700"
+                      ? "bg-slate-900 border-cyan-500 ring-1 ring-cyan-500/30"
+                      : isCompleted
+                      ? "bg-slate-950 border-emerald-500/30"
+                      : isUnlocked
+                      ? "bg-slate-950 border-slate-700 hover:border-slate-600 cursor-pointer"
+                      : "bg-slate-950/50 border-slate-800 opacity-50 cursor-not-allowed"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-bold border ${
                         isCompleted
-                          ? "bg-slate-900 border-emerald-500 text-emerald-300"
+                          ? "bg-emerald-500/20 border-emerald-500 text-emerald-300"
                           : isCurrent
-                          ? "bg-slate-900 border-slate-500 text-cyan-300"
-                          : "bg-slate-900 border-slate-800 text-slate-400"
+                          ? "bg-cyan-500/20 border-cyan-500 text-cyan-300"
+                          : isUnlocked
+                          ? "bg-slate-900 border-slate-600 text-slate-300"
+                          : "bg-slate-900 border-slate-800 text-slate-600"
                       }`}
                     >
-                      {isCompleted ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : `#${m.number}`}
+                      {isCompleted ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      ) : isUnlocked ? (
+                        `#${m.number}`
+                      ) : (
+                        <Lock className="w-3 h-3" />
+                      )}
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-slate-200 font-mono line-clamp-1">
+                      <h4 className={`text-xs font-bold font-mono line-clamp-1 ${isCurrent ? "text-white" : isCompleted ? "text-emerald-300" : isUnlocked ? "text-slate-200" : "text-slate-500"}`}>
                         {m.title}
                       </h4>
-                      <p className="text-[10px] text-cyan-400 font-mono">{m.concept}</p>
+                      <p className={`text-[10px] font-mono ${isCurrent ? "text-cyan-400" : isCompleted ? "text-emerald-400/70" : isUnlocked ? "text-cyan-400/70" : "text-slate-600"}`}>
+                        {m.concept}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="text-right">
-                    <span className="text-[10px] font-mono text-amber-300 font-semibold block">
+                  <div className="text-right flex items-center gap-2">
+                    {isNext && !isCompleted && (
+                      <span className="px-1.5 py-0.5 rounded text-[8px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                        NEXT
+                      </span>
+                    )}
+                    <span className="text-[10px] font-mono text-amber-300 font-semibold">
                       +{m.xpReward} XP
                     </span>
                   </div>
@@ -312,7 +379,7 @@ export const MissionsView: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold mb-1">
                   <span className="bg-slate-800 border border-slate-600 px-2 py-0.5 rounded-md text-slate-200">
-                    MISSION {activeMission.number} // {activeMission.rank}
+                    MISSION {activeMission.number} OF {allMissions.length}
                   </span>
                   <span className="px-2 py-0.5 rounded-md bg-slate-800 text-cyan-300 border border-slate-600 text-[10px]">
                     {activeMission.difficulty}

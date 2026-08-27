@@ -21,17 +21,10 @@ export interface RankInfo {
 }
 
 export type ViewTab =
-  | "world"
-  | "arcade"
   | "missions"
-  | "playground"
   | "skills"
-  | "bosses"
-  | "projects"
   | "minigames"
   | "chat"
-  | "supreme"
-  | "customize"
   | "profile";
 
 export interface ArcadeTrack {
