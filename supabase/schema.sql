@@ -106,14 +106,17 @@ create index if not exists idx_leaderboard_total_xp on public.leaderboard(total_
 -- Profiles RLS
 alter table public.profiles enable row level security;
 
+drop policy if exists "Users can view own profile" on public.profiles;
 create policy "Users can view own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
+drop policy if exists "Users can update own profile" on public.profiles;
 create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+drop policy if exists "Users can insert own profile" on public.profiles;
 create policy "Users can insert own profile"
   on public.profiles for insert
   with check (auth.uid() = id);
@@ -121,18 +124,22 @@ create policy "Users can insert own profile"
 -- Game Saves RLS
 alter table public.game_saves enable row level security;
 
+drop policy if exists "Users can view own saves" on public.game_saves;
 create policy "Users can view own saves"
   on public.game_saves for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert own saves" on public.game_saves;
 create policy "Users can insert own saves"
   on public.game_saves for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update own saves" on public.game_saves;
 create policy "Users can update own saves"
   on public.game_saves for update
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete own saves" on public.game_saves;
 create policy "Users can delete own saves"
   on public.game_saves for delete
   using (auth.uid() = user_id);
@@ -140,14 +147,17 @@ create policy "Users can delete own saves"
 -- User Settings RLS
 alter table public.user_settings enable row level security;
 
+drop policy if exists "Users can view own settings" on public.user_settings;
 create policy "Users can view own settings"
   on public.user_settings for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert own settings" on public.user_settings;
 create policy "Users can insert own settings"
   on public.user_settings for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update own settings" on public.user_settings;
 create policy "Users can update own settings"
   on public.user_settings for update
   using (auth.uid() = user_id);
@@ -155,10 +165,12 @@ create policy "Users can update own settings"
 -- Achievements RLS
 alter table public.achievements enable row level security;
 
+drop policy if exists "Users can view own achievements" on public.achievements;
 create policy "Users can view own achievements"
   on public.achievements for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert own achievements" on public.achievements;
 create policy "Users can insert own achievements"
   on public.achievements for insert
   with check (auth.uid() = user_id);
@@ -166,14 +178,17 @@ create policy "Users can insert own achievements"
 -- Leaderboard RLS (public read, own write)
 alter table public.leaderboard enable row level security;
 
+drop policy if exists "Anyone can view leaderboard" on public.leaderboard;
 create policy "Anyone can view leaderboard"
   on public.leaderboard for select
   using (true);
 
+drop policy if exists "Users can insert own leaderboard entry" on public.leaderboard;
 create policy "Users can insert own leaderboard entry"
   on public.leaderboard for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update own leaderboard entry" on public.leaderboard;
 create policy "Users can update own leaderboard entry"
   on public.leaderboard for update
   using (auth.uid() = user_id);
@@ -372,36 +387,42 @@ alter table public.ai_skill_imports enable row level security;
 alter table public.ai_sessions enable row level security;
 
 -- AI Profiles policies
+drop policy if exists "Users can manage own AI profile" on public.ai_profiles;
 create policy "Users can manage own AI profile"
   on public.ai_profiles for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 -- AI Skills policies
+drop policy if exists "Users can manage own skills" on public.ai_skills;
 create policy "Users can manage own skills"
   on public.ai_skills for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 -- Long-term memory policies
+drop policy if exists "Users can manage own memory" on public.ai_long_term_memory;
 create policy "Users can manage own memory"
   on public.ai_long_term_memory for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 -- Memory logs policies
+drop policy if exists "Users can manage own memory logs" on public.ai_memory_logs;
 create policy "Users can manage own memory logs"
   on public.ai_memory_logs for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 -- Skill imports policies
+drop policy if exists "Users can manage own imports" on public.ai_skill_imports;
 create policy "Users can manage own imports"
   on public.ai_skill_imports for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 -- Sessions policies
+drop policy if exists "Users can manage own sessions" on public.ai_sessions;
 create policy "Users can manage own sessions"
   on public.ai_sessions for all
   using (auth.uid() = user_id)
