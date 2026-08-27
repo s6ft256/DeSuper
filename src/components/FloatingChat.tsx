@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Bot, User, X, Minimize2, Maximize2, ChevronDown, Cpu, Grip, Mic, MicOff } from "lucide-react";
 import { fetchWithFallback } from "../utils/api";
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../lib/supabase";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -27,6 +29,7 @@ declare global {
 }
 
 export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) => {
+  const { user, player } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
@@ -162,6 +165,12 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
     setInput("");
     setLoading(true);
 
+    let authHeader = "";
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      authHeader = session?.access_token ? `Bearer ${session.access_token}` : "";
+    } catch {}
+
     try {
       const { data, error } = await fetchWithFallback(
         "/api/ai/chat",
@@ -171,6 +180,19 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({ isOpen, onClose }) =
           body: JSON.stringify({
             messages: [...newMessages].map((m) => ({ role: m.role, content: m.content })),
             model: selectedModel,
+            auth: authHeader,
+            user_data: user ? {
+              display_name: player.name,
+              level: player.level,
+              xp: player.xp,
+              rank: player.rank,
+              streak: player.streak,
+              completed_missions: player.completedMissions,
+              unlocked_skills: player.unlockedSkills,
+              defeated_bosses: player.defeatedBosses,
+              completed_projects: player.completedProjects,
+              stats: player.stats,
+            } : null,
           }),
         },
         null
