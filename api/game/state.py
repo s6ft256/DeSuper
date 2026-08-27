@@ -15,13 +15,14 @@ def get_user_id(token):
             f"{SUPABASE_URL}/auth/v1/user",
             headers={
                 "apikey": SUPABASE_ANON_KEY,
-                "Authorization": f"Bearer {token}"
+                "Authorization": token if token.startswith("Bearer ") else f"Bearer {token}"
             }
         )
         with urllib.request.urlopen(req) as resp:
             user_data = json.loads(resp.read().decode())
-            return user_data["id"]
-    except Exception:
+            return user_data.get("id")
+    except Exception as e:
+        print(f"Auth error: {e}")
         return None
 
 def map_to_schema(data, user_id):

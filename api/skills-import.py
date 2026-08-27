@@ -63,15 +63,21 @@ def parse_skills_markdown(content):
     
     return skills
 
-def supabase_request(method, path, data=None, auth_token=""):
-    headers = {
-        "apikey": SUPABASE_SERVICE_KEY,
-        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-        "Content-Type": "application/json",
-        "Prefer": "return=representation"
-    }
-    if auth_token:
-        headers["Authorization"] = auth_token
+def supabase_request(method, path, data=None, service_key=True):
+    if service_key and SUPABASE_SERVICE_KEY:
+        headers = {
+            "apikey": SUPABASE_SERVICE_KEY,
+            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+        }
+    else:
+        headers = {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+        }
     
     url = f"{SUPABASE_URL}{path}"
     body = json.dumps(data).encode() if data else None
@@ -118,8 +124,7 @@ class handler(BaseHTTPRequestHandler):
                     "file_size": len(content),
                     "parse_status": "processing",
                     "raw_content": content
-                },
-                auth_token
+                }
             )
             import_id = import_record[0]["id"] if import_record else None
             
@@ -133,8 +138,7 @@ class handler(BaseHTTPRequestHandler):
                 try:
                     existing = supabase_request(
                         "GET",
-                        f"/rest/v1/ai_skills?user_id=eq.{user_id}&skill_name=eq.{skill['skill_name']}",
-                        auth_token=auth_token
+                        f"/rest/v1/ai_skills?user_id=eq.{user_id}&skill_name=eq.{skill['skill_name']}"
                     )
                     
                     if existing:
@@ -148,8 +152,7 @@ class handler(BaseHTTPRequestHandler):
                                 "source": "import",
                                 "source_file": file_name,
                                 "updated_at": datetime.utcnow().isoformat()
-                            },
-                            auth_token
+                            }
                         )
                         results.append({**skill, "status": "updated"})
                         imported += 1
@@ -165,8 +168,7 @@ class handler(BaseHTTPRequestHandler):
                                 "description": skill['description'],
                                 "source": "import",
                                 "source_file": file_name
-                            },
-                            auth_token
+                            }
                         )
                         results.append({**skill, "status": "new"})
                         imported += 1
@@ -183,8 +185,7 @@ class handler(BaseHTTPRequestHandler):
                         "skills_imported": imported,
                         "skills_skipped": skipped,
                         "processed_at": datetime.utcnow().isoformat()
-                    },
-                    auth_token
+                    }
                 )
             
             self.send_json(200, {
@@ -205,8 +206,7 @@ class handler(BaseHTTPRequestHandler):
                         {
                             "parse_status": "failed",
                             "error_message": str(e)
-                        },
-                        auth_token
+                        }
                     )
                 except:
                     pass
